@@ -1,0 +1,149 @@
+---
+title: "06 - Funciones"
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+Hasta ahora hemos trabajado con *números*, *cadenas de texto*, *variables* y *vectores*. También hemos usado algunas funciones como `print()`, `paste()`, `mean()` o `length()`.
+
+Pero ¿qué son exactamente las **funciones** en R? En este notebook exploramos qué son las funciones.
+
+**Objetivos**
+
+-   Reconocer la sintáxis para ejecutar un función en R.
+-   Reconocer el concepto de argumentos de una función.
+-   Identificar algunas funciones básicas de R.
+
+# ¿Qué es una función?
+
+Una **función** es un bloque de código que realiza una tarea específica. R tiene varias funciones predefinidas que podemos usar. Para usar una función debemos poner el nombre de la función seguida por paréntesis, dentro de los cuales ponemos los **argumentos** de la función separados por comas:
+
+```         
+nombreFuncion(argumento1, argumento2, argumento3)
+```
+
+Un ejemplo que ya conocemos es la función `print`:
+
+```{r}
+print("Hola mundo")
+```
+
+Aquí, `print` es el nombre de la función y `"Hola mundo"` es el argumento que le damos.
+
+# Argumentos de una función
+
+A algunas funciones reciben sólo un argumento y si les pasamos más nos arrojan un **error**. Por ejemplo la función `print` se enoja si le pasamos más de un argumento:
+
+```{r, error = TRUE}
+print("Hola", "¿cómo te va?")
+```
+
+A otras funciones podemos pasarles muchos argumentos del mismo tipo, por ejemplo a `paste` le podemos pasar muchos strings y nos los junta todos:
+
+```{r}
+paste("Hola", "¿cómo te va?")
+```
+
+Otras funciones reciben argumentos que de acuerdo a su posición significan distintas cosas. Por ejemplo, la función `round` nos permite redondear números hasta cierta cantidad de decimales que queramos:
+
+```{r}
+round(3.14159, 2)
+```
+
+Aquí:\
+- `3.14159` es el número a redondear, y\
+- `2` que indica cuántos decimales queremos.
+
+Cuando una función tiene varios argumentos que significan distintas cosas para, estos generalmente tienen un nombre. Por ejemplo, el segundo argumento de la función `round` se llama `digits`. Cuando usamos funciones que tienen muchos argumentos es más conveniente pasar los valores poniendo el nombre del argumento explicitamente:
+
+```{r}
+round(3.14159, digits = 2)
+```
+
+Además, nota que muchas funciones dan valores por defecto a algunos de sus argumentos. Por ejemplo, si a la función `round` no le pasamos el segundo argumento entonces toma por defecto un valor de `digits = 0`:
+
+```{r}
+round(3.14159)
+```
+
+# Un argumento muy útil de varias funciones
+
+Algo muy común cuando trabajas con datos es que para algunas observaciones no tengas el dato. Esto muchas veces se indica con un `NA` («Not Available»). Por ejemplo, si muestreamos seis especímenes pero por alguna razón no tenemos el dato de uno podemos registrarlo así:
+
+```{r}
+diametro_arboles <- c(9.32, 8.5, 11.3, NA, 10.11, 9.47)
+```
+
+Podríamos calcular el promedio, máximo y mínimo con las funciones que ya vimos, sin embargo, obtenemos algo raro:
+
+```{r}
+mean(diametro_arboles)
+max(diametro_arboles)
+min(diametro_arboles)
+```
+
+R evita que calculemos algunos estadísticos de datos incompletos. Sin embargo, si nosotros queremos calcular un estadístico usando solamente los valores que sí conocemos podemos usar el argumento `na.rm = TRUE`:
+
+```{r}
+mean(diametro_arboles, na.rm = TRUE)
+max(diametro_arboles, na.rm = TRUE)
+min(diametro_arboles, na.rm = TRUE)
+```
+
+# Usar funciones dentro de otras funciones
+
+Nota como una función se puede usar dentro de otra función:
+
+```{r}
+print(paste("Mi número favorito es el", max(c(37, 25))))
+```
+
+Aquí lo que hace R es primero ejecutar las funciones que están más adentro (más anidadas) e irle pasando su resultado a las funciones que le siguen como argumento. En este caso R ejecuta las funciones en el siguiente orden
+
+1. crear el vector `c(37, 25)`
+2. tomar el número máximo del vector `(37, 25)`
+3. juntar con `paste()` el texto "Mi número favorito es el" y el número 37
+4. imprimir el texto completo en la pantalla con `print()`
+
+# Buscar ayuda sobre cómo funciona una función
+
+Para saber cuáles son los argumentos que usa una función podemos **consultar su documentación**. La documentación es una explicación técnica con todos los detalles sobre una función.
+
+Puedes buscar la documentación de dos maneras en RStudio:
+
+1.  Introduce en la consola el nombre de la función precedido por un signo de interrogación `?`. La documentación se abrirá en el panel inferior derecho de RStudio.
+
+```{r}
+?mean
+```
+
+2.  En el panel inferior derecho de RStudio da click en la pestaña **Help** y en la lupa superior derecha del panel busca el nombre de la función.
+
+# Crear funciones
+
+Además de usar funciones que ya existen también podemos podemos definir funciones. En este curso no crearemos funciones, pero es importante que sepas que podemos crear nuestras funciones personalizadas para hacer cualquier cosa que queramos. Esto es muy útil ya que hace que podamos reciclar código y ahorrarnos tareas repetitivas. Por ejemplo,
+
+```{r}
+# función que convierte grados Celsius a Fahrenheit
+celsius_a_fahrenheit <- function(celsius) {
+  fahrenheit <- celsius * 9/5 + 32
+  return(fahrenheit)
+}
+
+celsius_a_fahrenheit(25)
+```
+
+# Ejercicio
+
+Usa la función `paste()` para imprimir en el siguiente formato la secuencia de DNA: `ATG-TAC-GCG-AAA-TAC-GAC-CAG-ATA-GAT-ACA`. Busca en la documentación el argumento de la función que te puede servir para formatear tu texto.
+
+```{r}
+codones <- c('ATG','TAC','GCG','AAA','TAC','GAC','CAG','ATA','GAT','ACA')
+
+# Escribe aquí tu respuesta
+
+
+```

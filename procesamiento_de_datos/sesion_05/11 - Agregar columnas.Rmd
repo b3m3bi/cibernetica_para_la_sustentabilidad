@@ -1,0 +1,264 @@
+---
+title: 11 - Agregar columnas
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+Ya aprendimos a filtrar y ordenar datos, otra cosa útil que podemos hacer es crear nuevas columnas usando los valores de otras columnas. En este notebook revisamos cómo realizar este procedimiento.
+
+**Objetivos**
+
+-   Repasar el uso de las funciones `read_csv`, `filter` y `arrange`
+-   Utilizar funciones para crear nuevas columnas a partir de valores en otras columnas
+
+# Importar y preparar datos
+
+Antes que nada cargamos el paquete `tidyverse` que vamos a usar en este notebook.
+
+```{r}
+
+library(tidyverse)
+
+```
+
+En este notebook vamos a trabajar con datos del CONEVAL (Consejo Nacional de Evaluación de la Política de Desarrollo Social), la institución en México que estaba encargada de medir la pobreza. Los datos fueron descargados como un csv de la siguiente [base de datos](https://www.datos.gob.mx/dataset/pobreza_mexico/resource/6e409e3a-aa08-45f5-b84b-f5d8cc6fafa8).
+
+A continuación cargamos los datos. La base de datos incluye muchas columnas, para solo quedarnos con las que nos interesa podemos usar el argumento `col_select`, al cual le pasamos como un vector el nombre de las columnas con las que queremos quedarnos:
+
+```{r}
+
+pobreza <- read_csv(
+  './data/pobreza_municipal.csv', 
+  col_select = c(
+    'entidad_federativa', 
+    'municipio', 
+    'poblacion', 
+    'pobreza_poblacion',
+    'pobreza_extrema_poblacion',
+    'periodo'
+    )
+)
+
+# Inspeccionar las columnas
+glimpse(pobreza)
+
+```
+
+Los nombres de las columnas tienen nombres que son fáciles de usar por lo que no es necesario cambiarlos.
+
+```{r}
+
+names(pobreza)
+```
+
+Los datos están desglosados a nivel de municipio e incluyen las siguientes columnas:
+
+-   `entidad_federativa`: el estado al cual pertenece el municipio
+-   `municipio`: el municipio
+-   `poblacion`: el número de habitantes que tiene el municipio
+-   `pobreza_poblacion`: el número de habitantes en alguna condición de pobreza en el municipio
+-   `pobreza_extrema_poblacion`: el número de habitantes en condición de pobreza extrema en el municipio
+-   `periodo`: la fecha a la cual corresponden los datos
+
+# Exploración inicial de los datos
+
+Podemos iniciar explorando los datos con las funciones que ya conocemos, por ejemplo, podemos quedarnos solo con los datos de 2020 usando la función `filter`:
+
+```{r}
+
+pobreza_2020 <- filter(pobreza, periodo == '2020-01-01')
+pobreza_2020
+
+```
+
+Una buena práctica para saber si estamos manejando bien nuestros datos es hacer algunas validaciones rápidas verificando que la información sea consistente con información que conocemos. Por ejemplo, podemos revisar cuanto suma la población de México y ver si corresponde aproximadamente a lo que sabemos (\~128 millones).
+
+```{r}
+
+sum(pull(pobreza_2020, poblacion), na.rm = TRUE)
+
+```
+
+Esto nos arroja un valor aproximado de 127 millones que corresponde bien con lo que sabemos de la población de México. Esto es una señal de que estamos manejando e interpretando bien nuestros datos.
+
+Ahora podemos ordenar los municipios de acuerdo a la cantidad de pobladores en condición de pobreza.
+
+**Pregunta** ¿Qué municipios crees que sean los que tienen más población en condición de pobreza?
+
+```{r}
+
+arrange(pobreza_2020, desc(pobreza_poblacion))
+
+```
+
+Ahora veamos cuales son los municipios con menor población en condición de pobreza:
+
+```{r}
+
+arrange(pobreza_2020, pobreza_poblacion)
+
+```
+
+**Pregunta** ¿Por qué crees que los datos muestran que la pobreza se concentra municipios del Estado de México y Ciudad de México?
+
+Nota como ahorita el dato que estamos analizando es el **número total de habitantes en condición de pobreza**. La distribución de la población en México es sumamente heterogénea. Tenemos municipios con una gran cantidad de pobladores y otros con muy poca población. Eso significa que aunque un municipio sea muy pobre si este solo tiene 10 habitantes y todos viven en pobreza, aunque sea un municipio muy pobre, este quedará muy debajo en nuestra tabla de datos ordenados.
+
+Si ordenamos los municipios por población total podemos ver cómo varios de los municipios que figuraban entre los más pobres son también los que más habitantes tienen:
+
+```{r}
+
+arrange(pobreza_2020, desc(poblacion))
+
+```
+
+**Pregunta** ¿Qué información nos serviría más para capturar la amplitud de la pobreza en un municipio?
+
+Un dato que reflejaría mejor la cantidad de la pobreza en una región sería el **porcentaje de población en pobreza**. Veamos algunas funciones que nos permitirán obtener nuevos valores a partir de las columnas existentes.
+
+# Función `mutate`
+
+La función `mutate` nos permite agregar nuevas columnas a una tabla de datos, por ejemplo:
+
+```{r}
+
+mutate(pobreza, titulo_columna = "valor")
+
+```
+
+Por la longitud de nuestra tabla de datos posiblemente no veamos en la consola la nueva columna, ya que esta agrega hasta el final de la tabla (puedes notar como hasta abajo de la consola te indica que falta imprimir algunas variables y ahí está el título de la columna que agregamos). Para verificar que nuestra función funciona poder ver todas las columnas usando las funciones `glimpse` o `View`:
+
+```{r}
+
+View(mutate(pobreza, titulo_columna = "valor"))
+
+glimpse(mutate(pobreza, titulo_columna = "valor"))
+
+```
+
+También podemos controlar la posición donde se crea nuestra nueva columna con el argumento `.after` o `.before`, al cual le pasamos el nombre de la columna después de la cual queremos agregar la columna:
+
+```{r}
+
+mutate(pobreza, titulo_columna = "valor", .after = municipio)
+
+```
+
+La función `mutate` nos permite agregar columnas usando los valores de otras columnas, para hacer referencia a los valores de otras columnas simplemente usamos el nombre de la columna.
+
+**Pregunta** ¿Qué cálculos debemos hacer para calcular el *porcentaje de pobreza* en los municipios?
+
+Lo que debemos hacer es dividir el número de habitantes en condición de pobreza entre el número total de habitantes y multiplicarlo por 100:
+
+```{r}
+
+mutate(pobreza_2020, 
+       pobreza_porcentaje = pobreza_poblacion / poblacion * 100, 
+       .after = pobreza_poblacion)
+
+```
+
+Podemos agregar varias columnas a la vez. Por ejemplo, agregar una columna con el porcentaje de la población del municipio:
+
+```{r}
+
+mutate(pobreza_2020, 
+       pobreza_porcentaje = pobreza_poblacion / poblacion * 100,
+       poblacion_porcentaje = poblacion / sum(poblacion) * 100,
+       .after = pobreza_poblacion)
+
+```
+
+Nota cómo en la columna `poblacion_porcentaje` obtenemos puros valores `NA`, esto es porque cuando usamos funciones como `sum` o `mean` y tenemos al menos un valor con `NA` este se "expande" y evita que hagamos operaciones. Para ignorar los valores `NA` debemos usar el argumento `na.rm = TRUE`:
+
+```{r}
+
+mutate(pobreza_2020, 
+       pobreza_porcentaje = pobreza_poblacion / poblacion * 100,
+       poblacion_porcentaje = poblacion / sum(poblacion, na.rm = TRUE) * 100,
+       .after = pobreza_poblacion)
+
+```
+
+Recordemos que si no guardamos nuestra tabla modificada en una variable (o si no sobrescribimos la variables), los resultados no se guardan:
+
+```{r}
+
+pobreza_2020
+
+```
+
+Así que debemos asignarlos a una variable explícitamente:
+
+```{r}
+
+pobreza_2020 <- mutate(pobreza_2020, 
+       pobreza_porcentaje = pobreza_poblacion / poblacion * 100,
+       poblacion_porcentaje = poblacion / sum(poblacion, na.rm = TRUE) * 100,
+       .after = pobreza_poblacion)
+
+```
+
+# Explorar de nuevo nuestros datos
+
+Ahora podemos ordenar de nuevo nuestros datos de acuerdo al porcentaje en condición de pobreza:
+
+```{r}
+
+arrange(pobreza_2020, desc(pobreza_porcentaje))
+
+```
+
+Y también podemos ver los municipios con menor porcentaje de población en pobreza:
+
+```{r}
+
+arrange(pobreza_2020, pobreza_porcentaje)
+
+```
+
+# Ejercicios
+
+En estos ejercicios vas a explorar cuáles son los municipios con mayor porcentaje de población en condición de pobreza extrema para 2010.
+
+## Ejercicio 1
+
+Crea una variable que se llamen `pobreza_2010` donde filtres los valores de la tabla `pobreza` del periodo de 2010.
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+```
+
+## Ejercicio 2
+
+Crea y guarda en tu variable `pobreza_2010` una nueva columna donde calcules el porcentaje de población en condiciones de pobreza extrema.
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+```
+
+## Ejercicio 3
+
+Ordena tu tabla `porbreza_2010` de mayor a menor porcentaje de población en pobreza extrema para investigar cuáles fueron los municipio con mayor pobreza extrema en el país en ese años.
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+```
+
+## Ejercicio 4
+
+Repite lo mismo que hiciste en los 3 ejercicios anteriores pero para los datos de 2015. ¿Cuál fue el municipio con mayor pobreza extrema en 2015?
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+```

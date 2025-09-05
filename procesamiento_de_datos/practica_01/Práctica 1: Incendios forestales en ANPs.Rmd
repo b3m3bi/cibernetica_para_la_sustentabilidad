@@ -1,0 +1,151 @@
+---
+title: "Práctica 1: Incendios forestales en ANPs"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+En esta práctica debes asesorar a una organización ambientalista que quieren empezar un programa de combate de incendios en las Áreas Naturales Protegidas (ANP). A esta organización le gustaría tener un panorama general de cuál es la situación de los incendios en las ANPs en México para saber dónde y en qué centrar sus esfuerzos. Te solicitan que investigues los datos del [Monitor de incendios forestales en Áreas Naturales Protegidas](https://monitor_incendios.cnf.gob.mx/incendios_anp) (administrada por la CONAFOR y CONANP) para recopilar algunos datos clave.
+
+**Instrucciones**
+
+Debes completar este notebook con el código que se te pide, además debes de contestar a las preguntas que están después de algunas celdas de código sustituyendo el texto que dice \<TU RESPUESTA\>. Finalmente en la última sección debes redactar una breve conclusión y recomendación. Recuerda que estos notebooks son archivos editables y tu puedes agregar texto en prosa fuera de las celdas de código.
+
+# Cargar los paquetes que vamos a usar
+
+Para explorar los datos vamos a usar los paquetes `tidyverse` y `janitor`. En la siguiente celda instala y carga estos paquetes
+
+```{r}
+# Instalar y cargar tidyverse y janitor
+
+
+```
+
+# Cargar los datos
+
+Los datos que vamos a usar se encuentran en un archivo que se llama `incendios_2024.csv` dentro de la carpeta `data`. En la siguiente celda carga los datos y guárdalos en una variable que se llame `incendios`. Después de cargar los datos inspecciónalos usando una función como `View` o `glimpse`.
+
+```{r}
+# Carga los datos....
+
+
+
+```
+
+**El conjunto de datos incluye** \<TU RESPUESTA\> **variables**.
+
+**El conjunto de datos incluye** \<TU RESPUESTA\> **observaciones**.
+
+# Limpiar los nombres de las columnas
+
+Al inspeccionar tus datos podrás haber notado que los nombres de las columnas de los datos tienen espacios y acentos, lo cual hace que sea difícil trabajar con ellos. El paquete `janitor` incluye la función `clean_names()` que puede ayudarnos a tener nombres más fáciles de usar. En la siguiente celda instala usa esta función en tu tabla de datos para que te renombre las columnas automáticamente.
+
+```{r}
+# Limpia los nombres de las columnas
+
+
+```
+
+# Variables del conjunto de datos
+
+Inspeccionando tu tabla podrás haber notado que cada fila u observación de tu tabla representa un registro de un incendio dentro de un ANP. Las columnas representan las siguientes variables:
+
+-   `semana`: número de semana del año cuando se registró el incendio (valores del 1 al 53)
+-   `area_natural_protegida`: nombre del ANP afectada por el incendio
+-   `categoria`: categoría del ANP
+-   `tipo`: tipo de ANP (federal, estatal, municipal)
+-   `estado`: estado en el cual ocurrió el incendio
+-   `municipio`: municipio en el cual ocurrió el incendio
+-   `posible_causa`: posible causa del incendio
+-   `tipo_de_vegetacion`: tipo de vegetación donde ocurrió el incendio
+-   `superficie`: área afectada por el incendio (en ha)
+-   `total_dias_persona`: número de combatientes del incendio (calculado en días/persona, que corresponde a una jornada laboral de 8 horas)
+-   `tipo_de_atencion`: tipo de atención que se le dió al incendio (combate o moniotreo)
+-   `latitud` y `longitud`: latitud y longitud del registro del incendio
+
+# Explora los datos
+
+Ahora tu tabla de datos debe estar lista para explorarla y contestar algunas preguntas.
+
+## Número total de incendios en 2024
+
+Un primer dato relevante a conocer es **el número de total de incendios que hubo en las ANPs en 2024**. En la siguiente celda escribe el código para responder a esta pregunta:
+
+```{r}
+# Escribe tu respuesta
+
+
+```
+
+**El número total de incendios dentro de las ANP en 2024 fue**: \<TU RESPUESTA\>
+
+## Área total afectada en 2024
+
+Ahora necesitas conocer el **área total afectada por los incendios**. En la siguiente celda escribe el código para responder a esta pregunta:
+
+```{r}
+# Escribe tu respuesta
+
+
+```
+
+**El área total afectada por los incendios en 2024 fue**: \<TU RESPUESTA\>
+
+## Número de incendios por estado
+
+Otro dato que sería útil conocer es **¿cuáles son los estados donde ocurrieron más incendios?** En la siguiente celda escribe el código para responder a esta pregunta:
+
+```{r}
+# Escribe tu respuesta
+
+
+```
+
+**El estado con mayor número de incendios en 2024 fue**: \<TU RESPUESTA\>
+
+## Área afectada por estado
+
+El número de incendios no nos indica necesariamente el impacto que estos tuvieron, un dato más relevante para sería saber **¿cuáles fueron los estados con mayor área afectada por los incendios?** En la siguiente celda escribe el código para responder a esta pregunta:
+
+```{r}
+# Escribe aquí tu respuesta...
+
+
+```
+
+**El estado con mayor superficie afectada por incendios en 2024 fue**: \<TU RESPUESTA\>
+
+## Principales causas
+
+Adicionalmente sería relevante saber es **¿cuáles fueron las principales causas de los incendios?** En la siguiente celda escribe el código para responder a esta pregunta:
+
+```{r}
+# Escribe tu respuesta
+
+
+```
+
+**La principal causa posible de los incendios fue**: \<TU RESPUESTA\>
+
+## Un dato adicional...
+
+¿Qué otro dato crees que sería útil para que la organización que te contrató pueda tomar decisiones? Formúlate una pregunta que creas que sería relevante y en la siguiente celda escribe el código para responderla:
+
+```{r}
+# Escribe tu respuesta
+
+
+```
+
+**Mi pregunta fue**: \<TU RESPUESTA\>
+
+**La respuesta fue**: \<TU RESPUESTA\>
+
+# Resumen
+
+1.  Escribe un breve párrafo que resuma tus principales hallazgos.
+2.  Recuerda que la organización que te contrató quiere saber dónde y en qué concentrar sus esfuerzos para iniciar su programa de combate de incendios en ANPs. Escribe una breve párrafo con una recomendación que les harías (e.g., ¿en qué estado centrar sus esfuerzos? ¿qué otra información crees que necesitarían?).
+
+\<TU RESPUESTA\>

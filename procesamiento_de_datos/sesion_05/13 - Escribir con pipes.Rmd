@@ -1,0 +1,228 @@
+---
+title: "13 - Escribir con pipes"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+Como podrás haber notado conforme vamos haciendo códigos más largos tenemos que crear variables intermedias o sobreescribir variables que ya teníamos con nuevos valores. En este notebook introducimos los pipes los cuales son una forma de facilitar la escritura del código.
+
+**Objetivos**
+
+-   Utilizar los pipes para escribir el código de manera más concisa
+
+# Cargar los datos
+
+En este notebook continuamos trabajando con los datos de pobreza de CONEVAL que usamos en los notebooks anteriores.
+
+```{r}
+library(tidyverse)
+
+pobreza <- read_csv(
+  './data/pobreza_municipal.csv', 
+  col_select = c(
+    'entidad_federativa', 
+    'municipio', 
+    'poblacion', 
+    'pobreza_poblacion',
+    'pobreza_extrema_poblacion',
+    'periodo'
+    )
+)
+
+```
+
+# El problema...
+
+Cuando queremos manipular una tabla de datos con funciones como `filter`, `arrange`, `mutate`, `select` y `summarise` generalmente tenemos que crear muchas variables intermedias o sobreescribir muchas veces el mismo objeto. Por ejemplo, si queremos saber cómo ha cambiado el porcentaje de la población en pobreza en el estado de Jalisco en distintos periodos debemos hacer lo siguiente:
+
+```{r}
+# 1. Filtrar los datos para quedarnos solo con los de Jalisco
+pobreza_jalisco <- filter(pobreza, entidad_federativa == "Jalisco")
+
+# 2. Agrupar a los datos por periodo
+pobreza_jalisco_agrupado_por_periodo <- group_by(pobreza_jalisco, periodo)
+
+# 3. Hacer una tabla que resuma los datos
+resumen_jalisco_periodo <- summarise(
+  pobreza_jalisco_agrupado_por_periodo,
+  pob_total = sum(poblacion, na.rm = TRUE),
+  pob_pobreza = sum(pobreza_poblacion, na.rm = TRUE)
+)
+
+# 4. Agregar la columna con el porcentaje de población en pobreza
+resumen_jalisco_periodo <- mutate(
+  resumen_jalisco_periodo, 
+  porcentaje_pobreza = pob_pobreza / pob_total * 100
+)
+
+# 5. Ordenar los periodos por porcentaje de población en pobreza
+arrange(resumen_jalisco_periodo, porcentaje_pobreza)
+
+```
+
+Nota como para hacer eso estamos creando tres variables intermedias: `pobeza_jalisco`, `pobreza_jalisco_agrupado_por_periodo` y `resumen_jalisco_periodo`, y además en el paso 4 sobrescribimos la variable `resumen_jalisco`. Estos son muchas variables y asignaciones intermedias que solo ocupan espacio en nuestra memoria, y son contraproducentes sobre todo si no las vamos a volver a usar.
+
+Otra forma como podríamos hacer lo mismo sin crear tantas variables intermedias es pasándole directamente el resultado de una función a la otra:
+
+```{r}
+arrange(
+  mutate(
+    summarise(
+      group_by(
+        filter(
+          pobreza, 
+          entidad_federativa == "Jalisco"
+          ), 
+        periodo
+        ),
+      pob_total = sum(poblacion, na.rm = TRUE),
+      pob_pobreza = sum(pobreza_poblacion, na.rm = TRUE)
+    ),
+    porcentaje_pobreza = pob_pobreza / pob_total * 100
+  ),
+  porcentaje_pobreza
+)  
+
+```
+
+Sin embargo, es muy difícil leer este código ya que tiene muchísimos paréntesis. Además para entender qué hace el código uno tiene que primero ver lo que está hasta adentro de todas las funciones. Por lo que esto no es nada práctico...
+
+# El pipe `|>`
+
+Una notación más conveniente que evita que tengamos que crear muchos objetos intermedios y que tengamos que hacer muchas funciones anidadas es con el pipe `|>`.
+
+El pipe aprovecha el hecho de que funciones como `filter`, `group_by`, `mutate`, `arrange` y `summarise` todas siguen una misma estructura ya que **todas reciben como primer argumento la tabla de datos** que van a manipular.
+
+El pipe lo que hace es **pasar como primer argumento a una función el resultado de la operación previa**. De manera general tenemos que
+
+```         
+f(x, y) |> g(z)
+```
+
+es equivalente a:
+
+```         
+resultado <- f(x,y)
+g(resultado, z)
+```
+
+o sin crear variables intermedias:
+
+```         
+g(f(x, y), z)
+```
+
+Es decir, el resultado de la función `f` es pasado como primer argumento a la función `g`.
+
+Por ejemplo, si tenemos el siguiente código:
+
+```{r}
+
+pobreza_jalisco <- filter(pobreza, entidad_federativa == "Jalisco")
+arrange(pobreza_jalisco, poblacion)
+
+```
+
+Que sin objetos intermedios sería equivalente a:
+
+```{r}
+
+arrange(filter(pobreza, entidad_federativa == "Jalisco"), poblacion)
+
+```
+
+Con el pipe la podemos reescribir de la siguiente manera:
+
+```{r}
+
+
+pobreza |>
+  filter(entidad_federativa == "Jalisco") |>
+  arrange(poblacion)
+
+
+```
+
+Nota como esta notación evita que hagamos un objeto intermedio y evita que nos perdamos entre tantos paréntesis y es más fácil de leer ya que podemos ver qué hace de arriba a abajo y de izquierda a derecha:
+
+> tomamos la tabla pobreza y la filtramos para quedamos solo con los datos de Jalisco, luego esa tabla la ordenamos de acuerdo a los valores de la columna población
+
+Así el ejemplo que teníamos en la sección anterior lo podemos reescribir con pipes de la siguiente manera:
+
+```{r}
+
+pobreza |>
+  filter(entidad_federativa == "Jalisco") |>
+  group_by(periodo) |>
+  summarise(
+    pob_total = sum(poblacion, na.rm = TRUE),
+    pob_pobreza = sum(pobreza_poblacion, na.rm = TRUE)
+  ) |>
+  mutate(
+    porcentaje_pobreza = pob_pobreza / pob_total * 100
+  ) |>
+  arrange(porcentaje_pobreza)
+
+```
+
+# Ejercicios
+
+## Ejercicio 1
+
+Reescribe el siguiente código usando pipes:
+
+```{r}
+
+pobreza_2020 <- filter(pobreza, periodo == '2020-01-01')
+sum(pull(pobreza_2020, poblacion), na.rm = TRUE)
+
+```
+
+```{r}
+# Reescribe aquí el código
+
+
+```
+
+## Ejercicio 2
+
+Describe con tus propias palabras qué hace el siguiente código. ¿Qué datos incluye el resultado?
+
+```{r}
+
+pobreza |>
+  filter(entidad_federativa == "Chiapas") |>
+  group_by(municipio) |>
+  summarise(promedio_pob_pobreza = mean(pobreza_poblacion, na.rm = TRUE))
+
+```
+
+## Ejercicio 3
+
+Reescribe el siguiente código usando pipes:
+
+```{r}
+
+pobreza_2020 <- filter(pobreza, periodo == '2020-01-01')
+pobreza_2020_agrupado_por_entidad <- group_by(pobreza_2020, entidad_federativa)
+resumen_pobreza_2020_entidad <- summarise(
+  pobreza_2020_agrupado_por_entidad,
+  pob_total = sum(poblacion, na.rm = TRUE),
+  pob_pobreza = sum(pobreza_poblacion, na.rm = TRUE)
+)
+resumen_pobreza_2020_entidad <- mutate(
+  resumen_pobreza_2020_entidad,
+  porcentaje_pobreza = pob_pobreza / pob_total * 100
+)
+
+arrange(resumen_pobreza_2020_entidad, porcentaje_pobreza)
+```
+
+```{r}
+# Reescribe aquí el código
+
+
+```

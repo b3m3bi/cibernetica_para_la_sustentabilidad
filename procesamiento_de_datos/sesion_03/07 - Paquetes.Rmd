@@ -1,0 +1,61 @@
+---
+title: "07 - Paquetes"
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+La instalación básica de R incluye muchas funciones muy útiles, sin embargo, también mucha gente ha escrito muchas más herramientas que extiendien la funcionalidad de R. Estas herramientas la gente las junta y crea **paquetes**. Estos paquetes están disponibles en distintos repositorios en la web para que cualquier usuario de R los pueda instalar y usar. En este notebook exploramos cómo usar paquetes en R.
+
+**Objetivos**
+- Instalar paquetes en R
+- Cargar y usar paquetes en R
+
+# Instalar paquetes
+
+Antes de poder usar un paquete debemos instalarlo para eso usamos la función `install.packages()`:
+
+```{r}
+install.packages("cowsay")
+```
+
+Mientras instalamos un paquete se muestran muchos mensajes en la consola, estos nos ayudan a saber cómo va la instalación y si hay algún error no ayudan a identificar dónde puede estar la falla. Cuando una instalación salió bien puedes ver casi al final un mensaje que dice `DONE (nombre_paquete)`.
+
+La instalación de un paquete generalmente solo se tiene que hacer una sola vez. En Posit Cloud en cada proyecto nuevo que creamos debemos hacer la instalación de los paquetes que requerimos.
+
+# Usar funciones de un paquete 
+
+Para usar las funciones de un paquete podemos poner el nombre del paquete seguido por dos dobles puntos y el nombre de la función que nos interesa usar:
+
+```{r}
+cowsay::say("Muuuu... soy una vaca que habla")
+cowsay::think("Muuuu... soy una vaca que piensa")
+```
+
+# Cargar un paquete
+
+Para no tener que escribir el nombre del paquete cada vez que queramos usar una función podemos cargar el paquete con la función `library()`:
+
+```{r}
+library(cowsay)
+```
+
+Esto hace que R reconozca las funciones de un paquete directamente haciendo más rápido su uso:
+
+```{r}
+say("Estoy aprendiendo R")
+think("Ser o no ser...")
+```
+
+# Ejercicio
+
+Revisa la documentación del paquete `cowsay` para hacer que en lugar de que salga una vaca salga otro animal.
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+```
+

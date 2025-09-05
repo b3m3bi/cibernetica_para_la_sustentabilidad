@@ -1,0 +1,392 @@
+---
+title: "10 - Seleccionar, filtrar y ordenar"
+output: html
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+Para empezar a contestar preguntas útiles con los datos lo más básico es seleccionar, filtrar y ordenar nuestras tablas. En este notebook explicamos cómo realizar estas acciones.
+
+**Objetivos**
+
+-   Utilizar funciones para seleccionar columnas
+-   Utilizar funciones para filtrar datos
+-   Utilizar funciones para reordenar las filas de una tabla
+
+# Preparar los datos
+
+En este notebook vamos a utilizar los datos de pokemón que preparamos en los notebooks anteriores. También cargamos el paquete tidyverse que vamos a usar.
+
+```{r}
+
+library(tidyverse)
+
+# Leer los datos
+pokemon <- read_csv("pokemon.csv")
+
+# Limpiar los nombres de columnas
+pokemon <- janitor::clean_names(pokemon)
+pokemon
+
+```
+
+# Seleccionar una columna como vector
+
+Para seleccionar los valores de una columna como si fuera un vector podemos usar la función `pull`:
+
+```{r}
+
+pull(pokemon, name)
+
+```
+
+Podemos guardar los valores en una variable y usarlos en otras funciones que ya conocemos:
+
+```{r}
+
+nombres <- pull(pokemon, name)
+
+paste("Hola soy", nombres)
+
+```
+
+# Seleccionar columnas
+
+Para reducir el número de columnas de nuestros datos y quedarnos solo con las variables que nos interesan podemos usar la función `select`.
+
+Recordemos cuales son las columnas de nuestra tabla de datos:
+
+```{r}
+
+names(pokemon)
+
+```
+
+Si solo nos queremos quedar con las columnas `name`, `type_1`, `type_2` y `total` usamos la función `select`:
+
+```{r}
+
+select(pokemon, name, type_1, type_2, total)
+
+```
+
+# Ver los valores únicos de una columna
+
+Algo muy útil cuando trabajamos con datos es saber todos los valores que una variable puede tomar. Por ejemplo, si nos interesar saber cuáles son todos los posibles tipos de pokemón. Para ello podemos usar la función `distinct`:
+
+```{r}
+
+distinct(pokemon, type_1)
+
+```
+
+# Operadores de comparación
+
+Antes de poder filtrar datos necesitamos saber qué son los **operadores de comparación**. Los operadores lógicos son símbolos en R que nos sirven para comparar valores y decirnos si cumplen o no con el criterio que queremos. Cuando si lo cumplen nos arrojan un valor de `TRUE` y cuando no lo cumplen arrojan un valor de `FALSE`. Existen 6 operadores de comparación:
+
+1.  `==`: igual
+2.  `!=`: no igual
+3.  `>` mayor qué
+4.  `<` menor qué
+5.  `>=` mayor o igual qué
+6.  `<=` menor o igual qué
+
+Estos se colocan entre dos valores que se quieren comparar y cuando la condición se cumple nos arrojan `TRUE`:
+
+```{r}
+
+2 == 2
+2 != 1
+2 > 1
+1 < 2
+2 >= 2
+2 <= 2
+
+```
+
+Y nos arrojan `FALSE` cuando las condiciones no se cumplen:
+
+```{r}
+
+2 == 1
+2 != 2
+1 > 2
+2 < 1
+1 >= 2
+2 <= 1
+
+```
+
+Los operadores de igualdad y desigualdad también sirven para comparar si dos cadenas de texto son iguales o no:
+
+```{r}
+
+palabra <- "hola" 
+
+palabra == "hola"
+palabra == "adiós"
+palabra != "hola"
+palabra != "adiós"
+
+```
+
+# Operadores lógicos
+
+Otros operadores que necesitamos para filtrar datos son los **operadores lógicos**. Hay 3 operadores lógicos:
+
+1.  `&`: **Y**
+2.  `|`: **O**
+3.  `!`: **NO**
+
+El operador «Y» nos regresa `TRUE` solo si las dos expresiones que lo rodean son verdaderas:
+
+```{r}
+
+TRUE & TRUE 
+TRUE & FALSE 
+FALSE & FALSE
+
+palabra <- "hola"
+
+palabra == "hola" & 1 == 1 
+palabra == "hola" & 1 != 1
+palabra == "adios" & 1 < 1
+```
+
+El operador «O» nos regres `TRUE` si al menos una de las dos expresiones que lo rodean es verdadera:
+
+```{r}
+
+TRUE | TRUE 
+TRUE | FALSE 
+FALSE | FALSE
+
+palabra <- "hola"
+
+palabra == "hola" | 1 == 1 
+palabra == "hola" | 1 != 1
+palabra == "adios" | 1 < 1
+
+```
+
+Finalmente el operador *NO* inveirte el valor de una expresión, es decir, si la expresión es verdadera la cambia a falsa, y si la expresión es falsa la cambia a verdadera:
+
+```{r}
+
+! TRUE
+! FALSE
+
+! 1 == 1
+! 1 < 1
+
+```
+
+# Filtrar datos
+
+Una primera operación básica para empezar a analizar nuestros datos es filtrarlos. Filtrar significa quedarnos solo con las filas que cumplen un criterio que nosotros le demos. Por ejemplo podriamos queres solo quedarnos con los pokemón cuyo tipo 1 es planta (`Grass`). Para eso usamos la función `filter` y el operador de comparación de igualdad:
+
+```{r}
+
+pokemon_planta <- filter(pokemon, type_1 == "Grass")
+
+print(pokemon_planta, n = 100)
+
+
+```
+
+La función `filter` como primer argumento recibe el nombre de la tabla de datos que queremos filtrar, y como segundo argumento recibe el criterio que queremos usar. En este caso queremos que el valor que tiene la fila en la columna `type_1` sea igual a la cadena `"Grass"`.
+
+Además de filtrar por un solo critero podemos agregar más criterios usando los operadores lógicos. Por ejemplo, podemos filtrar y quedarnos solo con los pokemón de tipo planta y veneno:
+
+```{r}
+
+pokemon_planta_veneno <- filter(pokemon, type_1 == "Grass" & type_2 == "Poison")
+print(pokemon_planta_veneno, n = 100)
+
+```
+
+En la función filter podemos usar cualquier operador de comparación y operador lógico. Por ejemplo, podemos filtrar y quedarnos sólo con los pokemón que tienen tipo 1 Pasto o Agua:
+
+```{r}
+
+filter(pokemon, type_1 == "Grass" | type_1 == "Water")
+
+```
+
+Además podemos usar los otros operadores de comparación que funcionan con valores numéricos. Por ejemplo, podemos quedarnos sólo con los pokemón con un puntaje `total` mayor a 700:
+
+```{r}
+
+filter(pokemon, total >= 700)
+
+```
+
+O podemos quedarnos sólo con los pokemón con un puntaje `total` mayor a 700 y que son de la primera generación:
+
+```{r}
+
+filter(pokemon, total >= 700 & generation == 1)
+
+```
+
+# Ordenar las filas
+
+Algo muy útil para explorar los datos en una tabla es ordenar las filas de acuerdo a un criterio. Por ejemplo, podemos ordenar los pokemón de acuerdo a su poder `total` para conocer cuales son los pokemón más débiles. Para eso usamos la función `arrange`, la cual nos ordena los datos de menor a mayor con base en los valores de una columna:
+
+```{r}
+
+arrange(pokemon, total)
+
+```
+
+Si deseamos ordenarlos de mayor a menor podemos usar la función `desc` en el nombre de la columna que usamos como criterio:
+
+```{r}
+
+arrange(pokemon, desc(total))
+
+```
+
+Podemos aplicar más de un criterio para ordenar cuando hay empates. Por ejemplo, podemos ordenar a los pokemón desde los más poderosos a los menos poderosos y cuando hay empates poner primero a los más rápidos:
+
+```{r}
+
+arrange(pokemon, desc(total), desc(speed))
+
+```
+
+# Filtrar y ordenar
+
+Podemos combinar los filtros y ordenamientos de los datos. Por ejemplo, podemos ordenar de más poderoso a menos poderoso sólamente a los pokemón de tipo eléctrico:
+
+```{r}
+
+pokemon_electricos <- filter(pokemon, type_1 == "Electric" | type_2 == "Electric")
+
+arrange(pokemon_electricos, desc(total))
+
+```
+
+Nota como esto mismo también lo podemos hacer en una sola línea metiendo una función dentro de otra sin hacer objetos intermedios:
+
+```{r}
+
+arrange(filter(pokemon, type_1 == "Electric" | type_2 == "Electric"), desc(total))
+
+```
+
+# Ejercicios
+
+Para estos ejercicios trabajamos con los datos de películas de pixar que usamos en notebooks pasados. Ejecuta el la celda siguiente para tener tus datos disponibles para los ejercicios:
+
+```{r}
+
+pixar <- read_csv("pixar-movies.csv")
+pixar <- rename(pixar, year = year_released)
+pixar <- janitor::clean_names(pixar)
+pixar
+
+```
+
+## Ejercicio 1
+
+1.  Selecciona con la función `pull` la columna con los títulos de la película y guárdalo en una variable que se llame `titulos_pelicula`
+2.  Usa la función `paste` para que con cada nombre de la película obtengamos textos de la forma: `"Película: Toy Story"`
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+```
+
+## Ejercicio 2
+
+1.  Selecciona únicamente las columnas con la información del nombre de la película y el director con la función `select`
+2.  Guarda tu resultado en una variable que se llame `pixar_directores`.
+3.  Usa la función `print` con un argumento de `n = 100` para imprimir toda la tabla en la consola
+4.  Usa la función `distinct` para ver todos los directores distintos que ha habido en las películas de pixar.
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+
+```
+
+## Ejercicio 3
+
+Usa las funciones `filter`, `arrange` y `desc` para responder a las siguientes preguntas sobre las películas de pixar
+
+1.  ¿Cuál es la película de pixar más corta?
+
+```{r}
+# Escribe aquí tu código
+
+
+
+```
+
+2.  ¿Cuál es la película de pixar más larga?
+
+```{r}
+# Escribe aquí tu código
+
+
+
+```
+
+3.  ¿Cuáles son las películas que han tenido una menor calificación en «Rotten tomatoes»?
+
+```{r}
+# Escribe aquí tu código
+
+
+
+```
+
+4.  ¿Cuáles son las películas que han tenido una mayor calificación
+
+```{r}
+# Escribe aquí tu código
+
+
+
+```
+
+5.  ¿Cuál es la película que más ha vendido en taquilla?
+
+```{r}
+# Escribe aquí tu código
+
+
+
+```
+
+6.  ¿Cuál es la película que menos ha vendido en taquillas?
+
+```{r}
+# Escribe aquí tu código
+
+
+
+```
+
+7.  ¿Cuál fue la película que más vendió en taquillas considerando únicamenete las películas que salieron entre 2000 y 2010?
+
+```{r}
+# Escribe aquí tu código
+
+
+
+```
+
+8.  ¿Cuál es la película peor calificada en «Rotten tomatoes» considerando únicamente a las películas que salieron antes del 2010?
+
+```{r}
+# Escribe aqui tu código
+
+
+
+```

@@ -1,0 +1,237 @@
+---
+title: "12 - Resumir datos"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+Hasta ahora hemos usado funciones para filtrar, reordenar y agregar columnas a una tabla de datos. Otra cosa que es muy útil es crear nuestras propias tablas de datos para a partir los datos de otra tabla. En este notebook exploramos cómo crear tablas que resuman la información de otras tablas.
+
+**Objetivos**
+
+-   Usar la función `summarise` para crear tablas de resumen de datos
+-   Usar la función `group_by` para realizar operaciones con datos agrupados por campos
+
+# Importar y preparar los datos
+
+En este notebook continuamos trabajando con los datos de pobreza de CONEVAL que usamos en el notebook anterior. Nos quedamos solo con los datos de 2020 y les agregamos la columna de porcentaje de pobreza:
+
+```{r}
+
+library(tidyverse)
+
+pobreza <- read_csv(
+  './data/pobreza_municipal.csv', 
+  col_select = c(
+    'entidad_federativa', 
+    'municipio', 
+    'poblacion', 
+    'pobreza_poblacion',
+    'pobreza_extrema_poblacion',
+    'periodo'
+    )
+)
+
+pobreza_2020 <- filter(pobreza, periodo == '2020-01-01')
+
+pobreza_2020 <- mutate(
+  pobreza_2020, 
+  pobreza_porcentaje = pobreza_poblacion / poblacion * 100, 
+  .after = pobreza_poblacion
+  )
+
+pobreza_2020
+
+```
+
+# Resumir datos individualmente
+
+Usando las funciones `sum`, `mean`, `min` y `max` y la función `pull` o `select` podemos resumir los valores columas que queramos. Por ejemplo, para conocer la población total en México podemos sumar la columna `poblacion`:
+
+```{r}
+
+sum(pull(pobreza_2020, poblacion), na.rm = TRUE)
+
+```
+
+También podríamos calcular la población total en condición de pobreza en México sumando la columna `pobreza_poblacion`:
+
+```{r}
+
+sum(pull(pobreza_2020, pobreza_poblacion), na.rm = TRUE)
+
+```
+
+También nos podrían interesar la media, el máximo y mínimo de la columna `pobreza_porcentaje`:
+
+```{r}
+
+mean(pull(pobreza_2020, pobreza_porcentaje), na.rm = TRUE)
+max(pull(pobreza_2020, pobreza_porcentaje), na.rm = TRUE)
+min(pull(pobreza_2020, pobreza_porcentaje), na.rm = TRUE)
+
+```
+
+Sin embargo, algo que sería más cómodo es tener una única tabla con todos estos valores de resumen. Para eso existe la función `summarise`.
+
+# Función `summarise`
+
+La función `summarise` nos permite crear una sola tabla en la que pongamos los valores de resumen que nos interesan. Por ejemplo, podemos agregar columnas para todos los valores que obtuvimos en la sección anterior. Nota como aquí ya no necesitamos la función `pull`.
+
+```{r}
+
+summarise(
+  pobreza_2020,
+  pob_total = sum(poblacion, na.rm = TRUE),
+  pob_pobreza_total = sum(pobreza_poblacion, na.rm = TRUE),
+  media_porcentaje_pobreza = mean(pobreza_porcentaje, na.rm = TRUE),
+  max_porcentaje_pobreza = max(pobreza_porcentaje, na.rm = TRUE),
+  min_porcentaje_pobreza = min(pobreza_porcentaje, na.rm = TRUE)
+)
+
+```
+
+# Resúmenes con datos agrupados
+
+`summarise` nos puede dar resúmenes muy útiles, sin embargo, algo más útil sería obtener resúmenes agrupando los datos. Por ejemplo, si quisiéramos saber cuál es el porcentaje de población en condición de pobreza en cada estado necesitamos la información de la población en pobreza total de un estado, y la población total del estado. Para sumar sólo la información de un estado podríamos usar la función `filter`, sin embargo como tenemos 32 estados tendríamos que aplicarla 32 veces... que flojera. Para eso es que tenemos la función `group_by`
+
+La función `group_by` nos permite hacer operaciones agrupando los datos por un criterio. Por ejemplo, si queremos agrupar los datos por estado podemos hacer lo siguiente:
+
+```{r}
+
+pobreza_2020_agrupado_por_entidad <- group_by(pobreza_2020, entidad_federativa)
+pobreza_2020_agrupado_por_entidad
+
+```
+
+Nota como parece que no les pasó nada a los datos. La función `group_by` por si sola no afecta en nada a los datos, solamente le indica a las funciones que usemos posteriormente que deben realizar las operaciones agrupando a los datos por un criterio. Nota como hasta arriba de donde se imprime la tabla hay una leyenda que dice `Groups: entidad_federativa`.
+
+Veamos que pasa si ahora repetimos el mismo resumen de arriba pero con los datos agrupados:
+
+```{r}
+
+summarise(
+  pobreza_2020_agrupado_por_entidad,
+  pob_total = sum(poblacion, na.rm = TRUE),
+  pob_pobreza_total = sum(pobreza_poblacion, na.rm = TRUE),
+  media_porcentaje_pobreza = mean(pobreza_porcentaje, na.rm = TRUE),
+  max_porcentaje_pobreza = max(pobreza_porcentaje, na.rm = TRUE),
+  min_porcentaje_pobreza = min(pobreza_porcentaje, na.rm = TRUE)
+)
+
+```
+
+Nota cómo ahora en lugar de arrojarnos un solo valor que resume todos los datos de la columna nos arroja una tabla con 32 filas que corresponden a cada estado cada uno con sus propios valores.
+
+Los resultados que arroja la función `summarise` son una nueva tabla que podemos guardar en una variable:
+
+```{r}
+
+pobreza_2020_entidades <- summarise(
+  pobreza_2020_agrupado_por_entidad,
+  pob_total = sum(poblacion, na.rm = TRUE),
+  pob_pobreza_total = sum(pobreza_poblacion, na.rm = TRUE),
+  media_porcentaje_pobreza = mean(pobreza_porcentaje, na.rm = TRUE),
+  max_porcentaje_pobreza = max(pobreza_porcentaje, na.rm = TRUE),
+  min_porcentaje_pobreza = min(pobreza_porcentaje, na.rm = TRUE)
+)
+
+pobreza_2020_entidades
+
+```
+
+Y esta tabla la podemos manipular como a cualquier tabla. Por ejemplo, podemos agregarle una columna con el porcentaje de población en pobreza en el estado:
+
+```{r}
+
+pobreza_2020_entidades <- mutate(
+  pobreza_2020_entidades,
+  pob_pobreza_porcentaje = pob_pobreza_total / pob_total * 100,
+  .after = pob_pobreza_total
+)
+
+pobreza_2020_entidades
+
+```
+
+Y podemos ordenarla de menor a mayor porcentaje de pobreza y usar `print` para ver la tabla completa:
+
+```{r}
+
+print(arrange(pobreza_2020_entidades, pob_pobreza_porcentaje), n = 32)
+
+```
+
+Una función muy útil para usar con datos agrupados es la función `n()`. Esta lo único que hace es contar el número de elementos de cada grupo. Por ejemplo para saber cuántos municipios hay en cada entidad podemos hacer lo siguiente:
+
+```{r}
+pobreza_2020_agrupado_por_entidad <- group_by(pobreza_2020, entidad_federativa)
+summarise(
+    pobreza_2020_agrupado_por_entidad, 
+    num_municipios = n()
+)
+```
+
+
+# Agrupar por varios valores
+
+La función `group_by` nos permite agrupar por más de un solo valor. Por ejemplo, podemos hacer los mismos cálculos pero agrupando los valores de la tabla `pobreza` por entidad y periodo, para así tener los cálculos para cada entidad en diferentes años:
+
+```{r}
+pobreza_agrupado_por_entidad_y_periodo <- group_by(pobreza, entidad_federativa, periodo)
+
+summarise(
+  pobreza_agrupado_por_entidad_y_periodo,
+  pob_total = sum(poblacion, na.rm = TRUE),
+  pob_pobreza_total = sum(pobreza_poblacion, na.rm = TRUE)
+)
+
+```
+
+
+# Ejercicios
+
+## Ejercicio 1
+
+¿Ha disminuido o incrementado el porcentaje de población en condición en pobreza en México? Para contestar a la pregunta realiza los siguientes pasos:
+
+1.  Crea una variable `pobreza_agrupado_por_periodo` donde agrupes los datos de la tabla `pobreza` por periodo usando la función `group_by`
+2.  Crea una tabla de resumen con la función `summarise` que contenga la población total y población total en pobreza para cada periodo y guárdala en una variable que se llame `resumen_periodos`
+3.  Agrega una columna a la tabla `resumen_periodos` que tenga el porcentaje de población en pobreza usando la función `mutate`.
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+```
+
+## Ejercicio 2
+
+¿Cuáles son los municipios con mayor porcentaje de pobreza en la Ciudad de México? Para contestar a esta pregunta realiza los siguientes pasos:
+
+1.  Filtra los datos de la tabla `pobreza` usando la función `filter` para quedarte solo con los datos de la Ciudad de México y del periodo 2020, y guarda tus resultados en una variable que se llame `pobreza_cdmx_2020`
+2.  Agrega a tu tabla `pobreza_cdmx_2020` una columna donde calcules el porcentaje de pobreza de cada municipio. Recuerda sobrescribir tu variable para que los cambios queden guardados
+3.  Ordena tu tabla de mayor porcentaje de pobreza a menor porcentaje de pobreza.
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+```
+
+## Ejercicio 3
+
+¿Cómo ha cambiado el porcentaje de población en condición de pobreza en el Estado de México a lo largo del tiempo? Para contestar a esta pregunta realiza los siguientes pasos:
+
+1.  Filtra los datos de la tabla `pobreza` usando la función `filter` para quedarte sólo con los datos del Estado de México, y guarda tus resultados en una variable que se llame `pobreza_edomex`.
+2.  Agrupa tus datos por periodo y guárdalos en una variable que se llame `pobreza_edomex_agrupado_por_periodo`
+3.  Crea una tabla `resumen_edomex_periodo` donde sumes la población total y población en pobreza para cada periodo.
+4.  Agrega a tu tabla`resumen_edomex_periodo` una columna con el porcentaje de población en condición de pobreza.
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+```

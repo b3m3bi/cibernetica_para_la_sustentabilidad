@@ -1,0 +1,177 @@
+---
+title: "04 - Variables"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+Hasta ahora lo que hemos hecho con R no son cosas muy útiles, sumar, restar o multiplicar lo podemos hacer con una calculadora, y escribir texto lo podemos hacer con cualquier editor de texto. Algo que hace muy útil a la programación son las **variables**. En este notebook exploramos qué son y como crear y usar variables en R.
+
+**Objetivos**
+
+-   Crear y usar variables de objetivos en R
+
+# Crear una variable
+
+Cuando nosotros creamos un número o una cadena de texto al ejecutar el código R lo usa pero ya que ejecutó el código lo olvida. Para hacer que R no olvide los valores que le pasamos podemos usar variables.
+
+Las variables son como cajas a las que les podemos dar un **nombre** y en las cuales podemos guardar objetos como números o cadenas de texto.
+
+Para **asignar** un valor a una variable debemos poner:
+
+1.  el nombre de la variable a la izquierda,
+2.  el operador de asignación `<-` (un signo de menor qué `<` y un guión medio `-`; nota cómo se ve como una flecha apuntando a la izquierda; en RStudio puedes agregar los signos de manera rápida usando `Alt` + `-`)
+3.  un objeto a la derecha
+
+```         
+nombreVariabe <- objeto
+```
+
+Por ejemplo,
+
+```{r}
+
+miEdad <- 20
+
+miNombre <- "Shrek"
+
+miApellido <- "De Encantador"
+
+pi <- 3.141592
+
+radio <- 2
+
+```
+
+Nota como después de ejecutar las celdas, en el panel de la derecha que se llama «Environment» te aparecen tus variables en una especie tabla. En la primera columna viene el nombre de la variable y en la segunda el valor del objeto que tiene guardada. Esto significa que R ya guardó en la memoria nuestras variables por lo que las podemos usar para hacer otras cosas.
+
+Otra forma como puedes ver las variables que has definido y que R reconoce es con el comando `ls()`. Intenta introducir `ls()` y luego dar Enter en la consola.
+
+# Usar una variable
+
+Para usar una variable podemos llamarla sólo usando su nombre
+
+```{r}
+
+paste("Mi nombre es", miNombre, "y mi edad es", miEdad, "años.")
+
+```
+
+Además podemos usar variables para asignarle a otras variables el resultado de una expresión:
+
+```{r}
+area <- pi * radio ^ 2
+
+nombreCompleto <- paste(miNombre, miApellido)
+
+```
+
+# Reglas de cómo nombrar variables
+
+Los nombres de las variables pueden ser tan largos como queramos y **pueden incluir letras** (mayúsculas y minúsculas) **y números**, sin embargo, hay algunas reglas que hay que seguir:
+
+-   Los nombres de las variables no pueden empezar con números
+-   Los nombres de las variables no pueden incluir espacios ni caracteres especiales (`!`, `+`, `#`, `@`, etc.). Los únicos caracteres especiales que se pueden usar en los nombres son el guión bajo (`_`) y el punto (`.`).
+-   Los nombres de las variables no pueden ser *palabras clave* que R utiliza en su propio lenguaje. Algunas palabras reservadas son: `if`, `else`, `while`, `function`, `for`, `in`, `break`, `TRUE`, `FALSE`, entre otras.
+-   Aunque R algunas veces puede aceptar nombres de variables con acentos y la letra `ñ`, **no los utilices**. Esto se debe a que no todas las versiones y configuraciones de R los aceptan.
+
+Los siguientes son todos nombres válidos para funciones:
+
+```{r}
+
+miVariable <- 1
+otra_variable <- 2
+variable3 <- 3
+variable.favorita <- 4
+
+```
+
+Otra cosa importante a notar es que los nombres son sensibles a las mayúsculas y minúsculas. Por ejemplo para R las siguientes son variables distintas:
+
+```{r}
+animal <- "sapo"
+Animal <- "gato"
+
+paste("El", animal, "se comió un", Animal)
+```
+
+# Usar nombres descriptivos para las variables
+
+Algo muy recomendable es que para nombrar variables usemos **nombres descriptivos**, es decir, que el nombre de la variable nos indique qué representa el objeto que contiene. Por ejemplo, si mi objeto representa el número de árboles que muestre en mi estudio, ¿cuál de los siguientes nombres es mejor?
+
+```{r}
+n <- 47
+
+numArboles <- 47
+```
+
+El nombre de variable `n` es muy ambiguo y es difícil saber qué significa el objeto que tiene guardado. En cambio el nombre `numArboles` es un mucho mejor nombre de variable ya me indica rápidamente que representa el objeto.
+
+# Ejercicios
+
+## Ejercicio 1
+
+En la siguiente celda:
+
+1.  Define una variable `genero` con el valor `"Ambystoma"`.
+2.  Define tres variables `especie1`, `especie2`, `especie3`, con los valores `"mexicanum"`, `"jeffersonianum"`, `"andersoni"`
+3.  Usa la función `paste()` para concatenar el nombre de las 3 especies: `Ambysoma mexicanum`, `Ambysoma jeffersonianum` y `Ambysoma andersoni`
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+```
+
+## Ejercicio 2
+
+En la siguiente celda tienes una serie de variables que guardan la temperatura media en la Ciudad de México en 7 meses distintos.
+
+1.  Calcula el promedio de las temperaturas y guárdalo en una variable que se llame `tempPromedio`
+2.  Imprime un mensaje en la consola con `paste()` que diga: `La temperatura promedio en la Ciudad de México es de <X> grados Celcius`
+
+```{r}
+# Temperatura media en 7 meses distintos en la CDMX
+a <- 15.9
+b <- 17.5
+c <- 19.8
+d <- 20.2
+e <- 21.6
+f <- 19.2
+g <- 18.7
+
+# Escribe aquí tu respuesta
+
+
+```
+
+## Ejercicio 3
+
+Debes calcular la huella de carbono de una actividad que consume los siguientes recursos:
+
+-   10 kg de papel
+-   5 kg de azúcar
+-   5 kg de zanahorias
+-   5 kg de carne de pollo
+-   10 kg de gas licuado.
+
+Los factores de emisión de acuerdo a la IPCC de los recursos son los siguientes:
+
+-   papel: 0.8 kg CO2/kg
+-   azúcar: 0.6 kg CO2/kg
+-   zanahorias: 0.2 kg CO2/kg
+-   carne de pollo: 1.8 kg CO2/kg
+-   gas licuado: 1.7 kg CO2/kg
+
+1.  Crea variables donde guardes las emisiones de totales de cada recurso: `co2_papel`, `co2_azucar`, `co2_zanahorias`, `co2_pollo`, `co2_gas`
+2.  Crea una variable `co2_total` donde guardes las emisiones totales de CO2 de la actividad
+3.  Calcula el porcentaje del total que representa cada recurso y guarda los resultados en variables como: `porc_papel`, `porc_azucar`, `porc_zanahorias`, `porc_pollo`, `porc_gas`
+4.  Usa `paste()` para imprimir el siguiente texto: `"La actividad emitió un total de <X> kilogramos de CO2"`
+5.  Para cada actividad usa `paste()` para imprimir mensajes que digan: "`Las emisiones del <RECURSO> representan el <X> % del total.`"
+
+```{r}
+# Escribe aquí tu respuesta
+
+```

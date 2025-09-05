@@ -1,0 +1,196 @@
+---
+title: "01 - Notebooks"
+output: html_document
+execution:
+  eval: false
+---
+
+# Introducción
+
+En este curso vamos a estar usando documentos como este que tienes frente a tí. A estos documentos se conoce como **notebooks**. Los notebooks son archivos muy flexibles que permiten integrar texto en prosa (como este), código y figuras.
+
+En este notebook vemos las principales características de los **notebooks**, creamos nuestro primer programa y vemos un ejemplo del tipo de análisis que se pueden hacer con R.
+
+**Objetivos**
+
+-   Familiarizarse con la estructura y uso de los notebooks
+-   Aprender a ejecutar y modificar una celda de código
+
+# Elementos de un notebook
+
+Los notebooks tienen básicamente 2 cosas:
+
+1.  **Texto en prosa**, el cual se puede formatear como en los procesadores de texto (e.g., Word). Se pueden poner encabezados y subencabezados, y darle formato básico al texto como poner **negritas**, *itálicas*, ~~tachado~~, emojis 😃, agregar [enlaces](www.google.com) o listas.
+
+Los notebooks no permiten editar cada mínimo detalle del diseño del documento (e.g., cambiar color, cambiar la fuente y su tamaño). Esto se debe a que son archivos diseñados para hacer análisis de datos y ejecutar código no para hacer diseño gráfico.
+
+Algo interesante a notar es que todo el formato que puedes ver del texto se le da con un código muy simple. Si cambias el modo de ver el documento de "Visual" a "Source" podrás ver que el formato del texto en realidad se les da a los elementos agregándoles cosas como asteríscos y cosas raras. A estas reglas se les conoce como RMarkdown, pero por ahora eso no es importante...
+
+2.  **Céldas de código**, donde uno puede escribir código de R y ver los resultados de su código. Una celda de código se ve más o menos así:
+
+```{r}
+print("Soy una celda de código")
+```
+
+Las celdas de código son los comandos que nosotros le podemos pasar a R para que haga cosas. Para pasarle a R nuestro código debemos **ejecutar la celda**. Para ello hay que dar click en el pequeño signo ⏵ («Run current chunk»). Al ejecutar el código el resultado sale en dos lados: (1) debajo de la celda de código y (2) en la consola de R. A veces puede llegar a ser poco práctico ver los resultados debajo de la celda de código ya que ocupa mucho espacio y se hace más confuso saber qué es código y que no lo es. Podemos desactivar esta opción dando click en el engrane («Edit de Rmarkdown options...») y seleccionando «Chunk Output in Console».
+
+# ¡Hola mundo!
+
+Cuando uno aprende a programar generalmente inicia creando el programa [¡Hola mundo!](https://es.wikipedia.org/wiki/Hola_mundo). Este es un programa muy simple que lo único que hace es imprimir en la pantalla el texto `¡Hola mundo!`.
+
+En R ese programa se ve así:
+
+```         
+print("¡Hola mundo!")
+```
+
+Aquí lo que tenemos son solo 2 cosas:
+
+1.  la función `print()`, la cual imprime en la pantalla el texto que se le pase entre sus paréntesis, y
+2.  una cadena de texto `"¡Hola mundo!"`, aquí son muy imporantes las comillas, ya que esas le indican a R que eso no es parte de su lenguaje sino que es simplemente texto.
+
+Ahora ejecuta el programa que está escrito en la siguiente celda:
+
+```{r}
+print("¡Hola mundo!")
+```
+
+# Ejercicio
+
+1.  En la siguiente celda crea un programa que imprima el texto `"¡Hola! Mi nombre es <TU NOMBRE>"`. Al terminar corre la celda para ejecuta tu programa.
+
+```{r}
+
+
+```
+
+# Un ejemplo más interesante...
+
+Ya aprendimos qué son los notebooks y cómo se usan, pero el ejemplo que vimos es muy aburrido y poco útil. Veamos cómo se ve un ejemplo más interesante donde analizamos y visualizamos la matrícula de estudiantes de licenciatura en México.
+
+## Matrícula de licenciatura en México
+
+El siguiente ejemplo muestra un análisis de datos reales de los [Anuarios Estadísticos de Educación Superior](http://www.anuies.mx/informacion-y-servicios/informacion-estadistica-de-educacion-superior/anuario-estadistico-de-educacion-superior) de la ANUIES. Estos datos contienen información sobre el número de estudiantes matriculados en distintas universidades de todo México. Estos son datos los sacan cada año y los que vamos a analizar corresponden al ciclo escolar 2023-2024. No te **proecupes por entender el código**, el objetivo de este ejemplo es solo que veas cómo se pueden analizar datos con R.
+
+### Preparar los datos
+
+Importamos paqueterías que vamos a usar para nuestro procesamiento de datos.
+
+```{r}
+# install.packages(c("tidyverse", "janitor"))
+library(tidyverse)
+library(janitor)
+```
+
+Importamos los datos del anuario enstadístico de la ANUIES.
+
+```{r}
+anuario_2023_2024 <- read_csv(
+        "./data/anuario_educacion_superior_2023-2024_v1-2.csv", 
+        skip = 3, 
+        n_max = 47814,
+        col_select = c(1, 3, 6, 7, 8, 10, 12, 14, 15, 16)
+        ) |> 
+        clean_names() |>
+        pivot_longer(
+            cols = starts_with("matricula"),
+            names_to = "genero",
+            values_to = "matricula",
+            names_prefix = "matricula_"
+        )
+
+```
+
+Los datos del anuario incluyen varias columnas con información del número de matriculados en cada programa de estudios en las instituciónes de educación superior de México:
+
+```{r}
+View(anuario_2023_2024)
+```
+
+Vamos a centrarnos sólo en los estudiantes de nivel licenciatura. Para ello seleccionamos únicamente los registros de programas de licenciatura.
+
+```{r}
+licenciatura <- anuario_2023_2024 |> 
+    filter(nivel_de_estudios == 'LICENCIATURA UNIVERSITARIA Y TECNOLÓGICA')
+
+
+```
+
+### Exploraciones
+
+Ahora podemos empezar a explorar nuestros datos. Primero veamos, ¿cuáles son las **universidades que tienen más estudiantes**?
+
+```{r}
+licenciatura |> 
+  group_by(nombre_institucion) |>
+  summarise(
+    matricula_total = sum(matricula)
+  ) |>
+  arrange(desc(matricula_total)) |>
+  print(n = 100)
+```
+
+Ahora veamos cuales fueron en el ciclo 2023-2024 **las carreras más estudiadas** en México:
+
+```{r}
+licenciatura |>
+  group_by(nombre_programa_educativo) |>
+  summarise(
+    matricula_total = sum(matricula)
+  ) |>
+  arrange(desc(matricula_total)) |>
+  print(n = 10)
+```
+
+Ahora investiguemos cuales son las licenciaturas con mayor matrícula en la Ibero. ¿Cuántos estudiantes hay en LISA? Hagamos una visualización para explorar esto.
+
+```{r}
+licenciatura |>
+  filter(
+    nombre_institucion == "UNIVERSIDAD IBEROAMERICANA - CIUDAD DE MÉXICO"
+    ) |>
+  mutate( 
+    nombre_corto_programa = str_to_sentence(
+      str_replace(nombre_programa_educativo, "LICENCIATURA EN", "")
+      )) |>
+  filter(matricula > 0) |>
+  group_by(nombre_corto_programa) |>
+  summarise(
+    matricula = sum(matricula)
+  ) |>
+  ggplot(
+    aes(
+      x = matricula,
+      y = fct_reorder(nombre_corto_programa, matricula),
+      label = matricula
+      )) +
+  geom_col(fill = "#EFB42A") +
+  geom_text(
+    position = position_stack(vjust = 0.5),
+    size = 3
+    ) +
+  labs(
+    y = "",
+    x = "",
+    title = "Número de estudiantes matriculados en la IBERO por carrera",
+    caption = "Fuente: Anuarios estadísticos de Educación Superior 2023-2024. ANUES"
+    ) + 
+  theme_minimal() +
+  theme(
+    text=element_text(size = 10),
+    plot.title = element_text(size = 12, hjust = 0, margin = margin(b = 20)),
+    plot.title.position = "plot",
+    panel.grid.major.y = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.text.x = element_blank(),
+    axis.text.y = element_text(margin = margin(r = -12))
+    
+    ) 
+```
+
+## Ejercicios
+
+1.  Ve a la celda previa y busca donde dice `UNIVERSIDAD IBEROAMERICANA - CIUDAD DE MÉXICO` y sustituye ese texto por `UNIVERSIDAD ANÁHUAC`. Observa cómo cambia tu gráfica ¿Cuál es la licenciatura con más estudiantes en la Aháhuac?
+2.  Ahora explora los datos de la `UNIVERSIDAD AUTÓNOMA METROPOLITANA`. ¿Cuál es la licenciatura con más estudiantes en la UAM?
+3.  Ahora explora los datos de la IBERO de Puebla (`UNIVERSIDAD IBEROAMERICANA - PUEBLA`). ¿Cuál es la licenciatura con más estudiantes en la IBERO de Puebla?

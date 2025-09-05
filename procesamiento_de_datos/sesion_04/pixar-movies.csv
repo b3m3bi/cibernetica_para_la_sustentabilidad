@@ -1,0 +1,29 @@
+movie,year_released,Length_min,Director,"Rotten tomatoes rating",total_sales_millions
+Toy Story,1995,81,John Lasseter,100,394.4
+A Bug's Life,1998,95,"John Lasseter, co-directed by Andrew Stanton",92,363.3
+Toy Story 2,1999,92,"John Lasseter, Ash Brannon, Lee Unkrich",100,511.3
+"Monsters, Inc.",2001,92,"Pete Docter, David Silverman, Lee Unkrich",96,577.4
+Finding Nemo,2003,100,"Andrew Stanton, Lee Unkrich",99,941.6
+The Incredibles,2004,115,Brad Bird,97,631.6
+Cars,2006,117,"John Lasseter, John Ranft",75,462
+Ratatouille,2007,111,"Brad Bird, Jan Pinkava",96,623.7
+WALL-E,2008,98,Andrew Stanton,95,532.5
+Up,2009,96,"Bob Peterson, Pete Docter",98,735.1
+Toy Story 3,2010,103,Lee Unkrich,98,1067
+Cars 2,2011,106,"John Lasseter, Brad Lewis",40,562.1
+Brave,2012,93,"Mark Andrews, Brenda Chapman, Steve Purcell",79,539
+Monsters University,2013,104,Dan Scanlon,80,743.6
+Inside Out,2015,95,"Pete Docter, Ronnie del Carmen",98,859
+The Good Dinosaur,2015,92,Peter Sohn,75,332.2
+Finding Dory,2016,97,"Andrew Stanton, Angus MacLane",94,1029
+Cars 3,2017,102,Brian Fee,69,383.9
+Coco,2017,105,"Lee Unkrich, Adrian Molina",97,814.3
+Incredibles 2,2018,118,Brad Bird,93,1242
+Toy Story 4,2019,100,Josh Cooley,97,1074
+Onward,2020,102,Dan Scanlon,88,141.9
+Soul,2020,100,"Pete Docter, Kemp Powers",95,121.6
+Luca,2021,95,Enrico Casarosa,91,51.1
+Turning Red,2022,100,Domee Shi,95,21.8
+Lightyear,2022,105,Angus MacLane,74,226.4
+Elemental,2023,101,Peter Sohn,73,496.4
+Inside Out 2,2024,96,Kelsey Mann,90,1696

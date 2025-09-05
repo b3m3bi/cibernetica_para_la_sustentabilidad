@@ -1,0 +1,42 @@
+project:
+  type: website
+
+website:
+  title: "Cibernética para la sustentabilidad"
+  sidebar: 
+    style: "docked"
+    search: true
+    contents:
+      - text: "Inicio"
+        href: index.qmd
+      - section: "Procesamiento de datos"
+        href: procesamiento_de_datos/introduccion.qmd
+        contents:
+        - "procesamiento_de_datos/sesion_01/01 - Notebooks.Rmd"
+        - "procesamiento_de_datos/sesion_02/02 - Operaciones aritméticas.Rmd"
+        - "procesamiento_de_datos/sesion_02/03 - Cadenas de texto y comentarios.Rmd"
+        - "procesamiento_de_datos/sesion_02/04 - Variables.Rmd"
+        - "procesamiento_de_datos/sesion_03/05 - Vectores.Rmd"
+        - "procesamiento_de_datos/sesion_03/06 - Funciones.Rmd"
+        - "procesamiento_de_datos/sesion_03/07 - Paquetes.Rmd"
+        - "procesamiento_de_datos/sesion_04/08 - Cargar datos.Rmd"
+        - "procesamiento_de_datos/sesion_04/09 - Renombrar columnas.Rmd"
+        - "procesamiento_de_datos/sesion_04/10 - Seleccionar, filtrar y ordenar.Rmd"
+        - "procesamiento_de_datos/sesion_05/11 - Agregar columnas.Rmd"
+        - "procesamiento_de_datos/sesion_05/12 - Resumir datos.Rmd"
+        - "procesamiento_de_datos/sesion_05/13 - Escribir con pipes.Rmd"
+        - "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.Rmd"
+lang: es
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    code-tools:
+      source: true
+      toggle: true
+      caption: none
+
+
+

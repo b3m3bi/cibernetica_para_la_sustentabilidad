@@ -1,0 +1,102 @@
+---
+title: "09 - Renombrar columnas"
+output: html
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+Para poder explorar nuestros datos fácilmente necesitamos que las columnas de nuestra tabla de datos tengan nombres apropiados. En este notebook exploramos cómo renombrar las columnas de nuestras tablas de datos.
+
+**Objetivos**
+
+-   Utilizar funciones para renombrar las columnas de una tabla de datos
+
+# Cargar los datos
+
+En este notebook seguimos usando el paquete tidyverse:
+
+```{r}
+
+library(tidyverse)
+
+```
+
+En este notebook seguiremos usando los datos de pokemón que cargamos en el notebook previo:
+
+```{r}
+
+pokemon <- read_csv("./pokemon.csv")
+pokemon
+
+```
+
+# Renombrar columnas
+
+Para renombrar las columnas de una tabla de datos usamos la función `rename`, por ejemplo, si queremos renombrar la columna `Name` a `nombre` hacemos lo siguiente:
+
+```{r}
+
+rename(pokemon, nombre = Name)
+
+```
+
+Sin embargo, nota que si no guardamos nuestra nueva tabla renombrada nuestra tabla se queda igual:
+
+```{r}
+
+pokemon
+
+```
+
+Para que los cambios se queden guardados hay que crear una nueva variable o **sobreescribir** el valor de la variable que ya teníamos:
+
+```{r}
+
+pokemon <- rename(pokemon, nombre = Name)
+pokemon
+
+```
+
+Nota como los nombres de algunas variables de nuestra tabla de datos tienen espacios y caracteres especiales como el gato `#`. Aunque es posible usar espacios y caracteres especiales para nombrar columnas es una mala práctica y hace más difícil escribir el código. **Lo más recomendable es seguir las mismas reglas que usamos para nombrar variables al momento de nombrar columnas** de un conjunto de datos. Por ejemplo, podemos renombrar nuestras columnas `Type 1` y `Type 2` para quitarles el espacio y la mayúscula (también nota como podemos renombrar varias columnas al mismo tiempo con la función `rename`):
+
+```{r}
+
+pokemon <- rename(
+  pokemon,
+  tipo_1 = "Type 1",
+  tipo_2 = "Type 2"
+)
+pokemon
+
+```
+
+Podemos hacer esto manualmente para cada variable, pero hay una forma más rápida y fácil.
+
+## Renombrar automáticamente las columnas con nombres consistentes
+
+Existe un paquete muy práctico que tiene una función que nos puede ayudar a renombrar consistentemente nuestras variables, este se llama `janitor` y la función en cuestión se llama `clean_names`:
+
+```{r}
+
+# install.packages("janitor")
+
+pokemon <- janitor::clean_names(pokemon)
+pokemon
+
+```
+
+# Ejercicio
+
+1.  Usa la función `rename` para cambiarle el nombre a la columna `year_released` a `year` de la tabla de datos `pixar`.
+2.  Usa la función `janitor::clean_names` para que tu tabla de datos tenga nombres de columna consistentes.
+
+```{r}
+
+pixar <- read_csv("pixar-movies.csv")
+
+# Escribe aquí tu respuesta
+
+
+```

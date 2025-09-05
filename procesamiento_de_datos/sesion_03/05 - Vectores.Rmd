@@ -1,0 +1,223 @@
+---
+title: "05 - Vectores"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+Ya vimos que en R podemos trabajar con números o cadenas de caracteres individuales, sin embargo, generalmente vamos a trabajar con **conjuntos de datos** y no con valores individuales. En R la forma más básica de agrupar varios valores es usando **vectores** en R. En este notebook exploramos qué son y cómo se crean y usan los vectores. 
+
+**Objetivos**
+
+- Crear y utilizar vectores para almacenar conjuntos de datos
+
+# ¿Qué es un vector?
+
+Un **vector** es una colección ordenada de valores del mismo tipo. Por ejemplo podríamos tener un vector para guardar números o un vector para guardar cadenas de texto.
+
+Para crear un vector usamos la función `c()` (la «c» significa "combinar"). Dentro de la función `c()` colocamos los elementos que queremos incluir en nuestro vector cada uno separado por una coma. Por ejemplo:
+
+```{r}
+temperaturas <- c(23.5, 19.2, 21.8, 20.2)
+
+alumnos <- c("Jimena", "Gabriela", "Paulina", "Pamela", "Ana", "Alan", "Regina", "Linda")
+```
+
+También podemos hacer vectores usando los valores que tienen otras variables:
+
+```{r}
+especie01 <- "Homo neanderthalensis"
+especie02 <- "Homo habilis"
+especie03 <- "Homo sapiens"
+
+especiesHomo <- c(especie01, especie02, especie03)
+
+print(especiesHomo)
+
+```
+
+
+# Acceder a los elementos de un vector
+
+Los vectores son como un casillero, el cual tiene varias cajas en las cuales podemos guardar nuestros objetos. Así como los casilleros están numerados también los elementos de un vector están numerados, a este número se le conoce como **índice**. El índice me permite acceder a los objetos de acuerdo a su posición en el vector, para ello puedo poner el nombre el vector y luego entre corchetes `[]` colocar el número del índice del elemento al cual quiero acceder:
+
+```{r}
+
+colores <- c("azul", "rojo", "verde", "amarillo")
+
+colores[1]
+
+colores[3]
+
+```
+
+Nota la primera posición tiene el índice 1. Esto contrasta con la mayoría de los lenguajes de programación donde generalmente los índices comienzan con el 0.
+
+# Operaciones aritméticas con vectores
+
+Podemos hacer operaciones aritméticas con vectores numéricos. Por ejemplo, si queremos aumentar en 10 a cada valor de un vector podemos hacer lo siguiente:
+
+```{r}
+numeros <- c(2, 4, 8, 10)
+
+numeros + 10
+
+```
+
+Nota como R aplica la operación a cada elemento individual. Podemos aplicar cualquier otra operación que queramos:
+
+```{r}
+numeros * 2
+
+numeros / 4
+
+numeros ^ 2
+```
+
+También podemos hacer operaciones que utilicen dos vectores:
+
+```{r}
+primeros <- c(5, 10, 15)
+segundos <- c(1, 2, 3)
+
+primeros - segundos
+
+```
+
+Nota como estamos haciendo operaciones entre elementos que tienen la misma posición. Es decir R alinea los elementos del primer vector con los elementos del segundo vector y realiza las operaciones entre pares. En el ejemplo de arriba realiza las restas `5 - 1`, `10 - 2` y `15 - 3`.
+
+
+# Algunas funciones úitles con vectores numéricos
+
+Existen muchas funciones útiles que podemos usar con vectores, más adelante veremos varias de ellas. Aquí vemos solo 4 de ellas.
+
+La función `mean()` nos da el promedio de un vector:
+
+```{r}
+temperaturas <- c(23.5, 19.2, 21.8, 20.2)
+
+mean(temperaturas)
+```
+
+La función `min()` nos da el valor mínimo de un vector:
+
+```{r}
+temperaturas <- c(23.5, 19.2, 21.8, 20.2)
+
+min(temperaturas)
+```
+
+La función `max()` nos da el valor máximo de un vector:
+
+```{r}
+temperaturas <- c(23.5, 19.2, 21.8, 20.2)
+
+max(temperaturas)
+```
+
+La función `length()` nos da la longitud de un vector (el número de elementos que tiene):
+
+```{r}
+temperaturas <- c(23.5, 19.2, 21.8, 20.2)
+
+length(temperaturas)
+```
+
+
+# Concatenar vectores de cadenas de texto
+
+También hacer algunas cosas interesantes con vectores de texto, por ejemplo la función `paste()` puede concatenar los elementos en la misma posición de dos vectores:
+
+```{r}
+
+primerNombre <- c("Pepito", "Luis", "Juan")
+segundoNombre <- c("Grillo", "Miguel", "Gabriel")
+
+
+nombresCompletos <- paste(primerNombre, segundoNombre)
+
+print(nombresCompletos)
+
+```
+
+Pero también con `paste()` podemos agregarle una misma cadena a todos los elementos de un vector:
+
+```{r}
+saludos <- paste("Hola", nombresCompletos)
+print(saludos)
+```
+
+# Ejercicios 
+
+## Ejercicio 1
+
+1. Crea un vector con 5 de tus pasatiempos favoritos y asignalo a una variable.
+2. Crea un nuevo vector con la función `paste()` donde cada elemento diga `"Me gusta <PASATIEMPOS>"`. Guarda tu resultado en una función.
+
+```{r}
+# Escribe aquí tu respuesta
+
+
+```
+
+## Ejercicio 2 
+
+La siguiente celda contiene dos vectores con las temperaturas promedio mensuales (en grados Celcius) en la CDMX y en Jalisco en el año 2024 ordenadas por mes (ejecútala para que tengas los datos disponibles para tus ejercicios). 
+
+```{r}
+tempsCDMX <- c(16.4, 17.7, 20.3, 21.0, 23.6, 27.5, 19.2, 19.4, 16.9, 17.4, 15.5, 19.5)
+tempsJalisco <- c(17.4, 18.9, 20.7, 22.7, 25.7, 25.8, 23.6, 23.9, 22.0, 21.3, 19.3, 22.1)
+```
+
+Realiza los cálculos necesarios y aplica las funciones necesarias para contestar a las siguientes preguntas
+
+
+1. ¿Cuál fue la temperatura en agosto en ambas entidades?
+
+```{r}
+
+
+
+```
+
+2. ¿Cuál fue la temperatura máxima en ambas entidades?
+
+```{r}
+
+
+
+```
+
+3. ¿Cuál fue la temperatura mínima en ambas entidades?
+
+```{r}
+
+
+
+```
+
+4. ¿Cuál fue la temperatura promedio anual en ambas entidades?
+
+```{r}
+
+
+
+```
+
+5. Convierte las temperaturas de Celsius a Fahrenheit `(0°C × 9/5) + 32 = 32°F`. Guarda tu resultado en una variable que se llame `tempsCDMXF` y `tempsJaliscoF`
+
+```{r}
+
+
+
+```
+
+6. Calcula la diferencia mensual entre la temperatura de ambas entidades
+
+```{r}
+
+
+
+```

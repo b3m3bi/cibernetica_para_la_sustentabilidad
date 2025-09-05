@@ -1,0 +1,5 @@
+---
+title: "Procesamiento de datos"
+---
+
+En este módulo revisamos los fundamentos de R para el procesamiento de datos.

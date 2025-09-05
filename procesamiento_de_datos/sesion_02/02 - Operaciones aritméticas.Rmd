@@ -1,0 +1,149 @@
+---
+title: "02 - Operaciones aritméticas"
+output: html_document
+---
+
+# Introducción
+
+R es una calculadora muy poderosa, por lo que nos puede servir para hacer operaciones matemáticas básicas. En este notebook exploramos cómo realizar operaciones aritméticas en R.
+
+**Objetivos**:
+
+-   Realizar operaciones aritméticas básicas en R (suma, resta, multiplicación, división, potencia, raíz)
+
+# Operaciones artiméticas
+
+Para **sumar** usamos el signo de más (+):
+
+```{r}
+30 + 12
+```
+
+Para **restar** usamos el signo de menos (-):
+
+```{r}
+42 - 8
+```
+
+Para **multiplicar** se usa el asterisco (\*):
+
+```{r}
+5 * 8
+```
+
+Para **dividir** se usa la diagonal (/):
+
+```{r}
+87 / 9
+```
+
+Para elevar un número a un **exponente** se usa el símbolo de potencia (\^):
+
+```{r}
+4 ^ 2
+```
+
+Para sacar la **raíz cuadrada** de un número usamos la función `sqrt()`:
+
+```{r}
+sqrt(16)
+```
+
+# Expresiones
+
+Podemos hacer **expresiones** combinando vairas operaciones aritméticas. Por ejemplo, la operación $6 + 6^2$ la podemos calcular de la siguiente manera:
+
+```{r}
+6 + 6 ^ 2
+```
+
+La jerarquía en la que se hacen las operaciones es la misma que aprendiste en tus clases de matemáticas en tu educación básica:
+
+> Primero se hacen los exponentes, luego las multiplicaciones y divisiones, y al final la suma y la resta.
+
+Por ejemplo, en la siguiente expresión primero se hace la división y luego la suma:
+
+```{r}
+40 + 20 / 4
+```
+
+Si quisiéramos hacer primero la suma y luego la división podemos usar paréntesis:
+
+```{r}
+(40 + 20) / 4
+```
+
+Podemos poner varias operaciones en distintas líneas de una misma celda de código y el resultado de cada una se muestra en una línea distinta:
+
+```{r}
+50 / 5
+(37 + 30) / (4 * 2)
+
+5 - 10
+```
+
+Los espacios entre los números y los operadores matemáticos son opcionales, por lo que podemos no ponerlos. Sin embargo, te recomiendo si dejar espacios entre los operadores ya que hace que el código sea más fácil de leer sobre todo cuando tenemos operaciones largas:
+
+```{r}
+
+(50+23+102-47)/(2*9)
+
+(50 + 23 + 102 - 47) / (2 * 9)
+
+```
+
+# Ejercicios
+
+1.  Escribe una expersión para calcular cuántos segundos hay en 42 minutos con 42 segundos
+
+```{r}
+
+
+```
+
+2.  Escribe una expresión para calcular cuántas millas hay en 10 kilómetros. **Tip**: hay 1.61 kilómetros en una milla.
+
+```{r}
+
+
+```
+
+3.  El genoma humano contiene aproximadamente 3 100 000 000 pares de bases y el de las amibas 670 000 000 000 pares de bases. ¿Cuántas veces es más grande el genoma de las amibas al de los humanos? Escribe una expresión para responder a esta pregunta.
+
+```{r}
+
+
+```
+
+4.  Escribe una expresión para obtener el resultado de las siguientes operaciones:
+
+    -   $365 - 200$
+    -   $\frac{56-37}{12 \times 8}$
+    -   $\frac{20.3 + 37.44}{12} - 8$
+
+```{r}
+
+
+```
+
+5.  La siguiente tabla muestra las temperaturas promedio mensuales en la CDMX y en Jalisco en el año 2024. ¿Cuál de las dos entidades tuvo una mayor temperatura promedio anual? Realiza los cálculos necesarios para responder a esta pregunta.
+
+    | Ciudad de México (°C) | Jalisco (°C) |
+    |-----------------------|--------------|
+    | 16.4                  | 17.4         |
+    | 17.7                  | 18.9         |
+    | 20.3                  | 20.7         |
+    | 21.0                  | 22.7         |
+    | 23.6                  | 25.7         |
+    | 27.5                  | 25.8         |
+    | 19.2                  | 23.6         |
+    | 19.4                  | 23.6         |
+    | 19.3                  | 23.9         |
+    | 16.9                  | 22.0         |
+    | 17.4                  | 21.3         |
+    | 15.5                  | 19.3         |
+
+```{r}
+
+
+```
