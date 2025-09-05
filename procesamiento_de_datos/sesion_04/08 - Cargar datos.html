@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.55">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>08 - Cargar datos – Cibernética para la sustentabilidad</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../procesamiento_de_datos/introduccion.html">Procesamiento de datos</a></li><li class="breadcrumb-item"><a href="../../procesamiento_de_datos/sesion_04/08 - Cargar datos.html">08 - Cargar datos</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">Cibernética para la sustentabilidad</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Inicio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../procesamiento_de_datos/introduccion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Procesamiento de datos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_01/01 - Notebooks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">01 - Notebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_02/02 - Operaciones aritméticas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">02 - Operaciones aritméticas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_02/03 - Cadenas de texto y comentarios.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03 - Cadenas de texto y comentarios</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_02/04 - Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">04 - Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_03/05 - Vectores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05 - Vectores</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_03/06 - Funciones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">06 - Funciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_03/07 - Paquetes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">07 - Paquetes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_04/08 - Cargar datos.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">08 - Cargar datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_04/09 - Renombrar columnas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">09 - Renombrar columnas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_04/10 - Seleccionar, filtrar y ordenar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10 - Seleccionar, filtrar y ordenar</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_05/11 - Agregar columnas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11 - Agregar columnas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_05/12 - Resumir datos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12 - Resumir datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_05/13 - Escribir con pipes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13 - Escribir con pipes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Práctica 1: Incendios forestales en ANPs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#obtener-datos" id="toc-obtener-datos" class="nav-link" data-scroll-target="#obtener-datos">Obtener datos</a></li>
+  <li><a href="#archivos-.csv" id="toc-archivos-.csv" class="nav-link" data-scroll-target="#archivos-.csv">Archivos .csv</a></li>
+  <li><a href="#establecer-el-directorio-de-trabajo" id="toc-establecer-el-directorio-de-trabajo" class="nav-link" data-scroll-target="#establecer-el-directorio-de-trabajo">Establecer el directorio de trabajo</a></li>
+  <li><a href="#subir-los-datos" id="toc-subir-los-datos" class="nav-link" data-scroll-target="#subir-los-datos">Subir los datos</a></li>
+  <li><a href="#leer-los-datos" id="toc-leer-los-datos" class="nav-link" data-scroll-target="#leer-los-datos">Leer los datos</a></li>
+  <li><a href="#ver-la-tabla-de-datos" id="toc-ver-la-tabla-de-datos" class="nav-link" data-scroll-target="#ver-la-tabla-de-datos">Ver la tabla de datos</a></li>
+  <li><a href="#ejercicio" id="toc-ejercicio" class="nav-link" data-scroll-target="#ejercicio">Ejercicio</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../procesamiento_de_datos/introduccion.html">Procesamiento de datos</a></li><li class="breadcrumb-item"><a href="../../procesamiento_de_datos/sesion_04/08 - Cargar datos.html">08 - Cargar datos</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">08 - Cargar datos</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i></button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level1">
+<h1>Introducción</h1>
+<p>Hasta ahora hemos visto:</p>
+<ol type="1">
+<li>Cómo trabajar con notebooks de R</li>
+<li>Cómo hacer operaciones aritméticas</li>
+<li>Cómo trabajar con strings o cadenas de texto</li>
+<li>Cómo crear y usar variables</li>
+<li>Cómo trabajar con vectores</li>
+<li>Cómo trabajar con funciones</li>
+<li>Cómo cargar y usar paquetes</li>
+</ol>
+<p>¡Ya tenemos las herramientas necesarias para empezar a trabajar con datos reales!</p>
+<p>En este notebook vemos cómo podemos cargar datos en R.</p>
+<p><strong>Objetivos</strong></p>
+<ul>
+<li>Cargar archivos de datos a RStudio</li>
+<li>Leer datos en R con tidyverse</li>
+<li>Ver tablas de datos</li>
+</ul>
+</section>
+<section id="obtener-datos" class="level1">
+<h1>Obtener datos</h1>
+<p>En este notebook vamos a explorar datos de pokemon.</p>
+<p><strong>Instrucciones</strong></p>
+<ol type="1">
+<li>Abre el siguiente enlace: <a href="https://gist.githubusercontent.com/armgilles/194bcff35001e7eb53a2a8b441e8b2c6/raw/92200bc0a673d5ce2110aaad4544ed6c4010f687/pokemon.csv">Datos pokemón</a></li>
+<li>Da click en <em>Archivo</em> &gt; <em>Guardar página como…</em> (da click en <code>CTRL + S</code>) y guarda los datos en tu computadora. Asegúrate de dejarle la extensión de archivo <code>.csv</code></li>
+</ol>
+</section>
+<section id="archivos-.csv" class="level1">
+<h1>Archivos .csv</h1>
+<p>El archivo que se te debió descargar es uno con extensión <code>.csv</code>. Estos son archivos muy comunes cuando trabajamos con datos. csv significa «Comma Separated Values», es decir, valores separados por comas. Este archivo lo puedes abrir con varios programas, por ejemplo, con un editor de texto cualquiera como <em>Block de notas</em> en Windows o <em>TextEdit</em> de Mac. Si lo abres verás algo así:</p>
+<p><img src="./imgs/csv_editor_texto.png" class="img-fluid"></p>
+<p>La primera fila nos da el nombre de las variables que tenemos separados por comas. Los nombres son bastante descriptivos y podemos facilmente deducir qué datos tenemos:</p>
+<ul>
+<li><code>#</code>: un identificador</li>
+<li><code>Name</code>: el nombre del pokemón</li>
+<li><code>Type 1</code>, <code>Type 2</code>: el tipo de pokemón</li>
+<li><code>HP</code>: el poder total del pokemón</li>
+<li><code>Attack</code>, <code>Defense</code>, <code>Sp. Atk</code>, <code>Sp. Def</code>, <code>Speed</code>: el puntaje de ataque, defensa, ataque y defensa especial y la velocidad</li>
+<li><code>Generation</code>: la generación a la que pertenece</li>
+<li><code>Legendary</code>: si es un pokemón legendario o no</li>
+</ul>
+<p>Las siguientes filas nos dan los valores de las variables para distintos pokemón.</p>
+<p>Por ejemplo, en la segunda fila tenemos los datos:</p>
+<ul>
+<li><code>Bulbasaur</code></li>
+<li><code>Grass</code></li>
+<li><code>Poison</code></li>
+<li><code>318</code></li>
+</ul>
+<p>Esto nos dice que en <em>Bulbasaur es un pokemón de tipo pasto y veneno y que su HP es 318</em>.</p>
+<p>Como podrás notar este archivo es similar a una tabla y si lo abres en una aplicación de hojas de cáclulo como Excel, Google Sheets o LibreOffice Calc, verás algo así:</p>
+<p><img src="./imgs/csv_hoja_de_calculo.png" class="img-fluid"></p>
+<p>Como podrás notar esto es como una tabla donde cada columna corresponde a una variable y cada fila a una observación:</p>
+<p><img src="./imgs/estructura_tabla_datos.png" class="img-fluid"></p>
+<p>Los archivos .csv son muy comunes para almacenar datos ya que son muy ligeros, se pueden abrir con cualquier programa y se pueden manipular fácilmente.</p>
+</section>
+<section id="establecer-el-directorio-de-trabajo" class="level1">
+<h1>Establecer el directorio de trabajo</h1>
+<p>Algo fundamental cuando trabajamos con R es establecer nuestro <strong>Directorio de trabajo</strong> o <strong>Working directory</strong>. Este es una cartpeta que RStudio utiliza para encontrar los archivos que uno quiera cargar.</p>
+<p>Puedes ver cual es tu directorio de trabajo en la parte superior de tu consola:</p>
+<p><img src="./imgs/wd_console.png" class="img-fluid"></p>
+<p>También puedes preguntarle a R cuál es el directorio de trabajo con el siguiene comando:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "/home/lggj/PARA/proyectos/curso_cibernetica_ibero/cibernetica_para_la_sustentabilidad/procesamiento_de_datos/sesion_04"</code></pre>
+</div>
+</div>
+<p>Cuando trabajamos en RStudio usando Posit Cloud generalmente el directorio de trabajo ya está bien determinado y no hay que hacer nada. Sin embargo, cuando trabajamos en RStudio en nuestras computadoras personales debemos especificar nuestro directorio de trabajo. Para eso debemos dar click en <strong>«Session &gt; Set Working Directory &gt; Choose Directory»</strong> y elegir la carpeta donde queremos trabajar.</p>
+<p><img src="./imgs/establecer_wd.png" class="img-fluid"></p>
+<p>Otra forma de establecer el directorio de trabajo es usando la función <code>setwd()</code> a la cual le debemos dar la ruta completa a la carpeta donde queremos trabajar:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd("/cloud/project/")</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="subir-los-datos" class="level1">
+<h1>Subir los datos</h1>
+<p>Si trabajas en tu computadora personal solo debes colocar los datos el directorio de trabajo, pero al trabajar en Posit Cloud debemos subir los datos para poder usarlos.</p>
+<p>Para subir los datos:</p>
+<ol type="1">
+<li><p>En el panel inferior derecho de RStudio selecciona la pestaña <strong>Files</strong></p></li>
+<li><p>Da click en <strong>Upload</strong>: <img src="./imgs/icono_upload.png" class="img-fluid"></p></li>
+<li><p>Da click en <strong>Browse</strong> en la sección de <em>File to upload</em>:</p>
+<p><img src="imgs/upload_browse.png" class="img-fluid"></p></li>
+<li><p>Busca y selecciona tu archivo csv</p></li>
+<li><p>Listo. Tu archivo debe aparecer en la lista de archivos.</p></li>
+</ol>
+</section>
+<section id="leer-los-datos" class="level1">
+<h1>Leer los datos</h1>
+<p>Para leer los datos vamos a usar un paquete que se llama <strong>tidyverse</strong>. Este generalmente hay que instalarlo primero, pero para este proyecto de Posit Cloud yo ya lo instalé previamente por lo que solo hay que pedirle a R que cargue el paquete con la función <code>library</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Instalar tidyverse</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("tidyverse")</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Cargar tidyverse</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.1.0     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+<p>Para leer el archivo usamos una función que se llama <code>read_csv</code> a la cual como argumento debemos pasarle la el nombre del archivo que queremos leer (en forma de cadena):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./pokemon.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 800 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (3): Name, Type 1, Type 2
+dbl (9): #, Total, HP, Attack, Defense, Sp. Atk, Sp. Def, Speed, Generation
+lgl (1): Legendary
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 800 × 13
+     `#` Name   `Type 1` `Type 2` Total    HP Attack Defense `Sp. Atk` `Sp. Def`
+   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+ 1     1 Bulba… Grass    Poison     318    45     49      49        65        65
+ 2     2 Ivysa… Grass    Poison     405    60     62      63        80        80
+ 3     3 Venus… Grass    Poison     525    80     82      83       100       100
+ 4     3 Venus… Grass    Poison     625    80    100     123       122       120
+ 5     4 Charm… Fire     &lt;NA&gt;       309    39     52      43        60        50
+ 6     5 Charm… Fire     &lt;NA&gt;       405    58     64      58        80        65
+ 7     6 Chari… Fire     Flying     534    78     84      78       109        85
+ 8     6 Chari… Fire     Dragon     634    78    130     111       130        85
+ 9     6 Chari… Fire     Flying     634    78    104      78       159       115
+10     7 Squir… Water    &lt;NA&gt;       314    44     48      65        50        64
+# ℹ 790 more rows
+# ℹ 3 more variables: Speed &lt;dbl&gt;, Generation &lt;dbl&gt;, Legendary &lt;lgl&gt;</code></pre>
+</div>
+</div>
+<p>Como podrás ver los datos R los reconoce como una tabla y el comando solo nos imprime una parte de los datos.</p>
+<p>Nota como la consola se te da información sobre los datos que acabas de importar. En particular podemos ver que los datos tienen 800 filas y 13 columnas. Además abajo nos dice el tipo de dato con el que se importó cada columna. Podemos ver que las columnas <code>Name</code>, <code>Type 1</code> y <code>Type 2</code> las importó como cadenas de caracteres (<code>chr</code>). Las columnas <code>#</code>, <code>Total</code>, <code>HP</code>, <code>Attack</code>, <code>Defense</code>, <code>Sp. Atk</code>, <code>Sp. Def</code>, <code>Speed</code>, <code>Generation</code> las importó como números (<code>dbl</code>). Y la columna <code>Legendary</code> como un valor booleano (<code>lgl</code>) que solo puede tomar los valores <code>TRUE</code> o <code>FALSE</code>.</p>
+<p>Para poder trabajar con los datos en R hay que guardarlos en una variable:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pokemon <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./pokemon.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 800 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (3): Name, Type 1, Type 2
+dbl (9): #, Total, HP, Attack, Defense, Sp. Atk, Sp. Def, Speed, Generation
+lgl (1): Legendary
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+</section>
+<section id="ver-la-tabla-de-datos" class="level1">
+<h1>Ver la tabla de datos</h1>
+<p>Para visualizar tus datos a manera de una hoja de calculo puedes usar el comando <code>View</code> el cual abre una nueva pestaña mostrando los datos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(pokemon)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Advertencia</strong>: No es recomendable abrir de esta manera archivos muy grandes ya que puedes hacer que R se trabe.</p>
+<p>Otra función útil para darnos una idea de cómo se ve un conjunto es la función <code>head</code> que nos muestra solo el inicio de nuestra tabla:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pokemon)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 13
+    `#` Name    `Type 1` `Type 2` Total    HP Attack Defense `Sp. Atk` `Sp. Def`
+  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1     1 Bulbas… Grass    Poison     318    45     49      49        65        65
+2     2 Ivysaur Grass    Poison     405    60     62      63        80        80
+3     3 Venusa… Grass    Poison     525    80     82      83       100       100
+4     3 Venusa… Grass    Poison     625    80    100     123       122       120
+5     4 Charma… Fire     &lt;NA&gt;       309    39     52      43        60        50
+6     5 Charme… Fire     &lt;NA&gt;       405    58     64      58        80        65
+# ℹ 3 more variables: Speed &lt;dbl&gt;, Generation &lt;dbl&gt;, Legendary &lt;lgl&gt;</code></pre>
+</div>
+</div>
+<p>Podemos controlar el número de filas que queremos ver con el argumento <code>n</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pokemon, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 13
+     `#` Name   `Type 1` `Type 2` Total    HP Attack Defense `Sp. Atk` `Sp. Def`
+   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+ 1     1 Bulba… Grass    Poison     318    45     49      49        65        65
+ 2     2 Ivysa… Grass    Poison     405    60     62      63        80        80
+ 3     3 Venus… Grass    Poison     525    80     82      83       100       100
+ 4     3 Venus… Grass    Poison     625    80    100     123       122       120
+ 5     4 Charm… Fire     &lt;NA&gt;       309    39     52      43        60        50
+ 6     5 Charm… Fire     &lt;NA&gt;       405    58     64      58        80        65
+ 7     6 Chari… Fire     Flying     534    78     84      78       109        85
+ 8     6 Chari… Fire     Dragon     634    78    130     111       130        85
+ 9     6 Chari… Fire     Flying     634    78    104      78       159       115
+10     7 Squir… Water    &lt;NA&gt;       314    44     48      65        50        64
+# ℹ 3 more variables: Speed &lt;dbl&gt;, Generation &lt;dbl&gt;, Legendary &lt;lgl&gt;</code></pre>
+</div>
+</div>
+<p>Una función complementaria a <code>head</code> es la función <code>tail</code>, la cual nos muestra solo una parte del final de los datos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(pokemon, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 13
+    `#` Name    `Type 1` `Type 2` Total    HP Attack Defense `Sp. Atk` `Sp. Def`
+  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1   720 HoopaH… Psychic  Ghost      600    80    110      60       150       130
+2   720 HoopaH… Psychic  Dark       680    80    160      60       170       130
+3   721 Volcan… Fire     Water      600    80    110     120       130        90
+# ℹ 3 more variables: Speed &lt;dbl&gt;, Generation &lt;dbl&gt;, Legendary &lt;lgl&gt;</code></pre>
+</div>
+</div>
+<p>Otra función para echar un vistazo a los datos es la función <code>glimpse</code>, la cual nos muestra todas las columnas de manera horizontal:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(pokemon)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 800
+Columns: 13
+$ `#`        &lt;dbl&gt; 1, 2, 3, 3, 4, 5, 6, 6, 6, 7, 8, 9, 9, 10, 11, 12, 13, 14, …
+$ Name       &lt;chr&gt; "Bulbasaur", "Ivysaur", "Venusaur", "VenusaurMega Venusaur"…
+$ `Type 1`   &lt;chr&gt; "Grass", "Grass", "Grass", "Grass", "Fire", "Fire", "Fire",…
+$ `Type 2`   &lt;chr&gt; "Poison", "Poison", "Poison", "Poison", NA, NA, "Flying", "…
+$ Total      &lt;dbl&gt; 318, 405, 525, 625, 309, 405, 534, 634, 634, 314, 405, 530,…
+$ HP         &lt;dbl&gt; 45, 60, 80, 80, 39, 58, 78, 78, 78, 44, 59, 79, 79, 45, 50,…
+$ Attack     &lt;dbl&gt; 49, 62, 82, 100, 52, 64, 84, 130, 104, 48, 63, 83, 103, 30,…
+$ Defense    &lt;dbl&gt; 49, 63, 83, 123, 43, 58, 78, 111, 78, 65, 80, 100, 120, 35,…
+$ `Sp. Atk`  &lt;dbl&gt; 65, 80, 100, 122, 60, 80, 109, 130, 159, 50, 65, 85, 135, 2…
+$ `Sp. Def`  &lt;dbl&gt; 65, 80, 100, 120, 50, 65, 85, 85, 115, 64, 80, 105, 115, 20…
+$ Speed      &lt;dbl&gt; 45, 60, 80, 80, 65, 80, 100, 100, 100, 43, 58, 78, 78, 45, …
+$ Generation &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ Legendary  &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FAL…</code></pre>
+</div>
+</div>
+<p>Si solo queremos ver los nombres de las columnas de nuestros datos podemos usar la función <code>names</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pokemon)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "#"          "Name"       "Type 1"     "Type 2"     "Total"     
+ [6] "HP"         "Attack"     "Defense"    "Sp. Atk"    "Sp. Def"   
+[11] "Speed"      "Generation" "Legendary" </code></pre>
+</div>
+</div>
+</section>
+<section id="ejercicio" class="level1">
+<h1>Ejercicio</h1>
+<p>En este ejercicio vas a descargar y cargar un conjunto de datos de películas de Pixar</p>
+<ol type="1">
+<li>Descarga los datos del siguiente enlace: <a href="https://gist.githubusercontent.com/b3m3bi/fca2b77734e5e3ca92cd4e4616737229/raw/ca1736594f47ae8c204c1eb51e2483d91caac26f/pixar-movies.csv">películas pixa</a><a href="https://gist.githubusercontent.com/b3m3bi/fca2b77734e5e3ca92cd4e4616737229/raw/ab39db8f7a7e99fd7267f8dc060343f75419d8de/pixar-movies.csv">r</a></li>
+<li>Sube los datos a RStudio</li>
+<li>Lee los datos usando la función <code>read_csv</code> y guárdalos en una variable que se llame <code>pixar</code></li>
+<li>Explora la tabla de datos con la función <code>View</code>.</li>
+<li>Responde a las siguientes preguntas:
+<ul>
+<li><p>¿Cuántas filas y cuantas columnas tienes?</p></li>
+<li><p>¿Qué variables incluye tu conjunto de datos? ¿Qué crees que signifique cada variable?</p></li>
+</ul></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe aquí tu código</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/b3m3bi\.github\.io\/cibernetica_para_la_sustentabilidad\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Ejecutar el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb23" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "08 - Cargar datos"</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span><span class="co"> html</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introducción</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>Hasta ahora hemos visto:</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Cómo trabajar con notebooks de R</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Cómo hacer operaciones aritméticas</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Cómo trabajar con strings o cadenas de texto</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Cómo crear y usar variables</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Cómo trabajar con vectores</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>Cómo trabajar con funciones</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="ss">7.  </span>Cómo cargar y usar paquetes</span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>¡Ya tenemos las herramientas necesarias para empezar a trabajar con datos reales!</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>En este notebook vemos cómo podemos cargar datos en R.</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>**Objetivos**</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Cargar archivos de datos a RStudio</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Leer datos en R con tidyverse</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ver tablas de datos</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a><span class="fu"># Obtener datos</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>En este notebook vamos a explorar datos de pokemon.</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>**Instrucciones**</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Abre el siguiente enlace: <span class="co">[</span><span class="ot">Datos pokemón</span><span class="co">](https://gist.githubusercontent.com/armgilles/194bcff35001e7eb53a2a8b441e8b2c6/raw/92200bc0a673d5ce2110aaad4544ed6c4010f687/pokemon.csv)</span></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Da click en *Archivo* \&gt; *Guardar página como...* (da click en <span class="in">`CTRL + S`</span>) y guarda los datos en tu computadora. Asegúrate de dejarle la extensión de archivo <span class="in">`.csv`</span></span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a><span class="fu"># Archivos .csv</span></span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>El archivo que se te debió descargar es uno con extensión <span class="in">`.csv`</span>. Estos son archivos muy comunes cuando trabajamos con datos. csv significa «Comma Separated Values», es decir, valores separados por comas. Este archivo lo puedes abrir con varios programas, por ejemplo, con un editor de texto cualquiera como *Block de notas* en Windows o *TextEdit* de Mac. Si lo abres verás algo así:</span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a><span class="al">![](./imgs/csv_editor_texto.png)</span></span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>La primera fila nos da el nombre de las variables que tenemos separados por comas. Los nombres son bastante descriptivos y podemos facilmente deducir qué datos tenemos:</span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`#`</span>: un identificador</span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Name`</span>: el nombre del pokemón</span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Type 1`</span>, <span class="in">`Type 2`</span>: el tipo de pokemón</span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`HP`</span>: el poder total del pokemón</span>
+<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Attack`</span>, <span class="in">`Defense`</span>, <span class="in">`Sp. Atk`</span>, <span class="in">`Sp. Def`</span>, <span class="in">`Speed`</span>: el puntaje de ataque, defensa, ataque y defensa especial y la velocidad</span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Generation`</span>: la generación a la que pertenece</span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Legendary`</span>: si es un pokemón legendario o no</span>
+<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>Las siguientes filas nos dan los valores de las variables para distintos pokemón.</span>
+<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a>Por ejemplo, en la segunda fila tenemos los datos:</span>
+<span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Bulbasaur`</span></span>
+<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Grass`</span></span>
+<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Poison`</span></span>
+<span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`318`</span></span>
+<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-64"><a href="#cb23-64" aria-hidden="true" tabindex="-1"></a>Esto nos dice que en *Bulbasaur es un pokemón de tipo pasto y veneno y que su HP es 318*.</span>
+<span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a>Como podrás notar este archivo es similar a una tabla y si lo abres en una aplicación de hojas de cáclulo como Excel, Google Sheets o LibreOffice Calc, verás algo así:</span>
+<span id="cb23-67"><a href="#cb23-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-68"><a href="#cb23-68" aria-hidden="true" tabindex="-1"></a><span class="al">![](./imgs/csv_hoja_de_calculo.png)</span></span>
+<span id="cb23-69"><a href="#cb23-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-70"><a href="#cb23-70" aria-hidden="true" tabindex="-1"></a>Como podrás notar esto es como una tabla donde cada columna corresponde a una variable y cada fila a una observación:</span>
+<span id="cb23-71"><a href="#cb23-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-72"><a href="#cb23-72" aria-hidden="true" tabindex="-1"></a><span class="al">![](./imgs/estructura_tabla_datos.png)</span></span>
+<span id="cb23-73"><a href="#cb23-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-74"><a href="#cb23-74" aria-hidden="true" tabindex="-1"></a>Los archivos .csv son muy comunes para almacenar datos ya que son muy ligeros, se pueden abrir con cualquier programa y se pueden manipular fácilmente.</span>
+<span id="cb23-75"><a href="#cb23-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-76"><a href="#cb23-76" aria-hidden="true" tabindex="-1"></a><span class="fu"># Establecer el directorio de trabajo</span></span>
+<span id="cb23-77"><a href="#cb23-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-78"><a href="#cb23-78" aria-hidden="true" tabindex="-1"></a>Algo fundamental cuando trabajamos con R es establecer nuestro **Directorio de trabajo** o **Working directory**. Este es una cartpeta que RStudio utiliza para encontrar los archivos que uno quiera cargar.</span>
+<span id="cb23-79"><a href="#cb23-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-80"><a href="#cb23-80" aria-hidden="true" tabindex="-1"></a>Puedes ver cual es tu directorio de trabajo en la parte superior de tu consola:</span>
+<span id="cb23-81"><a href="#cb23-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-82"><a href="#cb23-82" aria-hidden="true" tabindex="-1"></a><span class="al">![](./imgs/wd_console.png)</span></span>
+<span id="cb23-83"><a href="#cb23-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-84"><a href="#cb23-84" aria-hidden="true" tabindex="-1"></a>También puedes preguntarle a R cuál es el directorio de trabajo con el siguiene comando:</span>
+<span id="cb23-85"><a href="#cb23-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-88"><a href="#cb23-88" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-89"><a href="#cb23-89" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span>
+<span id="cb23-90"><a href="#cb23-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-91"><a href="#cb23-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-92"><a href="#cb23-92" aria-hidden="true" tabindex="-1"></a>Cuando trabajamos en RStudio usando Posit Cloud generalmente el directorio de trabajo ya está bien determinado y no hay que hacer nada. Sin embargo, cuando trabajamos en RStudio en nuestras computadoras personales debemos especificar nuestro directorio de trabajo. Para eso debemos dar click en **«Session \&gt; Set Working Directory \&gt; Choose Directory»** y elegir la carpeta donde queremos trabajar.</span>
+<span id="cb23-93"><a href="#cb23-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-94"><a href="#cb23-94" aria-hidden="true" tabindex="-1"></a><span class="al">![](./imgs/establecer_wd.png)</span></span>
+<span id="cb23-95"><a href="#cb23-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-96"><a href="#cb23-96" aria-hidden="true" tabindex="-1"></a>Otra forma de establecer el directorio de trabajo es usando la función <span class="in">`setwd()`</span> a la cual le debemos dar la ruta completa a la carpeta donde queremos trabajar:</span>
+<span id="cb23-97"><a href="#cb23-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-100"><a href="#cb23-100" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-101"><a href="#cb23-101" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd("/cloud/project/")</span></span>
+<span id="cb23-102"><a href="#cb23-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-103"><a href="#cb23-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-104"><a href="#cb23-104" aria-hidden="true" tabindex="-1"></a><span class="fu"># Subir los datos</span></span>
+<span id="cb23-105"><a href="#cb23-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-106"><a href="#cb23-106" aria-hidden="true" tabindex="-1"></a>Si trabajas en tu computadora personal solo debes colocar los datos el directorio de trabajo, pero al trabajar en Posit Cloud debemos subir los datos para poder usarlos.</span>
+<span id="cb23-107"><a href="#cb23-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-108"><a href="#cb23-108" aria-hidden="true" tabindex="-1"></a>Para subir los datos:</span>
+<span id="cb23-109"><a href="#cb23-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-110"><a href="#cb23-110" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>En el panel inferior derecho de RStudio selecciona la pestaña **Files**</span>
+<span id="cb23-111"><a href="#cb23-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-112"><a href="#cb23-112" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Da click en **Upload**: <span class="al">![](./imgs/icono_upload.png)</span></span>
+<span id="cb23-113"><a href="#cb23-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-114"><a href="#cb23-114" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Da click en **Browse** en la sección de *File to upload*:</span>
+<span id="cb23-115"><a href="#cb23-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-116"><a href="#cb23-116" aria-hidden="true" tabindex="-1"></a>    <span class="al">![](imgs/upload_browse.png)</span></span>
+<span id="cb23-117"><a href="#cb23-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-118"><a href="#cb23-118" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Busca y selecciona tu archivo csv</span>
+<span id="cb23-119"><a href="#cb23-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-120"><a href="#cb23-120" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Listo. Tu archivo debe aparecer en la lista de archivos.</span>
+<span id="cb23-121"><a href="#cb23-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-122"><a href="#cb23-122" aria-hidden="true" tabindex="-1"></a><span class="fu"># Leer los datos</span></span>
+<span id="cb23-123"><a href="#cb23-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-124"><a href="#cb23-124" aria-hidden="true" tabindex="-1"></a>Para leer los datos vamos a usar un paquete que se llama **tidyverse**. Este generalmente hay que instalarlo primero, pero para este proyecto de Posit Cloud yo ya lo instalé previamente por lo que solo hay que pedirle a R que cargue el paquete con la función <span class="in">`library`</span>:</span>
+<span id="cb23-125"><a href="#cb23-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-128"><a href="#cb23-128" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-129"><a href="#cb23-129" aria-hidden="true" tabindex="-1"></a><span class="do">## Instalar tidyverse</span></span>
+<span id="cb23-130"><a href="#cb23-130" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("tidyverse")</span></span>
+<span id="cb23-131"><a href="#cb23-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-132"><a href="#cb23-132" aria-hidden="true" tabindex="-1"></a><span class="do">## Cargar tidyverse</span></span>
+<span id="cb23-133"><a href="#cb23-133" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb23-134"><a href="#cb23-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-135"><a href="#cb23-135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-136"><a href="#cb23-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-137"><a href="#cb23-137" aria-hidden="true" tabindex="-1"></a>Para leer el archivo usamos una función que se llama <span class="in">`read_csv`</span> a la cual como argumento debemos pasarle la el nombre del archivo que queremos leer (en forma de cadena):</span>
+<span id="cb23-138"><a href="#cb23-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-141"><a href="#cb23-141" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-142"><a href="#cb23-142" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./pokemon.csv"</span>)</span>
+<span id="cb23-143"><a href="#cb23-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-144"><a href="#cb23-144" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-145"><a href="#cb23-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-146"><a href="#cb23-146" aria-hidden="true" tabindex="-1"></a>Como podrás ver los datos R los reconoce como una tabla y el comando solo nos imprime una parte de los datos.</span>
+<span id="cb23-147"><a href="#cb23-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-148"><a href="#cb23-148" aria-hidden="true" tabindex="-1"></a>Nota como la consola se te da información sobre los datos que acabas de importar. En particular podemos ver que los datos tienen 800 filas y 13 columnas. Además abajo nos dice el tipo de dato con el que se importó cada columna. Podemos ver que las columnas <span class="in">`Name`</span>, <span class="in">`Type 1`</span> y <span class="in">`Type 2`</span> las importó como cadenas de caracteres (<span class="in">`chr`</span>). Las columnas <span class="in">`#`</span>, <span class="in">`Total`</span>, <span class="in">`HP`</span>, <span class="in">`Attack`</span>, <span class="in">`Defense`</span>, <span class="in">`Sp. Atk`</span>, <span class="in">`Sp. Def`</span>, <span class="in">`Speed`</span>, <span class="in">`Generation`</span> las importó como números (<span class="in">`dbl`</span>). Y la columna <span class="in">`Legendary`</span> como un valor booleano (<span class="in">`lgl`</span>) que solo puede tomar los valores <span class="in">`TRUE`</span> o <span class="in">`FALSE`</span>.</span>
+<span id="cb23-149"><a href="#cb23-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-150"><a href="#cb23-150" aria-hidden="true" tabindex="-1"></a>Para poder trabajar con los datos en R hay que guardarlos en una variable:</span>
+<span id="cb23-151"><a href="#cb23-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-154"><a href="#cb23-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-155"><a href="#cb23-155" aria-hidden="true" tabindex="-1"></a>pokemon <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./pokemon.csv"</span>)</span>
+<span id="cb23-156"><a href="#cb23-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-157"><a href="#cb23-157" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-158"><a href="#cb23-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-159"><a href="#cb23-159" aria-hidden="true" tabindex="-1"></a><span class="fu"># Ver la tabla de datos</span></span>
+<span id="cb23-160"><a href="#cb23-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-161"><a href="#cb23-161" aria-hidden="true" tabindex="-1"></a>Para visualizar tus datos a manera de una hoja de calculo puedes usar el comando <span class="in">`View`</span> el cual abre una nueva pestaña mostrando los datos:</span>
+<span id="cb23-162"><a href="#cb23-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-165"><a href="#cb23-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-166"><a href="#cb23-166" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(pokemon)</span>
+<span id="cb23-167"><a href="#cb23-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-168"><a href="#cb23-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-169"><a href="#cb23-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-170"><a href="#cb23-170" aria-hidden="true" tabindex="-1"></a>**Advertencia**: No es recomendable abrir de esta manera archivos muy grandes ya que puedes hacer que R se trabe.</span>
+<span id="cb23-171"><a href="#cb23-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-172"><a href="#cb23-172" aria-hidden="true" tabindex="-1"></a>Otra función útil para darnos una idea de cómo se ve un conjunto es la función <span class="in">`head`</span> que nos muestra solo el inicio de nuestra tabla:</span>
+<span id="cb23-173"><a href="#cb23-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-176"><a href="#cb23-176" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-177"><a href="#cb23-177" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pokemon)</span>
+<span id="cb23-178"><a href="#cb23-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-179"><a href="#cb23-179" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-180"><a href="#cb23-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-181"><a href="#cb23-181" aria-hidden="true" tabindex="-1"></a>Podemos controlar el número de filas que queremos ver con el argumento <span class="in">`n`</span>:</span>
+<span id="cb23-182"><a href="#cb23-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-185"><a href="#cb23-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-186"><a href="#cb23-186" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pokemon, <span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb23-187"><a href="#cb23-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-188"><a href="#cb23-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-189"><a href="#cb23-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-190"><a href="#cb23-190" aria-hidden="true" tabindex="-1"></a>Una función complementaria a <span class="in">`head`</span> es la función <span class="in">`tail`</span>, la cual nos muestra solo una parte del final de los datos:</span>
+<span id="cb23-191"><a href="#cb23-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-194"><a href="#cb23-194" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-195"><a href="#cb23-195" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(pokemon, <span class="at">n =</span> <span class="dv">3</span>)</span>
+<span id="cb23-196"><a href="#cb23-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-197"><a href="#cb23-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-198"><a href="#cb23-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-199"><a href="#cb23-199" aria-hidden="true" tabindex="-1"></a>Otra función para echar un vistazo a los datos es la función <span class="in">`glimpse`</span>, la cual nos muestra todas las columnas de manera horizontal:</span>
+<span id="cb23-200"><a href="#cb23-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-203"><a href="#cb23-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-204"><a href="#cb23-204" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(pokemon)</span>
+<span id="cb23-205"><a href="#cb23-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-206"><a href="#cb23-206" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-207"><a href="#cb23-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-208"><a href="#cb23-208" aria-hidden="true" tabindex="-1"></a>Si solo queremos ver los nombres de las columnas de nuestros datos podemos usar la función <span class="in">`names`</span>:</span>
+<span id="cb23-209"><a href="#cb23-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-212"><a href="#cb23-212" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-213"><a href="#cb23-213" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pokemon)</span>
+<span id="cb23-214"><a href="#cb23-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-215"><a href="#cb23-215" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb23-216"><a href="#cb23-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-217"><a href="#cb23-217" aria-hidden="true" tabindex="-1"></a><span class="fu"># Ejercicio</span></span>
+<span id="cb23-218"><a href="#cb23-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-219"><a href="#cb23-219" aria-hidden="true" tabindex="-1"></a>En este ejercicio vas a descargar y cargar un conjunto de datos de películas de Pixar</span>
+<span id="cb23-220"><a href="#cb23-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-221"><a href="#cb23-221" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Descarga los datos del siguiente enlace: <span class="co">[</span><span class="ot">películas pixa</span><span class="co">](https://gist.githubusercontent.com/b3m3bi/fca2b77734e5e3ca92cd4e4616737229/raw/ca1736594f47ae8c204c1eb51e2483d91caac26f/pixar-movies.csv)[</span><span class="ot">r</span><span class="co">](https://gist.githubusercontent.com/b3m3bi/fca2b77734e5e3ca92cd4e4616737229/raw/ab39db8f7a7e99fd7267f8dc060343f75419d8de/pixar-movies.csv)</span></span>
+<span id="cb23-222"><a href="#cb23-222" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Sube los datos a RStudio</span>
+<span id="cb23-223"><a href="#cb23-223" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Lee los datos usando la función <span class="in">`read_csv`</span> y guárdalos en una variable que se llame <span class="in">`pixar`</span></span>
+<span id="cb23-224"><a href="#cb23-224" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Explora la tabla de datos con la función <span class="in">`View`</span>.</span>
+<span id="cb23-225"><a href="#cb23-225" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Responde a las siguientes preguntas:</span>
+<span id="cb23-226"><a href="#cb23-226" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>¿Cuántas filas y cuantas columnas tienes?</span>
+<span id="cb23-227"><a href="#cb23-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-228"><a href="#cb23-228" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>¿Qué variables incluye tu conjunto de datos? ¿Qué crees que signifique cada variable?</span>
+<span id="cb23-229"><a href="#cb23-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-232"><a href="#cb23-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb23-233"><a href="#cb23-233" aria-hidden="true" tabindex="-1"></a><span class="co"># Escribe aquí tu código</span></span>
+<span id="cb23-234"><a href="#cb23-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-235"><a href="#cb23-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-236"><a href="#cb23-236" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

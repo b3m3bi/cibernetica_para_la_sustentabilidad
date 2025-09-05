@@ -1,0 +1,480 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Cibernética para la sustentabilidad",
+    "section": "",
+    "text": "Esta es la página del curso de Cibernética para la sustentabilidad. Aquí podrás encontrar diversos recursos del curso.",
+    "crumbs": [
+      "Inicio"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_03/05 - Vectores.html",
+    "href": "procesamiento_de_datos/sesion_03/05 - Vectores.html",
+    "title": "05 - Vectores",
+    "section": "",
+    "text": "Ya vimos que en R podemos trabajar con números o cadenas de caracteres individuales, sin embargo, generalmente vamos a trabajar con conjuntos de datos y no con valores individuales. En R la forma más básica de agrupar varios valores es usando vectores en R. En este notebook exploramos qué son y cómo se crean y usan los vectores.\nObjetivos\n\nCrear y utilizar vectores para almacenar conjuntos de datos",
+    "crumbs": [
+      "Procesamiento de datos",
+      "05 - Vectores"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_03/05 - Vectores.html#ejercicio-1",
+    "href": "procesamiento_de_datos/sesion_03/05 - Vectores.html#ejercicio-1",
+    "title": "05 - Vectores",
+    "section": "Ejercicio 1",
+    "text": "Ejercicio 1\n\nCrea un vector con 5 de tus pasatiempos favoritos y asignalo a una variable.\nCrea un nuevo vector con la función paste() donde cada elemento diga \"Me gusta &lt;PASATIEMPOS&gt;\". Guarda tu resultado en una función.\n\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "05 - Vectores"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_03/05 - Vectores.html#ejercicio-2",
+    "href": "procesamiento_de_datos/sesion_03/05 - Vectores.html#ejercicio-2",
+    "title": "05 - Vectores",
+    "section": "Ejercicio 2",
+    "text": "Ejercicio 2\nLa siguiente celda contiene dos vectores con las temperaturas promedio mensuales (en grados Celcius) en la CDMX y en Jalisco en el año 2024 ordenadas por mes (ejecútala para que tengas los datos disponibles para tus ejercicios).\n\ntempsCDMX &lt;- c(16.4, 17.7, 20.3, 21.0, 23.6, 27.5, 19.2, 19.4, 16.9, 17.4, 15.5, 19.5)\ntempsJalisco &lt;- c(17.4, 18.9, 20.7, 22.7, 25.7, 25.8, 23.6, 23.9, 22.0, 21.3, 19.3, 22.1)\n\nRealiza los cálculos necesarios y aplica las funciones necesarias para contestar a las siguientes preguntas\n\n¿Cuál fue la temperatura en agosto en ambas entidades?\n\n\n¿Cuál fue la temperatura máxima en ambas entidades?\n\n\n¿Cuál fue la temperatura mínima en ambas entidades?\n\n\n¿Cuál fue la temperatura promedio anual en ambas entidades?\n\n\nConvierte las temperaturas de Celsius a Fahrenheit (0°C × 9/5) + 32 = 32°F. Guarda tu resultado en una variable que se llame tempsCDMXF y tempsJaliscoF\n\n\nCalcula la diferencia mensual entre la temperatura de ambas entidades",
+    "crumbs": [
+      "Procesamiento de datos",
+      "05 - Vectores"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_03/06 - Funciones.html",
+    "href": "procesamiento_de_datos/sesion_03/06 - Funciones.html",
+    "title": "06 - Funciones",
+    "section": "",
+    "text": "Introducción\nHasta ahora hemos trabajado con números, cadenas de texto, variables y vectores. También hemos usado algunas funciones como print(), paste(), mean() o length().\nPero ¿qué son exactamente las funciones en R? En este notebook exploramos qué son las funciones.\nObjetivos\n\nReconocer la sintáxis para ejecutar un función en R.\nReconocer el concepto de argumentos de una función.\nIdentificar algunas funciones básicas de R.\n\n\n\n¿Qué es una función?\nUna función es un bloque de código que realiza una tarea específica. R tiene varias funciones predefinidas que podemos usar. Para usar una función debemos poner el nombre de la función seguida por paréntesis, dentro de los cuales ponemos los argumentos de la función separados por comas:\nnombreFuncion(argumento1, argumento2, argumento3)\nUn ejemplo que ya conocemos es la función print:\n\nprint(\"Hola mundo\")\n\n[1] \"Hola mundo\"\n\n\nAquí, print es el nombre de la función y \"Hola mundo\" es el argumento que le damos.\n\n\nArgumentos de una función\nA algunas funciones reciben sólo un argumento y si les pasamos más nos arrojan un error. Por ejemplo la función print se enoja si le pasamos más de un argumento:\n\nprint(\"Hola\", \"¿cómo te va?\")\n\nWarning in print.default(\"Hola\", \"¿cómo te va?\"): NAs introduced by coercion\n\n\nError in print.default(\"Hola\", \"¿cómo te va?\"): invalid printing digits -2147483648\n\n\nA otras funciones podemos pasarles muchos argumentos del mismo tipo, por ejemplo a paste le podemos pasar muchos strings y nos los junta todos:\n\npaste(\"Hola\", \"¿cómo te va?\")\n\n[1] \"Hola ¿cómo te va?\"\n\n\nOtras funciones reciben argumentos que de acuerdo a su posición significan distintas cosas. Por ejemplo, la función round nos permite redondear números hasta cierta cantidad de decimales que queramos:\n\nround(3.14159, 2)\n\n[1] 3.14\n\n\nAquí:\n- 3.14159 es el número a redondear, y\n- 2 que indica cuántos decimales queremos.\nCuando una función tiene varios argumentos que significan distintas cosas para, estos generalmente tienen un nombre. Por ejemplo, el segundo argumento de la función round se llama digits. Cuando usamos funciones que tienen muchos argumentos es más conveniente pasar los valores poniendo el nombre del argumento explicitamente:\n\nround(3.14159, digits = 2)\n\n[1] 3.14\n\n\nAdemás, nota que muchas funciones dan valores por defecto a algunos de sus argumentos. Por ejemplo, si a la función round no le pasamos el segundo argumento entonces toma por defecto un valor de digits = 0:\n\nround(3.14159)\n\n[1] 3\n\n\n\n\nUn argumento muy útil de varias funciones\nAlgo muy común cuando trabajas con datos es que para algunas observaciones no tengas el dato. Esto muchas veces se indica con un NA («Not Available»). Por ejemplo, si muestreamos seis especímenes pero por alguna razón no tenemos el dato de uno podemos registrarlo así:\n\ndiametro_arboles &lt;- c(9.32, 8.5, 11.3, NA, 10.11, 9.47)\n\nPodríamos calcular el promedio, máximo y mínimo con las funciones que ya vimos, sin embargo, obtenemos algo raro:\n\nmean(diametro_arboles)\n\n[1] NA\n\nmax(diametro_arboles)\n\n[1] NA\n\nmin(diametro_arboles)\n\n[1] NA\n\n\nR evita que calculemos algunos estadísticos de datos incompletos. Sin embargo, si nosotros queremos calcular un estadístico usando solamente los valores que sí conocemos podemos usar el argumento na.rm = TRUE:\n\nmean(diametro_arboles, na.rm = TRUE)\n\n[1] 9.74\n\nmax(diametro_arboles, na.rm = TRUE)\n\n[1] 11.3\n\nmin(diametro_arboles, na.rm = TRUE)\n\n[1] 8.5\n\n\n\n\nUsar funciones dentro de otras funciones\nNota como una función se puede usar dentro de otra función:\n\nprint(paste(\"Mi número favorito es el\", max(c(37, 25))))\n\n[1] \"Mi número favorito es el 37\"\n\n\nAquí lo que hace R es primero ejecutar las funciones que están más adentro (más anidadas) e irle pasando su resultado a las funciones que le siguen como argumento. En este caso R ejecuta las funciones en el siguiente orden\n\ncrear el vector c(37, 25)\ntomar el número máximo del vector (37, 25)\njuntar con paste() el texto “Mi número favorito es el” y el número 37\nimprimir el texto completo en la pantalla con print()\n\n\n\nBuscar ayuda sobre cómo funciona una función\nPara saber cuáles son los argumentos que usa una función podemos consultar su documentación. La documentación es una explicación técnica con todos los detalles sobre una función.\nPuedes buscar la documentación de dos maneras en RStudio:\n\nIntroduce en la consola el nombre de la función precedido por un signo de interrogación ?. La documentación se abrirá en el panel inferior derecho de RStudio.\n\n\n?mean\n\n\nEn el panel inferior derecho de RStudio da click en la pestaña Help y en la lupa superior derecha del panel busca el nombre de la función.\n\n\n\nCrear funciones\nAdemás de usar funciones que ya existen también podemos podemos definir funciones. En este curso no crearemos funciones, pero es importante que sepas que podemos crear nuestras funciones personalizadas para hacer cualquier cosa que queramos. Esto es muy útil ya que hace que podamos reciclar código y ahorrarnos tareas repetitivas. Por ejemplo,\n\n# función que convierte grados Celsius a Fahrenheit\ncelsius_a_fahrenheit &lt;- function(celsius) {\n  fahrenheit &lt;- celsius * 9/5 + 32\n  return(fahrenheit)\n}\n\ncelsius_a_fahrenheit(25)\n\n[1] 77\n\n\n\n\nEjercicio\nUsa la función paste() para imprimir en el siguiente formato la secuencia de DNA: ATG-TAC-GCG-AAA-TAC-GAC-CAG-ATA-GAT-ACA. Busca en la documentación el argumento de la función que te puede servir para formatear tu texto.\n\ncodones &lt;- c('ATG','TAC','GCG','AAA','TAC','GAC','CAG','ATA','GAT','ACA')\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "06 - Funciones"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_04/08 - Cargar datos.html",
+    "href": "procesamiento_de_datos/sesion_04/08 - Cargar datos.html",
+    "title": "08 - Cargar datos",
+    "section": "",
+    "text": "Introducción\nHasta ahora hemos visto:\n\nCómo trabajar con notebooks de R\nCómo hacer operaciones aritméticas\nCómo trabajar con strings o cadenas de texto\nCómo crear y usar variables\nCómo trabajar con vectores\nCómo trabajar con funciones\nCómo cargar y usar paquetes\n\n¡Ya tenemos las herramientas necesarias para empezar a trabajar con datos reales!\nEn este notebook vemos cómo podemos cargar datos en R.\nObjetivos\n\nCargar archivos de datos a RStudio\nLeer datos en R con tidyverse\nVer tablas de datos\n\n\n\nObtener datos\nEn este notebook vamos a explorar datos de pokemon.\nInstrucciones\n\nAbre el siguiente enlace: Datos pokemón\nDa click en Archivo &gt; Guardar página como… (da click en CTRL + S) y guarda los datos en tu computadora. Asegúrate de dejarle la extensión de archivo .csv\n\n\n\nArchivos .csv\nEl archivo que se te debió descargar es uno con extensión .csv. Estos son archivos muy comunes cuando trabajamos con datos. csv significa «Comma Separated Values», es decir, valores separados por comas. Este archivo lo puedes abrir con varios programas, por ejemplo, con un editor de texto cualquiera como Block de notas en Windows o TextEdit de Mac. Si lo abres verás algo así:\n\nLa primera fila nos da el nombre de las variables que tenemos separados por comas. Los nombres son bastante descriptivos y podemos facilmente deducir qué datos tenemos:\n\n#: un identificador\nName: el nombre del pokemón\nType 1, Type 2: el tipo de pokemón\nHP: el poder total del pokemón\nAttack, Defense, Sp. Atk, Sp. Def, Speed: el puntaje de ataque, defensa, ataque y defensa especial y la velocidad\nGeneration: la generación a la que pertenece\nLegendary: si es un pokemón legendario o no\n\nLas siguientes filas nos dan los valores de las variables para distintos pokemón.\nPor ejemplo, en la segunda fila tenemos los datos:\n\nBulbasaur\nGrass\nPoison\n318\n\nEsto nos dice que en Bulbasaur es un pokemón de tipo pasto y veneno y que su HP es 318.\nComo podrás notar este archivo es similar a una tabla y si lo abres en una aplicación de hojas de cáclulo como Excel, Google Sheets o LibreOffice Calc, verás algo así:\n\nComo podrás notar esto es como una tabla donde cada columna corresponde a una variable y cada fila a una observación:\n\nLos archivos .csv son muy comunes para almacenar datos ya que son muy ligeros, se pueden abrir con cualquier programa y se pueden manipular fácilmente.\n\n\nEstablecer el directorio de trabajo\nAlgo fundamental cuando trabajamos con R es establecer nuestro Directorio de trabajo o Working directory. Este es una cartpeta que RStudio utiliza para encontrar los archivos que uno quiera cargar.\nPuedes ver cual es tu directorio de trabajo en la parte superior de tu consola:\n\nTambién puedes preguntarle a R cuál es el directorio de trabajo con el siguiene comando:\n\ngetwd()\n\n[1] \"/home/lggj/PARA/proyectos/curso_cibernetica_ibero/cibernetica_para_la_sustentabilidad/procesamiento_de_datos/sesion_04\"\n\n\nCuando trabajamos en RStudio usando Posit Cloud generalmente el directorio de trabajo ya está bien determinado y no hay que hacer nada. Sin embargo, cuando trabajamos en RStudio en nuestras computadoras personales debemos especificar nuestro directorio de trabajo. Para eso debemos dar click en «Session &gt; Set Working Directory &gt; Choose Directory» y elegir la carpeta donde queremos trabajar.\n\nOtra forma de establecer el directorio de trabajo es usando la función setwd() a la cual le debemos dar la ruta completa a la carpeta donde queremos trabajar:\n\n# setwd(\"/cloud/project/\")\n\n\n\nSubir los datos\nSi trabajas en tu computadora personal solo debes colocar los datos el directorio de trabajo, pero al trabajar en Posit Cloud debemos subir los datos para poder usarlos.\nPara subir los datos:\n\nEn el panel inferior derecho de RStudio selecciona la pestaña Files\nDa click en Upload: \nDa click en Browse en la sección de File to upload:\n\nBusca y selecciona tu archivo csv\nListo. Tu archivo debe aparecer en la lista de archivos.\n\n\n\nLeer los datos\nPara leer los datos vamos a usar un paquete que se llama tidyverse. Este generalmente hay que instalarlo primero, pero para este proyecto de Posit Cloud yo ya lo instalé previamente por lo que solo hay que pedirle a R que cargue el paquete con la función library:\n\n## Instalar tidyverse\n# install.packages(\"tidyverse\")\n\n## Cargar tidyverse\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nPara leer el archivo usamos una función que se llama read_csv a la cual como argumento debemos pasarle la el nombre del archivo que queremos leer (en forma de cadena):\n\nread_csv(\"./pokemon.csv\")\n\nRows: 800 Columns: 13\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (3): Name, Type 1, Type 2\ndbl (9): #, Total, HP, Attack, Defense, Sp. Atk, Sp. Def, Speed, Generation\nlgl (1): Legendary\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n# A tibble: 800 × 13\n     `#` Name   `Type 1` `Type 2` Total    HP Attack Defense `Sp. Atk` `Sp. Def`\n   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n 1     1 Bulba… Grass    Poison     318    45     49      49        65        65\n 2     2 Ivysa… Grass    Poison     405    60     62      63        80        80\n 3     3 Venus… Grass    Poison     525    80     82      83       100       100\n 4     3 Venus… Grass    Poison     625    80    100     123       122       120\n 5     4 Charm… Fire     &lt;NA&gt;       309    39     52      43        60        50\n 6     5 Charm… Fire     &lt;NA&gt;       405    58     64      58        80        65\n 7     6 Chari… Fire     Flying     534    78     84      78       109        85\n 8     6 Chari… Fire     Dragon     634    78    130     111       130        85\n 9     6 Chari… Fire     Flying     634    78    104      78       159       115\n10     7 Squir… Water    &lt;NA&gt;       314    44     48      65        50        64\n# ℹ 790 more rows\n# ℹ 3 more variables: Speed &lt;dbl&gt;, Generation &lt;dbl&gt;, Legendary &lt;lgl&gt;\n\n\nComo podrás ver los datos R los reconoce como una tabla y el comando solo nos imprime una parte de los datos.\nNota como la consola se te da información sobre los datos que acabas de importar. En particular podemos ver que los datos tienen 800 filas y 13 columnas. Además abajo nos dice el tipo de dato con el que se importó cada columna. Podemos ver que las columnas Name, Type 1 y Type 2 las importó como cadenas de caracteres (chr). Las columnas #, Total, HP, Attack, Defense, Sp. Atk, Sp. Def, Speed, Generation las importó como números (dbl). Y la columna Legendary como un valor booleano (lgl) que solo puede tomar los valores TRUE o FALSE.\nPara poder trabajar con los datos en R hay que guardarlos en una variable:\n\npokemon &lt;- read_csv(\"./pokemon.csv\")\n\nRows: 800 Columns: 13\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (3): Name, Type 1, Type 2\ndbl (9): #, Total, HP, Attack, Defense, Sp. Atk, Sp. Def, Speed, Generation\nlgl (1): Legendary\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n\nVer la tabla de datos\nPara visualizar tus datos a manera de una hoja de calculo puedes usar el comando View el cual abre una nueva pestaña mostrando los datos:\n\nView(pokemon)\n\nAdvertencia: No es recomendable abrir de esta manera archivos muy grandes ya que puedes hacer que R se trabe.\nOtra función útil para darnos una idea de cómo se ve un conjunto es la función head que nos muestra solo el inicio de nuestra tabla:\n\nhead(pokemon)\n\n# A tibble: 6 × 13\n    `#` Name    `Type 1` `Type 2` Total    HP Attack Defense `Sp. Atk` `Sp. Def`\n  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1     1 Bulbas… Grass    Poison     318    45     49      49        65        65\n2     2 Ivysaur Grass    Poison     405    60     62      63        80        80\n3     3 Venusa… Grass    Poison     525    80     82      83       100       100\n4     3 Venusa… Grass    Poison     625    80    100     123       122       120\n5     4 Charma… Fire     &lt;NA&gt;       309    39     52      43        60        50\n6     5 Charme… Fire     &lt;NA&gt;       405    58     64      58        80        65\n# ℹ 3 more variables: Speed &lt;dbl&gt;, Generation &lt;dbl&gt;, Legendary &lt;lgl&gt;\n\n\nPodemos controlar el número de filas que queremos ver con el argumento n:\n\nhead(pokemon, n = 10)\n\n# A tibble: 10 × 13\n     `#` Name   `Type 1` `Type 2` Total    HP Attack Defense `Sp. Atk` `Sp. Def`\n   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n 1     1 Bulba… Grass    Poison     318    45     49      49        65        65\n 2     2 Ivysa… Grass    Poison     405    60     62      63        80        80\n 3     3 Venus… Grass    Poison     525    80     82      83       100       100\n 4     3 Venus… Grass    Poison     625    80    100     123       122       120\n 5     4 Charm… Fire     &lt;NA&gt;       309    39     52      43        60        50\n 6     5 Charm… Fire     &lt;NA&gt;       405    58     64      58        80        65\n 7     6 Chari… Fire     Flying     534    78     84      78       109        85\n 8     6 Chari… Fire     Dragon     634    78    130     111       130        85\n 9     6 Chari… Fire     Flying     634    78    104      78       159       115\n10     7 Squir… Water    &lt;NA&gt;       314    44     48      65        50        64\n# ℹ 3 more variables: Speed &lt;dbl&gt;, Generation &lt;dbl&gt;, Legendary &lt;lgl&gt;\n\n\nUna función complementaria a head es la función tail, la cual nos muestra solo una parte del final de los datos:\n\ntail(pokemon, n = 3)\n\n# A tibble: 3 × 13\n    `#` Name    `Type 1` `Type 2` Total    HP Attack Defense `Sp. Atk` `Sp. Def`\n  &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1   720 HoopaH… Psychic  Ghost      600    80    110      60       150       130\n2   720 HoopaH… Psychic  Dark       680    80    160      60       170       130\n3   721 Volcan… Fire     Water      600    80    110     120       130        90\n# ℹ 3 more variables: Speed &lt;dbl&gt;, Generation &lt;dbl&gt;, Legendary &lt;lgl&gt;\n\n\nOtra función para echar un vistazo a los datos es la función glimpse, la cual nos muestra todas las columnas de manera horizontal:\n\nglimpse(pokemon)\n\nRows: 800\nColumns: 13\n$ `#`        &lt;dbl&gt; 1, 2, 3, 3, 4, 5, 6, 6, 6, 7, 8, 9, 9, 10, 11, 12, 13, 14, …\n$ Name       &lt;chr&gt; \"Bulbasaur\", \"Ivysaur\", \"Venusaur\", \"VenusaurMega Venusaur\"…\n$ `Type 1`   &lt;chr&gt; \"Grass\", \"Grass\", \"Grass\", \"Grass\", \"Fire\", \"Fire\", \"Fire\",…\n$ `Type 2`   &lt;chr&gt; \"Poison\", \"Poison\", \"Poison\", \"Poison\", NA, NA, \"Flying\", \"…\n$ Total      &lt;dbl&gt; 318, 405, 525, 625, 309, 405, 534, 634, 634, 314, 405, 530,…\n$ HP         &lt;dbl&gt; 45, 60, 80, 80, 39, 58, 78, 78, 78, 44, 59, 79, 79, 45, 50,…\n$ Attack     &lt;dbl&gt; 49, 62, 82, 100, 52, 64, 84, 130, 104, 48, 63, 83, 103, 30,…\n$ Defense    &lt;dbl&gt; 49, 63, 83, 123, 43, 58, 78, 111, 78, 65, 80, 100, 120, 35,…\n$ `Sp. Atk`  &lt;dbl&gt; 65, 80, 100, 122, 60, 80, 109, 130, 159, 50, 65, 85, 135, 2…\n$ `Sp. Def`  &lt;dbl&gt; 65, 80, 100, 120, 50, 65, 85, 85, 115, 64, 80, 105, 115, 20…\n$ Speed      &lt;dbl&gt; 45, 60, 80, 80, 65, 80, 100, 100, 100, 43, 58, 78, 78, 45, …\n$ Generation &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ Legendary  &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FAL…\n\n\nSi solo queremos ver los nombres de las columnas de nuestros datos podemos usar la función names:\n\nnames(pokemon)\n\n [1] \"#\"          \"Name\"       \"Type 1\"     \"Type 2\"     \"Total\"     \n [6] \"HP\"         \"Attack\"     \"Defense\"    \"Sp. Atk\"    \"Sp. Def\"   \n[11] \"Speed\"      \"Generation\" \"Legendary\" \n\n\n\n\nEjercicio\nEn este ejercicio vas a descargar y cargar un conjunto de datos de películas de Pixar\n\nDescarga los datos del siguiente enlace: películas pixar\nSube los datos a RStudio\nLee los datos usando la función read_csv y guárdalos en una variable que se llame pixar\nExplora la tabla de datos con la función View.\nResponde a las siguientes preguntas:\n\n¿Cuántas filas y cuantas columnas tienes?\n¿Qué variables incluye tu conjunto de datos? ¿Qué crees que signifique cada variable?\n\n\n\n# Escribe aquí tu código",
+    "crumbs": [
+      "Procesamiento de datos",
+      "08 - Cargar datos"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_04/09 - Renombrar columnas.html",
+    "href": "procesamiento_de_datos/sesion_04/09 - Renombrar columnas.html",
+    "title": "09 - Renombrar columnas",
+    "section": "",
+    "text": "Para poder explorar nuestros datos fácilmente necesitamos que las columnas de nuestra tabla de datos tengan nombres apropiados. En este notebook exploramos cómo renombrar las columnas de nuestras tablas de datos.\nObjetivos\n\nUtilizar funciones para renombrar las columnas de una tabla de datos",
+    "crumbs": [
+      "Procesamiento de datos",
+      "09 - Renombrar columnas"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_04/09 - Renombrar columnas.html#renombrar-automáticamente-las-columnas-con-nombres-consistentes",
+    "href": "procesamiento_de_datos/sesion_04/09 - Renombrar columnas.html#renombrar-automáticamente-las-columnas-con-nombres-consistentes",
+    "title": "09 - Renombrar columnas",
+    "section": "Renombrar automáticamente las columnas con nombres consistentes",
+    "text": "Renombrar automáticamente las columnas con nombres consistentes\nExiste un paquete muy práctico que tiene una función que nos puede ayudar a renombrar consistentemente nuestras variables, este se llama janitor y la función en cuestión se llama clean_names:\n\n# install.packages(\"janitor\")\n\npokemon &lt;- janitor::clean_names(pokemon)\npokemon\n\n# A tibble: 800 × 13\n   number nombre    tipo_1 tipo_2 total    hp attack defense sp_atk sp_def speed\n    &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;\n 1      1 Bulbasaur Grass  Poison   318    45     49      49     65     65    45\n 2      2 Ivysaur   Grass  Poison   405    60     62      63     80     80    60\n 3      3 Venusaur  Grass  Poison   525    80     82      83    100    100    80\n 4      3 Venusaur… Grass  Poison   625    80    100     123    122    120    80\n 5      4 Charmand… Fire   &lt;NA&gt;     309    39     52      43     60     50    65\n 6      5 Charmele… Fire   &lt;NA&gt;     405    58     64      58     80     65    80\n 7      6 Charizard Fire   Flying   534    78     84      78    109     85   100\n 8      6 Charizar… Fire   Dragon   634    78    130     111    130     85   100\n 9      6 Charizar… Fire   Flying   634    78    104      78    159    115   100\n10      7 Squirtle  Water  &lt;NA&gt;     314    44     48      65     50     64    43\n# ℹ 790 more rows\n# ℹ 2 more variables: generation &lt;dbl&gt;, legendary &lt;lgl&gt;",
+    "crumbs": [
+      "Procesamiento de datos",
+      "09 - Renombrar columnas"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_02/04 - Variables.html",
+    "href": "procesamiento_de_datos/sesion_02/04 - Variables.html",
+    "title": "04 - Variables",
+    "section": "",
+    "text": "Hasta ahora lo que hemos hecho con R no son cosas muy útiles, sumar, restar o multiplicar lo podemos hacer con una calculadora, y escribir texto lo podemos hacer con cualquier editor de texto. Algo que hace muy útil a la programación son las variables. En este notebook exploramos qué son y como crear y usar variables en R.\nObjetivos\n\nCrear y usar variables de objetivos en R",
+    "crumbs": [
+      "Procesamiento de datos",
+      "04 - Variables"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_02/04 - Variables.html#ejercicio-1",
+    "href": "procesamiento_de_datos/sesion_02/04 - Variables.html#ejercicio-1",
+    "title": "04 - Variables",
+    "section": "Ejercicio 1",
+    "text": "Ejercicio 1\nEn la siguiente celda:\n\nDefine una variable genero con el valor \"Ambystoma\".\nDefine tres variables especie1, especie2, especie3, con los valores \"mexicanum\", \"jeffersonianum\", \"andersoni\"\nUsa la función paste() para concatenar el nombre de las 3 especies: Ambysoma mexicanum, Ambysoma jeffersonianum y Ambysoma andersoni\n\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "04 - Variables"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_02/04 - Variables.html#ejercicio-2",
+    "href": "procesamiento_de_datos/sesion_02/04 - Variables.html#ejercicio-2",
+    "title": "04 - Variables",
+    "section": "Ejercicio 2",
+    "text": "Ejercicio 2\nEn la siguiente celda tienes una serie de variables que guardan la temperatura media en la Ciudad de México en 7 meses distintos.\n\nCalcula el promedio de las temperaturas y guárdalo en una variable que se llame tempPromedio\nImprime un mensaje en la consola con paste() que diga: La temperatura promedio en la Ciudad de México es de &lt;X&gt; grados Celcius\n\n\n# Temperatura media en 7 meses distintos en la CDMX\na &lt;- 15.9\nb &lt;- 17.5\nc &lt;- 19.8\nd &lt;- 20.2\ne &lt;- 21.6\nf &lt;- 19.2\ng &lt;- 18.7\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "04 - Variables"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_02/04 - Variables.html#ejercicio-3",
+    "href": "procesamiento_de_datos/sesion_02/04 - Variables.html#ejercicio-3",
+    "title": "04 - Variables",
+    "section": "Ejercicio 3",
+    "text": "Ejercicio 3\nDebes calcular la huella de carbono de una actividad que consume los siguientes recursos:\n\n10 kg de papel\n5 kg de azúcar\n5 kg de zanahorias\n5 kg de carne de pollo\n10 kg de gas licuado.\n\nLos factores de emisión de acuerdo a la IPCC de los recursos son los siguientes:\n\npapel: 0.8 kg CO2/kg\nazúcar: 0.6 kg CO2/kg\nzanahorias: 0.2 kg CO2/kg\ncarne de pollo: 1.8 kg CO2/kg\ngas licuado: 1.7 kg CO2/kg\n\n\nCrea variables donde guardes las emisiones de totales de cada recurso: co2_papel, co2_azucar, co2_zanahorias, co2_pollo, co2_gas\nCrea una variable co2_total donde guardes las emisiones totales de CO2 de la actividad\nCalcula el porcentaje del total que representa cada recurso y guarda los resultados en variables como: porc_papel, porc_azucar, porc_zanahorias, porc_pollo, porc_gas\nUsa paste() para imprimir el siguiente texto: \"La actividad emitió un total de &lt;X&gt; kilogramos de CO2\"\nPara cada actividad usa paste() para imprimir mensajes que digan: “Las emisiones del &lt;RECURSO&gt; representan el &lt;X&gt; % del total.”\n\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "04 - Variables"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/introduccion.html",
+    "href": "procesamiento_de_datos/introduccion.html",
+    "title": "Procesamiento de datos",
+    "section": "",
+    "text": "En este módulo revisamos los fundamentos de R para el procesamiento de datos.",
+    "crumbs": [
+      "Procesamiento de datos"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/13 - Escribir con pipes.html",
+    "href": "procesamiento_de_datos/sesion_05/13 - Escribir con pipes.html",
+    "title": "13 - Escribir con pipes",
+    "section": "",
+    "text": "Como podrás haber notado conforme vamos haciendo códigos más largos tenemos que crear variables intermedias o sobreescribir variables que ya teníamos con nuevos valores. En este notebook introducimos los pipes los cuales son una forma de facilitar la escritura del código.\nObjetivos\n\nUtilizar los pipes para escribir el código de manera más concisa",
+    "crumbs": [
+      "Procesamiento de datos",
+      "13 - Escribir con pipes"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/13 - Escribir con pipes.html#ejercicio-1",
+    "href": "procesamiento_de_datos/sesion_05/13 - Escribir con pipes.html#ejercicio-1",
+    "title": "13 - Escribir con pipes",
+    "section": "Ejercicio 1",
+    "text": "Ejercicio 1\nReescribe el siguiente código usando pipes:\n\npobreza_2020 &lt;- filter(pobreza, periodo == '2020-01-01')\nsum(pull(pobreza_2020, poblacion), na.rm = TRUE)\n\n[1] 127409241\n\n\n\n# Reescribe aquí el código",
+    "crumbs": [
+      "Procesamiento de datos",
+      "13 - Escribir con pipes"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/13 - Escribir con pipes.html#ejercicio-2",
+    "href": "procesamiento_de_datos/sesion_05/13 - Escribir con pipes.html#ejercicio-2",
+    "title": "13 - Escribir con pipes",
+    "section": "Ejercicio 2",
+    "text": "Ejercicio 2\nDescribe con tus propias palabras qué hace el siguiente código. ¿Qué datos incluye el resultado?\n\npobreza |&gt;\n  filter(entidad_federativa == \"Chiapas\") |&gt;\n  group_by(municipio) |&gt;\n  summarise(promedio_pob_pobreza = mean(pobreza_poblacion, na.rm = TRUE))\n\n# A tibble: 124 × 2\n   municipio                 promedio_pob_pobreza\n   &lt;chr&gt;                                    &lt;dbl&gt;\n 1 Acacoyagua                              16514.\n 2 Acala                                   23020.\n 3 Acapetahua                              24300 \n 4 Aldama                                   6643.\n 5 Altamirano                              28898.\n 6 Amatenango de la Frontera               23978.\n 7 Amatenango del Valle                     9462 \n 8 Amatán                                  20610.\n 9 Angel Albino Corzo                      24053.\n10 Arriaga                                 31219.\n# ℹ 114 more rows",
+    "crumbs": [
+      "Procesamiento de datos",
+      "13 - Escribir con pipes"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/13 - Escribir con pipes.html#ejercicio-3",
+    "href": "procesamiento_de_datos/sesion_05/13 - Escribir con pipes.html#ejercicio-3",
+    "title": "13 - Escribir con pipes",
+    "section": "Ejercicio 3",
+    "text": "Ejercicio 3\nReescribe el siguiente código usando pipes:\n\npobreza_2020 &lt;- filter(pobreza, periodo == '2020-01-01')\npobreza_2020_agrupado_por_entidad &lt;- group_by(pobreza_2020, entidad_federativa)\nresumen_pobreza_2020_entidad &lt;- summarise(\n  pobreza_2020_agrupado_por_entidad,\n  pob_total = sum(poblacion, na.rm = TRUE),\n  pob_pobreza = sum(pobreza_poblacion, na.rm = TRUE)\n)\nresumen_pobreza_2020_entidad &lt;- mutate(\n  resumen_pobreza_2020_entidad,\n  porcentaje_pobreza = pob_pobreza / pob_total * 100\n)\n\narrange(resumen_pobreza_2020_entidad, porcentaje_pobreza)\n\n# A tibble: 32 × 4\n   entidad_federativa   pob_total pob_pobreza porcentaje_pobreza\n   &lt;chr&gt;                    &lt;dbl&gt;       &lt;dbl&gt;              &lt;dbl&gt;\n 1 Nuevo León             5460396     1075563               19.7\n 2 Baja California        3742465      865158               23.1\n 3 Coahuila de Zaragoza   3139003      740180               23.6\n 4 Chihuahua              3892117      992479               25.5\n 5 Baja California Sur     885465      242190               27.4\n 6 Aguascalientes         1373242      378118               27.5\n 7 Colima                  786016      218604               27.8\n 8 Sinaloa                3111958      879250               28.3\n 9 Nayarit                1340427      409311               30.5\n10 Sonora                 3136574      978307               31.2\n# ℹ 22 more rows\n\n\n\n# Reescribe aquí el código",
+    "crumbs": [
+      "Procesamiento de datos",
+      "13 - Escribir con pipes"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html",
+    "href": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html",
+    "title": "11 - Agregar columnas",
+    "section": "",
+    "text": "Ya aprendimos a filtrar y ordenar datos, otra cosa útil que podemos hacer es crear nuevas columnas usando los valores de otras columnas. En este notebook revisamos cómo realizar este procedimiento.\nObjetivos\n\nRepasar el uso de las funciones read_csv, filter y arrange\nUtilizar funciones para crear nuevas columnas a partir de valores en otras columnas",
+    "crumbs": [
+      "Procesamiento de datos",
+      "11 - Agregar columnas"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html#ejercicio-1",
+    "href": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html#ejercicio-1",
+    "title": "11 - Agregar columnas",
+    "section": "Ejercicio 1",
+    "text": "Ejercicio 1\nCrea una variable que se llamen pobreza_2010 donde filtres los valores de la tabla pobreza del periodo de 2010.\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "11 - Agregar columnas"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html#ejercicio-2",
+    "href": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html#ejercicio-2",
+    "title": "11 - Agregar columnas",
+    "section": "Ejercicio 2",
+    "text": "Ejercicio 2\nCrea y guarda en tu variable pobreza_2010 una nueva columna donde calcules el porcentaje de población en condiciones de pobreza extrema.\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "11 - Agregar columnas"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html#ejercicio-3",
+    "href": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html#ejercicio-3",
+    "title": "11 - Agregar columnas",
+    "section": "Ejercicio 3",
+    "text": "Ejercicio 3\nOrdena tu tabla porbreza_2010 de mayor a menor porcentaje de población en pobreza extrema para investigar cuáles fueron los municipio con mayor pobreza extrema en el país en ese años.\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "11 - Agregar columnas"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html#ejercicio-4",
+    "href": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html#ejercicio-4",
+    "title": "11 - Agregar columnas",
+    "section": "Ejercicio 4",
+    "text": "Ejercicio 4\nRepite lo mismo que hiciste en los 3 ejercicios anteriores pero para los datos de 2015. ¿Cuál fue el municipio con mayor pobreza extrema en 2015?\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "11 - Agregar columnas"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/12 - Resumir datos.html",
+    "href": "procesamiento_de_datos/sesion_05/12 - Resumir datos.html",
+    "title": "12 - Resumir datos",
+    "section": "",
+    "text": "Hasta ahora hemos usado funciones para filtrar, reordenar y agregar columnas a una tabla de datos. Otra cosa que es muy útil es crear nuestras propias tablas de datos para a partir los datos de otra tabla. En este notebook exploramos cómo crear tablas que resuman la información de otras tablas.\nObjetivos\n\nUsar la función summarise para crear tablas de resumen de datos\nUsar la función group_by para realizar operaciones con datos agrupados por campos",
+    "crumbs": [
+      "Procesamiento de datos",
+      "12 - Resumir datos"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/12 - Resumir datos.html#ejercicio-1",
+    "href": "procesamiento_de_datos/sesion_05/12 - Resumir datos.html#ejercicio-1",
+    "title": "12 - Resumir datos",
+    "section": "Ejercicio 1",
+    "text": "Ejercicio 1\n¿Ha disminuido o incrementado el porcentaje de población en condición en pobreza en México? Para contestar a la pregunta realiza los siguientes pasos:\n\nCrea una variable pobreza_agrupado_por_periodo donde agrupes los datos de la tabla pobreza por periodo usando la función group_by\nCrea una tabla de resumen con la función summarise que contenga la población total y población total en pobreza para cada periodo y guárdala en una variable que se llame resumen_periodos\nAgrega una columna a la tabla resumen_periodos que tenga el porcentaje de población en pobreza usando la función mutate.\n\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "12 - Resumir datos"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/12 - Resumir datos.html#ejercicio-2",
+    "href": "procesamiento_de_datos/sesion_05/12 - Resumir datos.html#ejercicio-2",
+    "title": "12 - Resumir datos",
+    "section": "Ejercicio 2",
+    "text": "Ejercicio 2\n¿Cuáles son los municipios con mayor porcentaje de pobreza en la Ciudad de México? Para contestar a esta pregunta realiza los siguientes pasos:\n\nFiltra los datos de la tabla pobreza usando la función filter para quedarte solo con los datos de la Ciudad de México y del periodo 2020, y guarda tus resultados en una variable que se llame pobreza_cdmx_2020\nAgrega a tu tabla pobreza_cdmx_2020 una columna donde calcules el porcentaje de pobreza de cada municipio. Recuerda sobrescribir tu variable para que los cambios queden guardados\nOrdena tu tabla de mayor porcentaje de pobreza a menor porcentaje de pobreza.\n\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "12 - Resumir datos"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_05/12 - Resumir datos.html#ejercicio-3",
+    "href": "procesamiento_de_datos/sesion_05/12 - Resumir datos.html#ejercicio-3",
+    "title": "12 - Resumir datos",
+    "section": "Ejercicio 3",
+    "text": "Ejercicio 3\n¿Cómo ha cambiado el porcentaje de población en condición de pobreza en el Estado de México a lo largo del tiempo? Para contestar a esta pregunta realiza los siguientes pasos:\n\nFiltra los datos de la tabla pobreza usando la función filter para quedarte sólo con los datos del Estado de México, y guarda tus resultados en una variable que se llame pobreza_edomex.\nAgrupa tus datos por periodo y guárdalos en una variable que se llame pobreza_edomex_agrupado_por_periodo\nCrea una tabla resumen_edomex_periodo donde sumes la población total y población en pobreza para cada periodo.\nAgrega a tu tablaresumen_edomex_periodo una columna con el porcentaje de población en condición de pobreza.\n\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "12 - Resumir datos"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_02/03 - Cadenas de texto y comentarios.html",
+    "href": "procesamiento_de_datos/sesion_02/03 - Cadenas de texto y comentarios.html",
+    "title": "03 - Cadenas de texto y comentarios",
+    "section": "",
+    "text": "Introducción\nHasta ahora hemos trabajado con número en R: podemos sumarlos, restarlos y hacer operaciones matemáticas. Pero en R no todo son números: también podemos trabajar con texto. El texto recibe el nombre de cadena de caracteres o, en inglés, string. Además de crear cadenas muchas veces también es útil crear comentarios en el código.\nEn este notebook vemos cómo crear strings y comentarios en R.\nObjetivos\n\nCrear cadenas de caracteres en R\nUtilizar algunas funciones básicas en R para trabajar con cadenas\nCrear comentarios en el código y comentar y descomenar líneas de código\n\n\n\nCómo escribir un string\nUn string siempre se escribe entre comillas. Pueden ser comillas dobles (\" \") o comillas simples (' ').\nPor ejemplo:\n\n\"Soy una cadena de texto y uso dobles comillas\"\n\n[1] \"Soy una cadena de texto y uso dobles comillas\"\n\n'También soy una cadena de texto pero yo uso cadenas dobles'\n\n[1] \"También soy una cadena de texto pero yo uso cadenas dobles\"\n\n\nSi no le ponemos comillas a nuestras cadenas de texto R se va a confundir y te va a mandar un error:\n\nEsto va a dar error porque R piensa que son comandos para ejecutar\n\nError in parse(text = input): &lt;text&gt;:3:6: unexpected symbol\n2: \n3: Esto va\n        ^\n\n\nTen cuidado de cerrar tus cadenas, es decir, de poner las comillas finales ya que si no las pones R va a pensar que aún no terminas la cadena. Por ejemplo al ejecutar la celda de abajo podrás ver que en la consola te muestra un signo de + eso significa que R está esperando más instrucciones porque piensa que no has terminado. Para hacer que R regrese da click en la consola y da click en ESCAPE, debe aparecerte un símbolo de mayor qué &gt;, lo cual significa que R está listo para escuchar tu siguiente instrucción. Otra forma de hacer que R regrese es ejecutando de nuevo la celda y te va a mandar un error, pero R va a regresar.\n\n\"A esta cadena le faltan las comillas finales\n\nError in parse(text = input): &lt;text&gt;:2:1: unexpected INCOMPLETE_STRING\n2: \"A esta cadena le faltan las comillas finales\n3: \n   ^\n\n\n\n\nLos strings no son números\nComo ya vimos previamente si escribimos un número sin comillas, R lo interpreta como un número:\n\n2 + 3\n\n[1] 5\n\n\nPero si lo ponemos entre comillas, se convierte en texto, y ya no se puede sumar:\n\n\"2\" + \"3\"\n\nError in \"2\" + \"3\": non-numeric argument to binary operator\n\n\nAquí R nos da un error, porque \"2\" y \"3\" son texto, no números.\n\n\nUn string puede contener palabras, frases y símbolos\nLos strings pueden ser tan cortos o largos como queramos y pueden contener números, acentos, caracteres especiales emojis o ser vacios.\n\n\"Soy una cadena con números (123432), acentos (ratóóóón), emojis (😃) y caracteres especiales (¡!?#$$%^)\"\n\n[1] \"Soy una cadena con números (123432), acentos (ratóóóón), emojis (😃) y caracteres especiales (¡!?#$$%^)\"\n\n\n\n\nConcatenar strings (unir texto)\nR tiene una función llamada paste() que sirve para unir varios strings.\n\npaste(\"Hola\", \"mundo\")\n\n[1] \"Hola mundo\"\n\n\nPodemos unir más de dos cadenas de texto:\n\npaste(\"¡\", \"Estoy\", \"aprendiendo\", \"R\", \"!\")\n\n[1] \"¡ Estoy aprendiendo R !\"\n\n\n\n\nImprimir cadenas de texto\nSi queremos decirle a R explícitamente que imprima algo podemos usar la función print() la cual ya vimos previamente:\n\nprint(\"Ya me aburrí de aprender cadenas de texto\")\n\n[1] \"Ya me aburrí de aprender cadenas de texto\"\n\n\n\n\nComentarios\nLos comentarios son líneas empiezan con el símbolo de gato (#) y son líneas que R va a ignorar:\n\n# Soy un comentario y R me va a ignorar.\n\n###### Yo también soy un comentario\n\n\n\nLos comentarios son útiles para explicar qué hace el código\nLos comentarios se suelen usar para explicar qué hace el código, esto es útil para que otras personas o nuestro yo del futuro entienda qué hace el código:\n\n# La siguiente línea imprime en la consola una cadena de texto\nprint(\"Me gustan los elotes.\")\n\n[1] \"Me gustan los elotes.\"\n\n\n\n\nLos comentarios son útiles para evitar que algunas lineas de código se ejecuten\nOtro uso de los comentarios es hacer que una línea de código sea ignorada por R y no se ejecute. Por ejemplo, en la siguiente celda de código solo se ejecutan la primera y última instrucción:\n\nprint(\"Me ejecuto\")\n\n[1] \"Me ejecuto\"\n\n# print(\"Esta línea está comentada y no se va a ejecutar\")\n\n# print(\"Esta línea también está comentada y no se ejecuta\")\n\nprint(\"Esta sí se va a ejecutar\")\n\n[1] \"Esta sí se va a ejecutar\"",
+    "crumbs": [
+      "Procesamiento de datos",
+      "03 - Cadenas de texto y comentarios"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_02/02 - Operaciones aritméticas.html",
+    "href": "procesamiento_de_datos/sesion_02/02 - Operaciones aritméticas.html",
+    "title": "02 - Operaciones aritméticas",
+    "section": "",
+    "text": "Introducción\nR es una calculadora muy poderosa, por lo que nos puede servir para hacer operaciones matemáticas básicas. En este notebook exploramos cómo realizar operaciones aritméticas en R.\nObjetivos:\n\nRealizar operaciones aritméticas básicas en R (suma, resta, multiplicación, división, potencia, raíz)\n\n\n\nOperaciones artiméticas\nPara sumar usamos el signo de más (+):\n\n30 + 12\n\n[1] 42\n\n\nPara restar usamos el signo de menos (-):\n\n42 - 8\n\n[1] 34\n\n\nPara multiplicar se usa el asterisco (*):\n\n5 * 8\n\n[1] 40\n\n\nPara dividir se usa la diagonal (/):\n\n87 / 9\n\n[1] 9.666667\n\n\nPara elevar un número a un exponente se usa el símbolo de potencia (^):\n\n4 ^ 2\n\n[1] 16\n\n\nPara sacar la raíz cuadrada de un número usamos la función sqrt():\n\nsqrt(16)\n\n[1] 4\n\n\n\n\nExpresiones\nPodemos hacer expresiones combinando vairas operaciones aritméticas. Por ejemplo, la operación \\(6 + 6^2\\) la podemos calcular de la siguiente manera:\n\n6 + 6 ^ 2\n\n[1] 42\n\n\nLa jerarquía en la que se hacen las operaciones es la misma que aprendiste en tus clases de matemáticas en tu educación básica:\n\nPrimero se hacen los exponentes, luego las multiplicaciones y divisiones, y al final la suma y la resta.\n\nPor ejemplo, en la siguiente expresión primero se hace la división y luego la suma:\n\n40 + 20 / 4\n\n[1] 45\n\n\nSi quisiéramos hacer primero la suma y luego la división podemos usar paréntesis:\n\n(40 + 20) / 4\n\n[1] 15\n\n\nPodemos poner varias operaciones en distintas líneas de una misma celda de código y el resultado de cada una se muestra en una línea distinta:\n\n50 / 5\n\n[1] 10\n\n(37 + 30) / (4 * 2)\n\n[1] 8.375\n\n5 - 10\n\n[1] -5\n\n\nLos espacios entre los números y los operadores matemáticos son opcionales, por lo que podemos no ponerlos. Sin embargo, te recomiendo si dejar espacios entre los operadores ya que hace que el código sea más fácil de leer sobre todo cuando tenemos operaciones largas:\n\n(50+23+102-47)/(2*9)\n\n[1] 7.111111\n\n(50 + 23 + 102 - 47) / (2 * 9)\n\n[1] 7.111111\n\n\n\n\nEjercicios\n\nEscribe una expersión para calcular cuántos segundos hay en 42 minutos con 42 segundos\n\n\nEscribe una expresión para calcular cuántas millas hay en 10 kilómetros. Tip: hay 1.61 kilómetros en una milla.\n\n\nEl genoma humano contiene aproximadamente 3 100 000 000 pares de bases y el de las amibas 670 000 000 000 pares de bases. ¿Cuántas veces es más grande el genoma de las amibas al de los humanos? Escribe una expresión para responder a esta pregunta.\n\n\nEscribe una expresión para obtener el resultado de las siguientes operaciones:\n\n\\(365 - 200\\)\n\\(\\frac{56-37}{12 \\times 8}\\)\n\\(\\frac{20.3 + 37.44}{12} - 8\\)\n\n\n\nLa siguiente tabla muestra las temperaturas promedio mensuales en la CDMX y en Jalisco en el año 2024. ¿Cuál de las dos entidades tuvo una mayor temperatura promedio anual? Realiza los cálculos necesarios para responder a esta pregunta.\n\n\n\nCiudad de México (°C)\nJalisco (°C)\n\n\n\n\n16.4\n17.4\n\n\n17.7\n18.9\n\n\n20.3\n20.7\n\n\n21.0\n22.7\n\n\n23.6\n25.7\n\n\n27.5\n25.8\n\n\n19.2\n23.6\n\n\n19.4\n23.6\n\n\n19.3\n23.9\n\n\n16.9\n22.0\n\n\n17.4\n21.3\n\n\n15.5\n19.3",
+    "crumbs": [
+      "Procesamiento de datos",
+      "02 - Operaciones aritméticas"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_04/10 - Seleccionar, filtrar y ordenar.html",
+    "href": "procesamiento_de_datos/sesion_04/10 - Seleccionar, filtrar y ordenar.html",
+    "title": "10 - Seleccionar, filtrar y ordenar",
+    "section": "",
+    "text": "Para empezar a contestar preguntas útiles con los datos lo más básico es seleccionar, filtrar y ordenar nuestras tablas. En este notebook explicamos cómo realizar estas acciones.\nObjetivos\n\nUtilizar funciones para seleccionar columnas\nUtilizar funciones para filtrar datos\nUtilizar funciones para reordenar las filas de una tabla",
+    "crumbs": [
+      "Procesamiento de datos",
+      "10 - Seleccionar, filtrar y ordenar"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_04/10 - Seleccionar, filtrar y ordenar.html#ejercicio-1",
+    "href": "procesamiento_de_datos/sesion_04/10 - Seleccionar, filtrar y ordenar.html#ejercicio-1",
+    "title": "10 - Seleccionar, filtrar y ordenar",
+    "section": "Ejercicio 1",
+    "text": "Ejercicio 1\n\nSelecciona con la función pull la columna con los títulos de la película y guárdalo en una variable que se llame titulos_pelicula\nUsa la función paste para que con cada nombre de la película obtengamos textos de la forma: \"Película: Toy Story\"\n\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "10 - Seleccionar, filtrar y ordenar"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_04/10 - Seleccionar, filtrar y ordenar.html#ejercicio-2",
+    "href": "procesamiento_de_datos/sesion_04/10 - Seleccionar, filtrar y ordenar.html#ejercicio-2",
+    "title": "10 - Seleccionar, filtrar y ordenar",
+    "section": "Ejercicio 2",
+    "text": "Ejercicio 2\n\nSelecciona únicamente las columnas con la información del nombre de la película y el director con la función select\nGuarda tu resultado en una variable que se llame pixar_directores.\nUsa la función print con un argumento de n = 100 para imprimir toda la tabla en la consola\nUsa la función distinct para ver todos los directores distintos que ha habido en las películas de pixar.\n\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "10 - Seleccionar, filtrar y ordenar"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_04/10 - Seleccionar, filtrar y ordenar.html#ejercicio-3",
+    "href": "procesamiento_de_datos/sesion_04/10 - Seleccionar, filtrar y ordenar.html#ejercicio-3",
+    "title": "10 - Seleccionar, filtrar y ordenar",
+    "section": "Ejercicio 3",
+    "text": "Ejercicio 3\nUsa las funciones filter, arrange y desc para responder a las siguientes preguntas sobre las películas de pixar\n\n¿Cuál es la película de pixar más corta?\n\n\n# Escribe aquí tu código\n\n\n¿Cuál es la película de pixar más larga?\n\n\n# Escribe aquí tu código\n\n\n¿Cuáles son las películas que han tenido una menor calificación en «Rotten tomatoes»?\n\n\n# Escribe aquí tu código\n\n\n¿Cuáles son las películas que han tenido una mayor calificación\n\n\n# Escribe aquí tu código\n\n\n¿Cuál es la película que más ha vendido en taquilla?\n\n\n# Escribe aquí tu código\n\n\n¿Cuál es la película que menos ha vendido en taquillas?\n\n\n# Escribe aquí tu código\n\n\n¿Cuál fue la película que más vendió en taquillas considerando únicamenete las películas que salieron entre 2000 y 2010?\n\n\n# Escribe aquí tu código\n\n\n¿Cuál es la película peor calificada en «Rotten tomatoes» considerando únicamente a las películas que salieron antes del 2010?\n\n\n# Escribe aqui tu código",
+    "crumbs": [
+      "Procesamiento de datos",
+      "10 - Seleccionar, filtrar y ordenar"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_01/01 - Notebooks.html",
+    "href": "procesamiento_de_datos/sesion_01/01 - Notebooks.html",
+    "title": "01 - Notebooks",
+    "section": "",
+    "text": "En este curso vamos a estar usando documentos como este que tienes frente a tí. A estos documentos se conoce como notebooks. Los notebooks son archivos muy flexibles que permiten integrar texto en prosa (como este), código y figuras.\nEn este notebook vemos las principales características de los notebooks, creamos nuestro primer programa y vemos un ejemplo del tipo de análisis que se pueden hacer con R.\nObjetivos\n\nFamiliarizarse con la estructura y uso de los notebooks\nAprender a ejecutar y modificar una celda de código",
+    "crumbs": [
+      "Procesamiento de datos",
+      "01 - Notebooks"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_01/01 - Notebooks.html#matrícula-de-licenciatura-en-méxico",
+    "href": "procesamiento_de_datos/sesion_01/01 - Notebooks.html#matrícula-de-licenciatura-en-méxico",
+    "title": "01 - Notebooks",
+    "section": "Matrícula de licenciatura en México",
+    "text": "Matrícula de licenciatura en México\nEl siguiente ejemplo muestra un análisis de datos reales de los Anuarios Estadísticos de Educación Superior de la ANUIES. Estos datos contienen información sobre el número de estudiantes matriculados en distintas universidades de todo México. Estos son datos los sacan cada año y los que vamos a analizar corresponden al ciclo escolar 2023-2024. No te proecupes por entender el código, el objetivo de este ejemplo es solo que veas cómo se pueden analizar datos con R.\n\nPreparar los datos\nImportamos paqueterías que vamos a usar para nuestro procesamiento de datos.\n\n# install.packages(c(\"tidyverse\", \"janitor\"))\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(janitor)\n\n\nAttaching package: 'janitor'\n\nThe following objects are masked from 'package:stats':\n\n    chisq.test, fisher.test\n\n\nImportamos los datos del anuario enstadístico de la ANUIES.\n\nanuario_2023_2024 &lt;- read_csv(\n        \"./data/anuario_educacion_superior_2023-2024_v1-2.csv\", \n        skip = 3, \n        n_max = 47814,\n        col_select = c(1, 3, 6, 7, 8, 10, 12, 14, 15, 16)\n        ) |&gt; \n        clean_names() |&gt;\n        pivot_longer(\n            cols = starts_with(\"matricula\"),\n            names_to = \"genero\",\n            values_to = \"matricula\",\n            names_prefix = \"matricula_\"\n        )\n\nRows: 47814 Columns: 10\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (8): ENTIDAD FEDERATIVA, TIPO DE SOSTENIMIENTO, NOMBRE INSTITUCIÓN, NOMB...\nnum (2): Matrícula Mujeres, Matrícula Hombres\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nLos datos del anuario incluyen varias columnas con información del número de matriculados en cada programa de estudios en las instituciónes de educación superior de México:\n\nView(anuario_2023_2024)\n\nVamos a centrarnos sólo en los estudiantes de nivel licenciatura. Para ello seleccionamos únicamente los registros de programas de licenciatura.\n\nlicenciatura &lt;- anuario_2023_2024 |&gt; \n    filter(nivel_de_estudios == 'LICENCIATURA UNIVERSITARIA Y TECNOLÓGICA')\n\n\n\nExploraciones\nAhora podemos empezar a explorar nuestros datos. Primero veamos, ¿cuáles son las universidades que tienen más estudiantes?\n\nlicenciatura |&gt; \n  group_by(nombre_institucion) |&gt;\n  summarise(\n    matricula_total = sum(matricula)\n  ) |&gt;\n  arrange(desc(matricula_total)) |&gt;\n  print(n = 100)\n\n# A tibble: 2,973 × 2\n    nombre_institucion                                           matricula_total\n    &lt;chr&gt;                                                                  &lt;dbl&gt;\n  1 UNIVERSIDAD NACIONAL AUTÓNOMA DE MÉXICO                               229141\n  2 UNIVERSIDAD DE GUADALAJARA                                            136980\n  3 INSTITUTO POLITÉCNICO NACIONAL                                        132288\n  4 UNIVERSIDAD AUTÓNOMA DE NUEVO LEÓN                                    128716\n  5 UNIVERSIDAD ABIERTA Y A DISTANCIA DE MÉXICO                           114714\n  6 UNIVERSIDAD TECNOLÓGICA DE MÉXICO                                      94344\n  7 BENEMÉRITA UNIVERSIDAD AUTÓNOMA DE PUEBLA                              91722\n  8 UNIVERSIDAD TECNOLÓGICA LATINOAMERICANA EN LÍNEA                       82967\n  9 UNIVERSIDAD DEL VALLE DE MÉXICO                                        74920\n 10 UNIVERSIDAD AUTÓNOMA DE SINALOA                                        74210\n 11 UNIVERSIDAD AUTÓNOMA DEL ESTADO DE MÉXICO                              68343\n 12 UNIVERSIDAD AUTÓNOMA DE BAJA CALIFORNIA                                66885\n 13 UNIVERSIDAD VERACRUZANA                                                65096\n 14 UNIVERSIDAD AUTÓNOMA METROPOLITANA                                     54266\n 15 INSTITUTO TECNOLÓGICO Y DE ESTUDIOS SUPERIORES DE MONTERREY            52525\n 16 UNIVERSIDAD MICHOACANA DE SAN NICOLÁS DE HIDALGO                       39697\n 17 UNIVERSIDAD VIZCAYA DE LAS AMÉRICAS                                    37569\n 18 UNIVERSIDAD AUTÓNOMA DE CIUDAD JUÁREZ                                  36765\n 19 UNIVERSIDAD DE SONORA                                                  35694\n 20 UNIVERSIDAD AUTÓNOMA DE TAMAULIPAS                                     35671\n 21 UNIVERSIDAD AUTÓNOMA DE GUERRERO                                       33282\n 22 UNIVERSIDAD VIRTUAL DEL ESTADO DE GUANAJUATO                           33214\n 23 UNIVERSIDAD AUTÓNOMA DEL ESTADO DE HIDALGO                             32947\n 24 UNIVERSIDAD AUTÓNOMA DE SAN LUIS POTOSÍ                                30166\n 25 UNIVERSIDAD AUTÓNOMA DE CHIAPAS                                        29471\n 26 UNIVERSIDAD TRES CULTURAS                                              28264\n 27 UNIVERSIDAD AUTÓNOMA DEL ESTADO DE MORELOS                             26523\n 28 UNIVERSIDAD AUTÓNOMA DE COAHUILA                                       26471\n 29 UNIVERSIDAD JUÁREZ AUTÓNOMA DE TABASCO                                 26248\n 30 UNIVERSIDAD DE GUANAJUATO                                              26174\n 31 UNIVERSIDAD AUTÓNOMA DE ZACATECAS                                      25942\n 32 ENSEÑANZA E INVESTIGACIÓN SUPERIOR, A.C.                               25727\n 33 UNIVERSIDAD AUTÓNOMA DE CHIHUAHUA                                      25363\n 34 UNIVERSIDAD LATINOAMERICANA, S.C.                                      24623\n 35 UNIVERSIDAD POPULAR AUTÓNOMA DE VERACRUZ                               24297\n 36 UNIVERSIDAD INTERAMERICANA PARA EL DESARROLLO                          24023\n 37 UNIVERSIDAD AUTÓNOMA DE LA CIUDAD DE MÉXICO                            23871\n 38 INSTITUTO DE ESTUDIOS SUPERIORES DE LA CIUDAD DE MÉXICO ROS…           23319\n 39 CENTRO DE ESTUDIOS SUPERIORES EN CIENCIAS JURÍDICAS Y CRIMI…           22640\n 40 UNIVERSIDAD AUTÓNOMA DE QUERÉTARO                                      21980\n 41 UNIVERSIDAD AUTÓNOMA DE OCCIDENTE                                      21777\n 42 UNIVERSIDAD AUTÓNOMA DE DURANGO A.C.                                   20767\n 43 UNIVERSIDAD UNIVER                                                     19114\n 44 INSTITUTO UNIVERSITARIO DEL CENTRO DE MÉXICO                           18774\n 45 UNIVERSIDAD CNCI                                                       18229\n 46 UNIVERSIDAD AUTÓNOMA BENITO JUÁREZ DE OAXACA                           18218\n 47 UNIVERSIDAD AUTÓNOMA DE YUCATÁN                                        17273\n 48 UNIVERSIDAD MEXIQUENSE DEL BICENTENARIO                                16885\n 49 INSTITUTO TECNOLÓGICO DE SONORA                                        16444\n 50 UNIVERSIDAD AUTÓNOMA DE TLAXCALA                                       16216\n 51 UNIVERSIDAD AUTÓNOMA DE AGUASCALIENTES                                 16070\n 52 UNIVERSIDAD AUTÓNOMA DE NAYARIT                                        15783\n 53 UNIVERSIDAD ESTATAL DE SONORA                                          15090\n 54 UNIVERSIDAD JUÁREZ DEL ESTADO DE DURANGO                               14542\n 55 INSTITUTO DE ESTUDIOS UNIVERSITARIOS, A.C.                             14345\n 56 UNIVERSIDAD CUAUHTÉMOC                                                 13828\n 57 UNIVERSIDAD ALFA Y OMEGA                                               13650\n 58 UNIVERSIDAD DE COLIMA                                                  13649\n 59 INSTITUTO DE CIENCIAS Y ESTUDIOS SUPERIORES DE TAMAULIPAS, …           13104\n 60 UNIVERSIDAD INSURGENTES                                                12761\n 61 UNIVERSIDAD ANÁHUAC                                                    12641\n 62 INSTITUTO TECNOLÓGICO JOSÉ MARIO MOLINA PASQUEL Y HENRÍQUEZ            12374\n 63 UNIVERSIDAD PANAMERICANA                                               12005\n 64 GRUPO TECNOLÓGICO UNIVERSITARIO                                        11860\n 65 UNIVERSIDAD DE MONTERREY                                               11827\n 66 INSTITUTO DE EDUCACIÓN DIGITAL DEL ESTADO DE PUEBLA                    11490\n 67 UNIVERSIDAD METROPOLITANA DE MONTERREY                                 11432\n 68 INSTITUTO TECNOLÓGICO DE TIJUANA                                       11007\n 69 UNIVERSIDAD CIUDADANA DE NUEVO LEÓN                                    10889\n 70 UNIVERSIDAD IBEROAMERICANA - CIUDAD DE MÉXICO                          10669\n 71 INSTITUTO TECNOLÓGICO Y DE ESTUDIOS SUPERIORES DE OCCIDENTE            10472\n 72 UNIVERSIDAD AUTÓNOMA DE GUADALAJARA                                    10319\n 73 UNIVERSIDAD DE LOS ÁNGELES                                             10306\n 74 UNIVERSIDAD POPULAR AUTÓNOMA DEL ESTADO DE PUEBLA                      10151\n 75 ESCUELA BANCARIA Y COMERCIAL, S.C.                                      9579\n 76 UNIVERSIDAD MEXICANA                                                    9564\n 77 UNIVERSIDAD DE CIENCIAS Y ARTES DE CHIAPAS                              9303\n 78 CENTRO UNIVERSITARIO UNE                                                9298\n 79 UNIVERSIDAD DE LEÓN                                                     9211\n 80 UNIVERSIDAD AUTÓNOMA INDÍGENA DE MÉXICO                                 9000\n 81 UNIVERSIDAD DEL ATLÁNTICO                                               8752\n 82 INSTITUTO TECNOLÓGICO DE PUEBLA                                         8607\n 83 UNIVERSIDAD PRIVADA DEL ESTADO DE MÉXICO                                8538\n 84 UNIVERSIDAD LA SALLE, A.C. - BAJÍO                                      8191\n 85 FUNDACIÓN UNIVERSIDAD DE LAS AMÉRICAS, PUEBLA                           8162\n 86 UNIVERSIDAD DEL VALLE DE ATEMAJAC                                       8030\n 87 UNIVERSIDAD DEL DESARROLLO PROFESIONAL                                  7850\n 88 UNIVERSIDAD ANÁHUAC - MAYAB                                             7780\n 89 UNIVERSIDAD PEDAGÓGICA NACIONAL                                         7777\n 90 INSTITUTO TECNOLÓGICO DE CIUDAD MADERO                                  7635\n 91 UNIVERSIDAD AUTÓNOMA DE BAJA CALIFORNIA SUR                             7600\n 92 INSTITUTO TECNOLÓGICO SUPERIOR DE IRAPUATO                              7534\n 93 UNIVERSIDAD DE IXTLAHUACA CUI A.C.                                      7528\n 94 CENTRO UNIVERSITARIO UTEG                                               7500\n 95 UNIVERSIDAD EN MOVIMIENTO                                               7454\n 96 UNIVERSIDAD AUTÓNOMA DE CAMPECHE                                        7416\n 97 INSTITUTO TECNOLÓGICO DE OAXACA                                         7244\n 98 INSTITUTO TECNOLÓGICO DE SALTILLO                                       7205\n 99 TECNOLÓGICO DE ESTUDIOS SUPERIORES DE ECATEPEC                          7191\n100 UNIVERSIDAD INTERACTIVA Y A DISTANCIA DEL ESTADO DE GUANAJU…            7055\n# ℹ 2,873 more rows\n\n\nAhora veamos cuales fueron en el ciclo 2023-2024 las carreras más estudiadas en México:\n\nlicenciatura |&gt;\n  group_by(nombre_programa_educativo) |&gt;\n  summarise(\n    matricula_total = sum(matricula)\n  ) |&gt;\n  arrange(desc(matricula_total)) |&gt;\n  print(n = 10)\n\n# A tibble: 4,109 × 2\n   nombre_programa_educativo                  matricula_total\n   &lt;chr&gt;                                                &lt;dbl&gt;\n 1 LICENCIATURA EN DERECHO                             343437\n 2 LICENCIATURA EN PSICOLOGÍA                          181666\n 3 LICENCIATURA EN ENFERMERÍA                          159386\n 4 LICENCIATURA EN PEDAGOGÍA                           133682\n 5 INGENIERÍA INDUSTRIAL                               129714\n 6 LICENCIATURA EN ADMINISTRACIÓN                      124907\n 7 LICENCIATURA EN ADMINISTRACIÓN DE EMPRESAS           97959\n 8 INGENIERÍA EN SISTEMAS COMPUTACIONALES               83326\n 9 LICENCIATURA EN ARQUITECTURA                         80846\n10 INGENIERÍA EN GESTIÓN EMPRESARIAL                    72059\n# ℹ 4,099 more rows\n\n\nAhora investiguemos cuales son las licenciaturas con mayor matrícula en la Ibero. ¿Cuántos estudiantes hay en LISA? Hagamos una visualización para explorar esto.\n\nlicenciatura |&gt;\n  filter(\n    nombre_institucion == \"UNIVERSIDAD IBEROAMERICANA - CIUDAD DE MÉXICO\"\n    ) |&gt;\n  mutate( \n    nombre_corto_programa = str_to_sentence(\n      str_replace(nombre_programa_educativo, \"LICENCIATURA EN\", \"\")\n      )) |&gt;\n  filter(matricula &gt; 0) |&gt;\n  group_by(nombre_corto_programa) |&gt;\n  summarise(\n    matricula = sum(matricula)\n  ) |&gt;\n  ggplot(\n    aes(\n      x = matricula,\n      y = fct_reorder(nombre_corto_programa, matricula),\n      label = matricula\n      )) +\n  geom_col(fill = \"#EFB42A\") +\n  geom_text(\n    position = position_stack(vjust = 0.5),\n    size = 3\n    ) +\n  labs(\n    y = \"\",\n    x = \"\",\n    title = \"Número de estudiantes matriculados en la IBERO por carrera\",\n    caption = \"Fuente: Anuarios estadísticos de Educación Superior 2023-2024. ANUES\"\n    ) + \n  theme_minimal() +\n  theme(\n    text=element_text(size = 10),\n    plot.title = element_text(size = 12, hjust = 0, margin = margin(b = 20)),\n    plot.title.position = \"plot\",\n    panel.grid.major.y = element_blank(),\n    panel.grid.major.x = element_blank(),\n    panel.grid.minor.x = element_blank(),\n    axis.text.x = element_blank(),\n    axis.text.y = element_text(margin = margin(r = -12))\n    \n    )",
+    "crumbs": [
+      "Procesamiento de datos",
+      "01 - Notebooks"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_01/01 - Notebooks.html#ejercicios",
+    "href": "procesamiento_de_datos/sesion_01/01 - Notebooks.html#ejercicios",
+    "title": "01 - Notebooks",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nVe a la celda previa y busca donde dice UNIVERSIDAD IBEROAMERICANA - CIUDAD DE MÉXICO y sustituye ese texto por UNIVERSIDAD ANÁHUAC. Observa cómo cambia tu gráfica ¿Cuál es la licenciatura con más estudiantes en la Aháhuac?\nAhora explora los datos de la UNIVERSIDAD AUTÓNOMA METROPOLITANA. ¿Cuál es la licenciatura con más estudiantes en la UAM?\nAhora explora los datos de la IBERO de Puebla (UNIVERSIDAD IBEROAMERICANA - PUEBLA). ¿Cuál es la licenciatura con más estudiantes en la IBERO de Puebla?",
+    "crumbs": [
+      "Procesamiento de datos",
+      "01 - Notebooks"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/sesion_03/07 - Paquetes.html",
+    "href": "procesamiento_de_datos/sesion_03/07 - Paquetes.html",
+    "title": "07 - Paquetes",
+    "section": "",
+    "text": "Introducción\nLa instalación básica de R incluye muchas funciones muy útiles, sin embargo, también mucha gente ha escrito muchas más herramientas que extiendien la funcionalidad de R. Estas herramientas la gente las junta y crea paquetes. Estos paquetes están disponibles en distintos repositorios en la web para que cualquier usuario de R los pueda instalar y usar. En este notebook exploramos cómo usar paquetes en R.\nObjetivos - Instalar paquetes en R - Cargar y usar paquetes en R\n\n\nInstalar paquetes\nAntes de poder usar un paquete debemos instalarlo para eso usamos la función install.packages():\n\ninstall.packages(\"cowsay\")\n\nInstalling package into '/home/lggj/R/x86_64-pc-linux-gnu-library/4.5'\n(as 'lib' is unspecified)\n\n\nMientras instalamos un paquete se muestran muchos mensajes en la consola, estos nos ayudan a saber cómo va la instalación y si hay algún error no ayudan a identificar dónde puede estar la falla. Cuando una instalación salió bien puedes ver casi al final un mensaje que dice DONE (nombre_paquete).\nLa instalación de un paquete generalmente solo se tiene que hacer una sola vez. En Posit Cloud en cada proyecto nuevo que creamos debemos hacer la instalación de los paquetes que requerimos.\n\n\nUsar funciones de un paquete\nPara usar las funciones de un paquete podemos poner el nombre del paquete seguido por dos dobles puntos y el nombre de la función que nos interesa usar:\n\ncowsay::say(\"Muuuu... soy una vaca que habla\")\n\n\n _________________________________ \n&lt; Muuuu... soy una vaca que habla &gt;\n --------------------------------- \n      \\\n       \\\n\n        ^__^ \n        (oo)\\ ________ \n        (__)\\         )\\ /\\ \n             ||------w|\n             ||      ||\n\ncowsay::think(\"Muuuu... soy una vaca que piensa\")\n\n\n __________________________________ \n( Muuuu... soy una vaca que piensa )\n ---------------------------------- \n      o\n       o\n\n        ^__^ \n        (oo)\\ ________ \n        (__)\\         )\\ /\\ \n             ||------w|\n             ||      ||\n\n\n\n\nCargar un paquete\nPara no tener que escribir el nombre del paquete cada vez que queramos usar una función podemos cargar el paquete con la función library():\n\nlibrary(cowsay)\n\nEsto hace que R reconozca las funciones de un paquete directamente haciendo más rápido su uso:\n\nsay(\"Estoy aprendiendo R\")\n\n\n _____________________ \n&lt; Estoy aprendiendo R &gt;\n --------------------- \n      \\\n       \\\n\n        ^__^ \n        (oo)\\ ________ \n        (__)\\         )\\ /\\ \n             ||------w|\n             ||      ||\n\nthink(\"Ser o no ser...\")\n\n\n _________________ \n( Ser o no ser... )\n ----------------- \n      o\n       o\n\n        ^__^ \n        (oo)\\ ________ \n        (__)\\         )\\ /\\ \n             ||------w|\n             ||      ||\n\n\n\n\nEjercicio\nRevisa la documentación del paquete cowsay para hacer que en lugar de que salga una vaca salga otro animal.\n\n# Escribe aquí tu respuesta",
+    "crumbs": [
+      "Procesamiento de datos",
+      "07 - Paquetes"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html",
+    "href": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html",
+    "title": "Práctica 1: Incendios forestales en ANPs",
+    "section": "",
+    "text": "En esta práctica debes asesorar a una organización ambientalista que quieren empezar un programa de combate de incendios en las Áreas Naturales Protegidas (ANP). A esta organización le gustaría tener un panorama general de cuál es la situación de los incendios en las ANPs en México para saber dónde y en qué centrar sus esfuerzos. Te solicitan que investigues los datos del Monitor de incendios forestales en Áreas Naturales Protegidas (administrada por la CONAFOR y CONANP) para recopilar algunos datos clave.\nInstrucciones\nDebes completar este notebook con el código que se te pide, además debes de contestar a las preguntas que están después de algunas celdas de código sustituyendo el texto que dice &lt;TU RESPUESTA&gt;. Finalmente en la última sección debes redactar una breve conclusión y recomendación. Recuerda que estos notebooks son archivos editables y tu puedes agregar texto en prosa fuera de las celdas de código.",
+    "crumbs": [
+      "Procesamiento de datos",
+      "Práctica 1: Incendios forestales en ANPs"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#número-total-de-incendios-en-2024",
+    "href": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#número-total-de-incendios-en-2024",
+    "title": "Práctica 1: Incendios forestales en ANPs",
+    "section": "Número total de incendios en 2024",
+    "text": "Número total de incendios en 2024\nUn primer dato relevante a conocer es el número de total de incendios que hubo en las ANPs en 2024. En la siguiente celda escribe el código para responder a esta pregunta:\n\n# Escribe tu respuesta\n\nEl número total de incendios dentro de las ANP en 2024 fue: &lt;TU RESPUESTA&gt;",
+    "crumbs": [
+      "Procesamiento de datos",
+      "Práctica 1: Incendios forestales en ANPs"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#área-total-afectada-en-2024",
+    "href": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#área-total-afectada-en-2024",
+    "title": "Práctica 1: Incendios forestales en ANPs",
+    "section": "Área total afectada en 2024",
+    "text": "Área total afectada en 2024\nAhora necesitas conocer el área total afectada por los incendios. En la siguiente celda escribe el código para responder a esta pregunta:\n\n# Escribe tu respuesta\n\nEl área total afectada por los incendios en 2024 fue: &lt;TU RESPUESTA&gt;",
+    "crumbs": [
+      "Procesamiento de datos",
+      "Práctica 1: Incendios forestales en ANPs"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#número-de-incendios-por-estado",
+    "href": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#número-de-incendios-por-estado",
+    "title": "Práctica 1: Incendios forestales en ANPs",
+    "section": "Número de incendios por estado",
+    "text": "Número de incendios por estado\nOtro dato que sería útil conocer es ¿cuáles son los estados donde ocurrieron más incendios? En la siguiente celda escribe el código para responder a esta pregunta:\n\n# Escribe tu respuesta\n\nEl estado con mayor número de incendios en 2024 fue: &lt;TU RESPUESTA&gt;",
+    "crumbs": [
+      "Procesamiento de datos",
+      "Práctica 1: Incendios forestales en ANPs"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#área-afectada-por-estado",
+    "href": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#área-afectada-por-estado",
+    "title": "Práctica 1: Incendios forestales en ANPs",
+    "section": "Área afectada por estado",
+    "text": "Área afectada por estado\nEl número de incendios no nos indica necesariamente el impacto que estos tuvieron, un dato más relevante para sería saber ¿cuáles fueron los estados con mayor área afectada por los incendios? En la siguiente celda escribe el código para responder a esta pregunta:\n\n# Escribe aquí tu respuesta...\n\nEl estado con mayor superficie afectada por incendios en 2024 fue: &lt;TU RESPUESTA&gt;",
+    "crumbs": [
+      "Procesamiento de datos",
+      "Práctica 1: Incendios forestales en ANPs"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#principales-causas",
+    "href": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#principales-causas",
+    "title": "Práctica 1: Incendios forestales en ANPs",
+    "section": "Principales causas",
+    "text": "Principales causas\nAdicionalmente sería relevante saber es ¿cuáles fueron las principales causas de los incendios? En la siguiente celda escribe el código para responder a esta pregunta:\n\n# Escribe tu respuesta\n\nLa principal causa posible de los incendios fue: &lt;TU RESPUESTA&gt;",
+    "crumbs": [
+      "Procesamiento de datos",
+      "Práctica 1: Incendios forestales en ANPs"
+    ]
+  },
+  {
+    "objectID": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#un-dato-adicional",
+    "href": "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html#un-dato-adicional",
+    "title": "Práctica 1: Incendios forestales en ANPs",
+    "section": "Un dato adicional…",
+    "text": "Un dato adicional…\n¿Qué otro dato crees que sería útil para que la organización que te contrató pueda tomar decisiones? Formúlate una pregunta que creas que sería relevante y en la siguiente celda escribe el código para responderla:\n\n# Escribe tu respuesta\n\nMi pregunta fue: &lt;TU RESPUESTA&gt;\nLa respuesta fue: &lt;TU RESPUESTA&gt;",
+    "crumbs": [
+      "Procesamiento de datos",
+      "Práctica 1: Incendios forestales en ANPs"
+    ]
+  }
+]
