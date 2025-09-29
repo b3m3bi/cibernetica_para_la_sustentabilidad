@@ -1,0 +1,229 @@
+---
+title: "17 - Gráfico de barras, de punto y de pastel"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+## Introducción
+
+Muchas veces queremos visualizar una sola magnitud (variable numérica) asociada a una categoría (variable categórica), para esas situaciones podemos usar gráficos de barras, de punto o de pastel. En este notebook exploramos como realizar estos gráficos con ggplot.
+
+**Objetivos**
+
+- Crear gráficos de barras con ggplot
+- Crear gráficos de punto con ggplot
+- Crear gráficos de pastel con ggplot
+- Reordenar las categorías de una gráfica
+
+## Cargar librerías y datos
+
+En este notebook vamos a usar `ggplot2` para graficar (que viene con `tidyverse`) y usaremos los datos con información general de los países que hemos usado en notebooks anteriores.
+
+```{r}
+library(tidyverse)
+
+datos <- read_csv("misc_world_data_2020.csv")
+glimpse(datos)
+```
+
+## Gráfico de barras
+
+En los gráficos de barras dibujamos una barra vertical u horizontal para cada valor. Existen 2 geometrías en ggplot para crear este tipo de gráficos:
+
+1. `geom_bar()`, el cual calcula el estadístico automáticamente tomando una columna de valores categóricos y haciendo un conteo de cuantas veces se repite cada valor, por lo que solo recibe un solo atributo (`aes`) de posición (`x` o `y`); o
+2. `geom_col()`, el cual trabaja utilizando valores ya tabulados, por lo que recibe dos atributos (`aes`) de posición (`x` y `y`), uno de las categorías y otro de los numéricos que se quieren graficar.
+
+### `geom_bar()`
+
+Por ejemplo, para saber cuántos países hay en cada continente podemos usar `geom_bar()` pasándole la columna de continente para que cuente cuanto se repite cada valor:
+
+```{r}
+ggplot(
+  data = datos,
+  mapping = aes(x = continent)
+) +
+  geom_bar() +
+  labs(
+    x = "Continente",
+    y = "Número de países"
+  )
+```
+
+Podemos crear gráficos agrupando los datos por otra variable categórica adicional. Por ejemplo, con el color de relleno podemos indicar el ingreso de los países:
+
+```{r}
+ggplot(
+  data = datos,
+  mapping = aes(x = continent, fill = income)
+) +
+  geom_bar() +
+  labs(
+    x = "Continente",
+    y = "Número de países"
+  )
+```
+
+Por defecto `geom_bar()` apila las barras una sobre la otra. Pero podemos controlar si los queremos agrupados uno a lado del otro cambiando el argumento `position = "dodge"`:
+
+```{r}
+ggplot(
+  data = datos,
+  mapping = aes(x = continent, fill = income)
+) +
+  geom_bar(position = "dodge") +
+  labs(
+    x = "Continente",
+    y = "Número de países"
+  )
+```
+
+### `geom_col()`
+
+Si queremos gráficar valores numéricos ya previamente calculados podemos usar `geom_col()`. Por ejemplo, para reproducir la misma figura que hicimos previamente del número de países en cada continente podemos primero hacer una tabla de resumen:
+
+```{r}
+conteo_continentes <- datos |>
+  group_by(continent) |>
+  summarise(
+    num_paises = n()
+  )
+
+conteo_continentes
+```
+
+Y luego podemos usar `geom_col()` con estos valores:
+
+```{r}
+ggplot(
+  data = conteo_continentes,
+  mapping = aes(x = continent, y = num_paises)
+) +
+  geom_col() +
+  labs(
+    x = "Continente",
+    y = "Número de paises"
+  )
+```
+
+Podríamos hacer también un gráfico que nos muestre la producción de basura de los países de América del Norte. Para eso primero filtramos solo los datos de América del Norte y le quitamos los que no tienen el registro de producción de basura:
+
+```{r}
+datos_america_notre <- datos |>
+  filter(continent == "North America" & !is.na(waste_per_capita_tons_year))
+```
+
+Y luego creamos nuestro gráfico:
+
+```{r}
+ggplot(
+  data = datos_america_notre,
+  mapping = aes(x = country, y = waste_per_capita_tons_year)
+) +
+  geom_col()
+```
+
+Este es un gráfico muy feo en el cual no se pueden leer las etiquetas de los países, algo que lo mejoraría mucho es hacerlo horizontal, simplemente cambiando a qué eje mapeamos cada variable:
+
+```{r}
+ggplot(
+  data = datos_america_notre,
+  mapping = aes(y = country, x = waste_per_capita_tons_year)
+) +
+  geom_col() +
+  labs(
+    x = "Producción de basura per cápita",
+    y = "País"
+  )
+```
+
+### Reordenar los datos
+
+Otra cosa que haría más fácil leer esta gráfica es que los países estuvieran ordenados por su producción de basura. Para eso podemos usar la función `fct_reorder()`. Esta función recibe dos argumentos: 1) el nombre de la variable que queremos reordenar y 2) el nombre de la variable que queremos usar como criterio para ordenar los datos. En este caso queremos ordenar la columna `country` con base a su valor de `waste_per_capita_tons_year`, por lo que la función nos quedaría: `fct_reorder(country, waste_per_capita_tons_year)`. Esto se lo pasamos directo a nuestro mapeo `aes()`:
+
+```{r}
+ggplot(
+  data = datos_america_notre,
+  mapping = aes(y = fct_reorder(country, waste_per_capita_tons_year) , x = waste_per_capita_tons_year)
+) +
+  geom_col() +
+  labs(
+    x = "Producción de basura per cápita",
+    y = "País"
+  )
+```
+
+## Gráfico de punto
+
+Una desventaja de los gráficos de barras es que empiezan en cero, por lo que no son muy útiles graficándo cantidades con escalas grandes. Por ejemplo, si queremos graficar la esperanza de vida de los paises de América del Norte usando graficos de barras, las diferencias no son marcadas por la escala que inicia en el 0:
+
+```{r}
+ggplot(
+  data = datos_america_notre,
+  mapping = aes(y = fct_reorder(country, life_expectancy) , x = life_expectancy)
+) +
+  geom_col() +
+  labs(
+    x = "Esperanza de vida",
+    y = "País"
+  )
+```
+
+Para estos casos una alternativa mejor es usar gráficos de punto. Para crearlos simplemente usamos `geom_point()`:
+
+```{r}
+ggplot(
+  data = datos_america_notre,
+  mapping = aes(y = fct_reorder(country, life_expectancy ) , x = life_expectancy)
+) +
+  geom_point() +
+  labs(
+    x = "Producción de basura per cápita",
+    y = "País"
+  )
+```
+
+## Gráficos de pastel
+
+Otro tipo de gráfico muy común son los gráficos de pastel. Estos se utilizan para visualización proporciones. Algo muy importante es que estos deben de sumar a 100%. Por ejemplo, creemos un gráfico que muestre el porcentaje de países en cada continente. Para eso primero creemos una tabla con el porcentaje:
+
+```{r}
+datos_paises <- datos |>
+  group_by(continent) |>
+  summarise(
+    num_paises = n()
+  ) |>
+  mutate(
+    porcentaje_paises = num_paises / sum(num_paises) * 100
+  )
+
+datos_paises
+```
+
+Ahora podemos crear nuestro gráfico de pastel, este se crea también utilizando `geom_bar()` o `geom_col()` solo que lo que debemos hacer es «enrroscarlo» para que forme un cículo. Para eso debemos cambiar el sistema de coordenadas del gráfico a coordenadas polares, para eso usamos la función `coord_polar("y", start = 0)`. Además dejamos el mapeo en x en blanco con `x = ""`, mapeamos el continente también al color de relleno para que distingamos cada categoría y quitamos el tema para que nos quite los ejes:
+
+```{r}
+ggplot(
+  data = datos_paises,
+  mapping = aes(x ="", y = porcentaje_paises, fill = continent)
+) +
+  geom_col() +
+  coord_polar("y", start = 0) +
+  theme_void()
+```
+
+## Ejercicios
+
+1. Crea un gráfico de barras que muestre cuantos paises hay en cada categoría de ingreso del banco mundial
+
+```{r}
+
+
+```
+
+2. Crea un gráfico de punto del producto interno bruto per cápita de los países de América.
+
+```{r}
+
+
+```

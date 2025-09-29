@@ -1,0 +1,136 @@
+---
+title: "19 - Series de tiempo y cambios en el tiempo"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+## Introducción
+
+Para visualizar como cambia una variable en el tiempo se pueden usar las series de tiempo y los gráficos de dispersión conectados. Además se pueden crear animaciones que muestren cambios en el tiempo en las gráficas.
+
+**Objetivos**
+
+- Crear gráficos de series de tiempo en ggplot
+- Crear gráficos de dispersión conectados
+- Identificar cómo crear animaciones en ggplot
+
+## Cargar librerías y datos
+
+En este notebook vamos a usar `ggplot2` para graficar (que viene con `tidyverse`) y usaremos los datos con información general de los países que hemos usado en notebooks anteriores, pero ahora tenemos datos históricos desde el 1990 al 2023 y agregarmos información sobre el uso de fertilizantes per cápita.
+
+```{r}
+library(tidyverse)
+
+datos <- read_csv("misc_world_data_1900_2023.csv")
+view(datos)
+```
+
+## Series de tiempo
+
+Para hacer series de tiempo podemos usar `geom_line()`. Por  ejemplo, hagamos un gráfico que muestre cómo ha cambiado la población de México en el tiempo:
+
+```{r}
+datos_mex <- datos |> 
+  filter(country == "Mexico")
+
+ggplot(
+  data = datos_mex,
+  mapping = aes(x = year, y = population)
+) + 
+  geom_line() +
+  labs(
+    x = "Año",
+    y = "Población"
+  )
+```
+
+## Grafico de dispersión conectado
+
+Una forma de mostrar cambios en el tiempo para dos variables simultáneamente podemos usar gráficos de dispersión pero donde conectamos puntos en el tiempo. Por ejemplo, veamos cómo ha cambiado el producto interno bruto de México y las emisiones de CO2 en el tiempo. Para conectar los puntos que seguidos usamos `geom_path()` y además usamos `geom_text_repel()` (del paquete `ggrepel`) para poner las leyendas de los años evitando que estas se sobrelapen con los puntos:
+
+```{r}
+#install.packages("ggrepel")
+library(ggrepel)
+
+# Quitamos todas las filas que tienen NA
+datos_mex <-datos_mex |> drop_na()
+
+ggplot(
+  data = datos_mex,
+  mapping = aes(
+    x = average_fertilizer_per_ha,
+    y = annual_co2_emissions_per_capita,
+    label = year
+  )
+) + 
+  geom_point() +
+  geom_path() +
+  geom_text_repel(size = 3) + 
+  labs(
+    x = "Uso promedio de fertilizante por ha",
+    y = "Emsiones anuales de CO2 per capita"
+  )
+```
+
+**Interpreta**
+
+- ¿Cómo se lee esta gráfica?
+- ¿Qué ha pasado con el uso de fertilizando y con las emisiones de CO2 per cápita a lo largo del tiempo?
+
+## Animaciones
+
+Otra forma de mostrar cambios en el tiempo es usando animaciones. Para eso podemos usar los paquetes `gganimate` y `gifski`. Por ejemplo, veamos cómo ha cambiado la esperanza de vida y el producto interno bruto per cápita en el tiempo:
+
+```{r}
+# install.packages("gganimate")
+# install.packages("gifski")
+library(gganimate)
+library(gifski)
+
+p <- ggplot(
+  data = datos,
+  mapping = aes(x = gdp_per_capita, y = life_expectancy, color = continent, size = population)
+) + 
+  geom_point() +
+  labs(
+    x = "Producto interno burto per cápita",
+    y = "Esperanza de vida",
+    color = "Continente",
+    title = "Año: {frame_time}"
+  ) + 
+  scale_x_continuous(transform = "log10", labels = scales::label_dollar()) + 
+  scale_y_continuous(transform = "log10", labels = scales::label_number()) + 
+  transition_time(year) +
+  ease_aes("linear")
+
+#anim <- animate(p, duration = 10, fps = 12, width = 600, height = 400, renderer = gifski_renderer())
+#anim_save("./anim.gif", anim)
+```
+
+## Ejercicios
+
+1. Crea un gráfico de serie de tiempo que muestre cómo han cambiado las emisiones de CO2 per cápita en los paises de América del Sur. Mapea el color de las líneas a cada país.
+
+```{r}
+datos_america_sur <- datos |> filter(continent == "South America")
+
+ggplot(
+  data = datos_america_sur,
+  mapping = aes(x = year, y = annual_co2_emissions_per_capita, color = country)
+) +
+  geom_line()
+
+```
+
+2. Crea un mapa de dispersión conectado que muestre como ha cambiado
+
+```{r}
+ggplot(
+  data = datos_mex,
+  mapping = aes(x = life_expectancy, y = health_spending_per_capita, label = year)
+) + 
+  geom_point() +
+  geom_path() +
+  geom_text_repel(size = 3)
+```

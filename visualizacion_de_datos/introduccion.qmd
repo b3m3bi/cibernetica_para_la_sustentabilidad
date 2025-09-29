@@ -1,0 +1,5 @@
+---
+title: "Visualización de datos"
+---
+
+En este módulo revisamos los fundamentos de R para la visualización de datos.

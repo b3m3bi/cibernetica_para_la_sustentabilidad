@@ -26,6 +26,17 @@ website:
         - "procesamiento_de_datos/sesion_05/12 - Resumir datos.Rmd"
         - "procesamiento_de_datos/sesion_05/13 - Escribir con pipes.Rmd"
         - "procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.Rmd"
+      - section: "Visualización de datos"
+        href: visualizacion_de_datos/introduccion.qmd
+        contents:
+        - "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.Rmd"
+        - "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.Rmd"
+        - "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.Rmd"
+        - "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.Rmd"
+        - "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.Rmd"
+        - "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.Rmd"
+        - "visualizacion_de_datos/sesion_08/20 - Otros gráficos.Rmd"
+        - "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.Rmd"
 lang: es
 
 format:
