@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.55">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Práctica 2: Análisis de microdatos de INEGI – Cibernética para la sustentabilidad</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../visualizacion_de_datos/introduccion.html">Visualización de datos</a></li><li class="breadcrumb-item"><a href="../../visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html">Práctica 2: Análisis de microdatos de INEGI</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">Cibernética para la sustentabilidad</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Inicio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../procesamiento_de_datos/introduccion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Procesamiento de datos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_01/01 - Notebooks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">01 - Notebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_02/02 - Operaciones aritméticas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">02 - Operaciones aritméticas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_02/03 - Cadenas de texto y comentarios.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03 - Cadenas de texto y comentarios</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_02/04 - Variables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">04 - Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_03/05 - Vectores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05 - Vectores</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_03/06 - Funciones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">06 - Funciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_03/07 - Paquetes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">07 - Paquetes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_04/08 - Cargar datos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">08 - Cargar datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_04/09 - Renombrar columnas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">09 - Renombrar columnas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_04/10 - Seleccionar, filtrar y ordenar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10 - Seleccionar, filtrar y ordenar</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_05/11 - Agregar columnas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11 - Agregar columnas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_05/12 - Resumir datos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12 - Resumir datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/sesion_05/13 - Escribir con pipes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13 - Escribir con pipes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../procesamiento_de_datos/practica_01/Práctica 1: Incendios forestales en ANPs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Práctica 1: Incendios forestales en ANPs</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../visualizacion_de_datos/introduccion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualización de datos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14 - Introducción a ggplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15 - Histogramas y graficos de densidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">16 - Gráficos de cajas, violín, puntos y ridges</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">17 - Gráfico de barras, de punto y de pastel</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">18 - Graficos de dispersión y de burbujas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">19 - Series de tiempo y cambios en el tiempo</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../visualizacion_de_datos/sesion_08/20 - Otros gráficos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">20 - Otros gráficos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Práctica 2: Análisis de microdatos de INEGI</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#descargar-los-datos" id="toc-descargar-los-datos" class="nav-link" data-scroll-target="#descargar-los-datos">Descargar los datos</a></li>
+  <li><a href="#explora-los-documentos-complementarios" id="toc-explora-los-documentos-complementarios" class="nav-link" data-scroll-target="#explora-los-documentos-complementarios">Explora los documentos complementarios</a>
+  <ul class="collapse">
+  <li><a href="#presentación-de-la-encuesta" id="toc-presentación-de-la-encuesta" class="nav-link" data-scroll-target="#presentación-de-la-encuesta">Presentación de la encuesta</a></li>
+  <li><a href="#presentación-de-resultados" id="toc-presentación-de-resultados" class="nav-link" data-scroll-target="#presentación-de-resultados">Presentación de resultados</a></li>
+  <li><a href="#cuestionario" id="toc-cuestionario" class="nav-link" data-scroll-target="#cuestionario">Cuestionario</a></li>
+  <li><a href="#descriptor-de-archivos" id="toc-descriptor-de-archivos" class="nav-link" data-scroll-target="#descriptor-de-archivos">Descriptor de archivos</a></li>
+  </ul></li>
+  <li><a href="#niveles-de-información-de-la-encuesta" id="toc-niveles-de-información-de-la-encuesta" class="nav-link" data-scroll-target="#niveles-de-información-de-la-encuesta">Niveles de información de la encuesta</a></li>
+  <li><a href="#factor-de-expansión" id="toc-factor-de-expansión" class="nav-link" data-scroll-target="#factor-de-expansión">Factor de expansión</a></li>
+  <li><a href="#cargar-librerías-y-datos" id="toc-cargar-librerías-y-datos" class="nav-link" data-scroll-target="#cargar-librerías-y-datos">Cargar librerías y datos</a></li>
+  <li><a href="#planear-un-gráfico" id="toc-planear-un-gráfico" class="nav-link" data-scroll-target="#planear-un-gráfico">Planear un gráfico</a></li>
+  <li><a href="#gráfica-1" id="toc-gráfica-1" class="nav-link" data-scroll-target="#gráfica-1">Gráfica 1</a>
+  <ul class="collapse">
+  <li><a href="#planeación" id="toc-planeación" class="nav-link" data-scroll-target="#planeación">Planeación</a></li>
+  <li><a href="#crear-la-gráfica" id="toc-crear-la-gráfica" class="nav-link" data-scroll-target="#crear-la-gráfica">Crear la gráfica</a></li>
+  </ul></li>
+  <li><a href="#gráfica-2" id="toc-gráfica-2" class="nav-link" data-scroll-target="#gráfica-2">Gráfica 2</a>
+  <ul class="collapse">
+  <li><a href="#planeación-1" id="toc-planeación-1" class="nav-link" data-scroll-target="#planeación-1">Planeación</a></li>
+  <li><a href="#crear-la-gráfica-1" id="toc-crear-la-gráfica-1" class="nav-link" data-scroll-target="#crear-la-gráfica-1">Crear la gráfica</a></li>
+  </ul></li>
+  <li><a href="#gráfica-3" id="toc-gráfica-3" class="nav-link" data-scroll-target="#gráfica-3">Gráfica 3</a>
+  <ul class="collapse">
+  <li><a href="#planeación-2" id="toc-planeación-2" class="nav-link" data-scroll-target="#planeación-2">Planeación</a></li>
+  <li><a href="#crear-la-gráfica-2" id="toc-crear-la-gráfica-2" class="nav-link" data-scroll-target="#crear-la-gráfica-2">Crear la gráfica</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../visualizacion_de_datos/introduccion.html">Visualización de datos</a></li><li class="breadcrumb-item"><a href="../../visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html">Práctica 2: Análisis de microdatos de INEGI</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Práctica 2: Análisis de microdatos de INEGI</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i></button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introducción" class="level2">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>En esta Práctica vamos a visualizar datos de encuestas de INEGI. En particular vamos a utilizar la Encuestra de Bienestar Autoreportado (ENBIARE), la cual se realizó en 2021 y tiene como objetivo recopilar información sobre como las personas perciben su situación de bienestar.</p>
+<p><strong>Objetivo</strong></p>
+<ul>
+<li>Identificar como trabajar con microdatos de INEGI</li>
+<li>Repasar el proceso de importación y manejo de datos en R</li>
+<li>Crear visualizaciones de datos con R</li>
+</ul>
+</section>
+<section id="descargar-los-datos" class="level2">
+<h2 class="anchored" data-anchor-id="descargar-los-datos">Descargar los datos</h2>
+<p>Primero descarguemos los datos.</p>
+<ol type="1">
+<li>Accede a la siguiente liga: <a href="https://www.inegi.org.mx/programas/enbiare/2021/" class="uri">https://www.inegi.org.mx/programas/enbiare/2021/</a></li>
+<li>Entra en la pestaña de <strong>Microdatos</strong></li>
+<li>Descarga el archivo <strong>CSV</strong> en la fila <strong>Base de datos</strong>.</li>
+<li>Se te descargará un archivo <code>.zip</code> el cual debes descomprimir.</li>
+<li>Sube los archivos que descargaste a RStudio de Posit Cloud (yo ya los subí previamente en la carpeta <code>data</code>)</li>
+</ol>
+<p>En la carpeta que descargues encontrarás 4 archivos CSV. ¿Por qué tantos archivos? ¿Qué contiene cada uno? Para entender qué descargamos y cómo se organizan los datos debemos explorar archivos complementaria donde se describe toda la información necesaria para darle sentido a los datos.</p>
+</section>
+<section id="explora-los-documentos-complementarios" class="level2">
+<h2 class="anchored" data-anchor-id="explora-los-documentos-complementarios">Explora los documentos complementarios</h2>
+<section id="presentación-de-la-encuesta" class="level3">
+<h3 class="anchored" data-anchor-id="presentación-de-la-encuesta">Presentación de la encuesta</h3>
+<p>Una primera cosa que nos puede ser muy útil es leer la descripción general de la encuesta. Esta incluye información sobre los antecedentes y objetivos de la misma. Para acceder a ella:</p>
+<ol type="1">
+<li>Accede a la siguiente liga: <a href="https://www.inegi.org.mx/programas/enbiare/2021/" class="uri">https://www.inegi.org.mx/programas/enbiare/2021/</a></li>
+<li>Da click en <strong>Ver más presentación</strong></li>
+<li>Consulta las pestañas de información general de la encuesta.</li>
+</ol>
+</section>
+<section id="presentación-de-resultados" class="level3">
+<h3 class="anchored" data-anchor-id="presentación-de-resultados">Presentación de resultados</h3>
+<p>Otra cosa que nos puede ayudar a entender qué contiene la encuesta es revisar la <em>Presentación de resultados</em>. Este es un documento con láminas con algunos de los principales resultados obtenidos de la encuesta que incluye varias visualizaciones. Para acceder a ella:</p>
+<ol type="1">
+<li>Accede a la siguiente liga: <a href="https://www.inegi.org.mx/programas/enbiare/2021/" class="uri">https://www.inegi.org.mx/programas/enbiare/2021/</a></li>
+<li>Descarga el PDF de la <strong>Presentacion de resultados</strong></li>
+</ol>
+</section>
+<section id="cuestionario" class="level3">
+<h3 class="anchored" data-anchor-id="cuestionario">Cuestionario</h3>
+<p>También podemos consultar el Cuestionario que se usó para la encuesta. Este es la columna vertebral de la encuesta y organización de los datos. Revisarlo nos puede dar una idea de qué preguntas se hicieron, cómo se organizó en secciones y qué tipo de respuestas se podían registrar. Para acceder al cuestionario:</p>
+<ol type="1">
+<li>Accede a la siguiente liga: <a href="https://www.inegi.org.mx/programas/enbiare/2021/" class="uri">https://www.inegi.org.mx/programas/enbiare/2021/</a></li>
+<li>Descarga el PDF del <strong>Cuestionario</strong></li>
+</ol>
+</section>
+<section id="descriptor-de-archivos" class="level3">
+<h3 class="anchored" data-anchor-id="descriptor-de-archivos">Descriptor de archivos</h3>
+<p>Finalmente, el archivo más importante par entender cómo se organizan los datos que descargamos es el <strong>Descriptor de archivos</strong>. Este es un documento que nos indica los códigos que se usaron para registrar en los CSV cada pregunta y cada valor. Para acceder al descriptor de archivos:</p>
+<ol type="1">
+<li>Accede a la siguiente liga: <a href="https://www.inegi.org.mx/programas/enbiare/2021/" class="uri">https://www.inegi.org.mx/programas/enbiare/2021/</a></li>
+<li>Entra en la pestaña de <strong>Microdatos</strong></li>
+<li>Descarga el archivo PDF en la fila <strong>Descriptor de archivos</strong>.</li>
+</ol>
+<p>Nota como este archivo contiene la información de cada archivo que descargamos. Líneas grises separan el contenido de cada archivo y en la parte derecha por arriba de las líneas grises viene el nombre de los archivos que descargamos. Luego vienen un conjunto de tablas con las preguntas, el código o nemónico con el que se registró en los archivos o bases de datos e información de los valores que puede tomar cada variable/pregunta.</p>
+</section>
+</section>
+<section id="niveles-de-información-de-la-encuesta" class="level2">
+<h2 class="anchored" data-anchor-id="niveles-de-información-de-la-encuesta">Niveles de información de la encuesta</h2>
+<p>Después de explorar la encuesta podrás darte cuenta de que esta incluye información a varios niveles:</p>
+<ol type="1">
+<li>Información de la vivienda (el espacio físico donde habita un hogar). Esta información viene en la tabla <code>TVIVIENDA</code>.</li>
+<li>Información sobre el hogar (conjunto de personas que viven juntas y comparten gastos). Esta información viene en la tabla <code>THOGAR</code>.</li>
+<li>Información sobre los miembros del hogar (cada individuo de un hogar). Esta información viene en la tabla <code>TSDEM</code>.</li>
+<li>Las respuestas de la encuesta de bienestar autoreportado de un miembro del hogar elegido al azar. Esta información viene en la tabla <code>TENBIARE</code>.</li>
+</ol>
+</section>
+<section id="factor-de-expansión" class="level2">
+<h2 class="anchored" data-anchor-id="factor-de-expansión">Factor de expansión</h2>
+<p>Cuando se trabaja con encuestas algo muy importante es considerar el <strong>factor de expansión</strong>. Recordemos que en un <strong>censo</strong> se obtiene información de <em>toda</em> la población de interés. En contraste en una <strong>encuesta</strong> solo se obtiene de una <em>muestra</em> o <em>subconjunto</em> de la población. Sin embargo, a través de métodos estadísticos podemos hacer inferencias para hacer conclusiones sobre toda la población. Por ejemplo, para hacer nuestro muestreo se podría agrupar (estratificar) a la población de acuerdo a su sexo, nivel socioeconómico y edad. Dado que sabemos información demográfica del país, sabemos cuantas personas de la población total habría en cada grupo (estrato). Entonces en lugar de obtener información de toda la población se podrían elegir solo unos cuantos de cada grupo y a partir de sus respuestas estimar qué huberan contestado las otras personas de ese grupo (bajo el supuesto de que otras personas con características similares contestarían de manera similar). En particular el factor de expansión es un valor numérico que nos indica a cuantos otros individuos equivale la respuesta de un individuo muestreado. La definición precisa del factor de expansión tiene que ver con el inverso de la probabilidad de selección de un indiviuso y los detalles estadísticos se pueden consultar en el documento de <strong>Diseño muestral</strong> de la encuesta (ENBIARE &gt; Metodología &gt; Diseño Muestral)</p>
+</section>
+<section id="cargar-librerías-y-datos" class="level2">
+<h2 class="anchored" data-anchor-id="cargar-librerías-y-datos">Cargar librerías y datos</h2>
+<p>Vamos a cargar tidyverse para tener acceso a las funciones que conocemos para manejar y visualizar datos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.1.0     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+<p>Las tablas de datos son muy grandes y si las cargamos ocuparán mucha memoria en R y harán que este sea más lento. Además, cuando hagamos nuestras gráficas veremos que solo utilizaremos unas cuantas columnas por lo que nos va a convenir solo cargar las columnas que usemos para que estas usen menos memoria. Ahorita solo comprobemos que las tablas se pueden leer correctamente con <code>read_csv()</code> sin guardarlas en variables y veamos sus tamaños:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./data/TVIVIENDA.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 30822 Columns: 24
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (8): FOLIO, VIV_SEL, P1_2, P2_1, P2_3, ENT, EST_DIS, UPM_DIS
+dbl (16): P1_1, P1_3, P1_4, P1_5, P1_6, P1_7_1, P1_7_2, P1_7_3, P1_7_4, P1_7...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 30,822 × 24
+   FOLIO VIV_SEL  P1_1 P1_2   P1_3  P1_4  P1_5  P1_6 P1_7_1 P1_7_2 P1_7_3 P1_7_4
+   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+ 1 00001 01          3 02        1     1     1     1      2      1      1      1
+ 2 00002 02          2 02        1     1     1     1      2      2      2      2
+ 3 00003 05          3 01        1     1     1     1      1      1      1      1
+ 4 00004 01          3 02        1     1     1     1      1      1      1      1
+ 5 00005 03          3 02        1     1     1     1      1      1      1      1
+ 6 00006 04          3 02        1     1     1     1      1      1      2      1
+ 7 00007 05          3 03        1     1     1     1      1      1      1      1
+ 8 00008 01          3 03        1     1     1     1      1      1      1      1
+ 9 00009 02          3 03        1     1     1     1      1      1      1      1
+10 00010 03          3 02        1     1     1     1      1      1      1      1
+# ℹ 30,812 more rows
+# ℹ 12 more variables: P1_7_5 &lt;dbl&gt;, P1_7_6 &lt;dbl&gt;, P1_7_7 &lt;dbl&gt;, P1_7_8 &lt;dbl&gt;,
+#   P2_1 &lt;chr&gt;, P2_2 &lt;dbl&gt;, P2_3 &lt;chr&gt;, ENT &lt;chr&gt;, TLOC &lt;dbl&gt;, FAC_VIV &lt;dbl&gt;,
+#   EST_DIS &lt;chr&gt;, UPM_DIS &lt;chr&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./data/THOGAR.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 31166 Columns: 19
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (9): FOLIO, VIV_SEL, PG5_1_2, PG5_2_2, PG5_3_2, REN_INF, ENT, EST_DIS, ...
+dbl (10): HOGAR, P3_1, P3_2_1, P3_2_2, P3_2_3, P3_2_4, P3_2_5, P3_2_6, TLOC,...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 31,166 × 19
+   FOLIO VIV_SEL HOGAR  P3_1 P3_2_1 P3_2_2 P3_2_3 P3_2_4 P3_2_5 P3_2_6 PG5_1_2
+   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  
+ 1 00001 01          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   
+ 2 00002 02          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   
+ 3 00003 05          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   
+ 4 00004 01          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   
+ 5 00005 03          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   
+ 6 00006 04          1     2     NA     NA     NA     NA     NA     NA 06     
+ 7 00007 05          1     2     NA     NA     NA     NA     NA     NA 02     
+ 8 00008 01          1     1      1      2      2      2      2      2 &lt;NA&gt;   
+ 9 00009 02          1     2     NA     NA     NA     NA     NA     NA 02     
+10 00010 03          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   
+# ℹ 31,156 more rows
+# ℹ 8 more variables: PG5_2_2 &lt;chr&gt;, PG5_3_2 &lt;chr&gt;, REN_INF &lt;chr&gt;, ENT &lt;chr&gt;,
+#   TLOC &lt;dbl&gt;, FAC_HOG &lt;dbl&gt;, EST_DIS &lt;chr&gt;, UPM_DIS &lt;chr&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./data/TSDEM.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 109922 Columns: 22
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (10): FOLIO, VIV_SEL, N_REN, EDAD, NIVEL, P4_10_1, P4_10_2, ENT, EST_DIS...
+dbl (12): HOGAR, PAREN, SEXO, P4_5, P4_6, GRADO, P4_8, P4_9, P4_10_3, ALFABE...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 109,922 × 22
+   FOLIO VIV_SEL HOGAR N_REN PAREN  SEXO EDAD   P4_5  P4_6 NIVEL GRADO  P4_8
+   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 00001 01          1 01        1     1 65        2    NA 02        2     1
+ 2 00001 01          1 02        2     2 63        2    NA 02        6     1
+ 3 00001 01          1 03        3     1 32        2    NA 06        3    NA
+ 4 00001 01          1 04        3     1 27        2    NA 08        5    NA
+ 5 00002 02          1 01        1     2 81        2    NA 00        0     2
+ 6 00002 02          1 02        3     2 54        2    NA 02        6     1
+ 7 00003 05          1 01        1     2 34        2    NA 08        4    NA
+ 8 00003 05          1 02        3     1 05        2    NA 01        1     9
+ 9 00004 01          1 01        1     2 47        2    NA 08        5    NA
+10 00004 01          1 02        6     2 78        2    NA 02        6     1
+# ℹ 109,912 more rows
+# ℹ 10 more variables: P4_9 &lt;dbl&gt;, P4_10_1 &lt;chr&gt;, P4_10_2 &lt;chr&gt;, P4_10_3 &lt;dbl&gt;,
+#   ALFABETISMO &lt;dbl&gt;, ENT &lt;chr&gt;, TLOC &lt;dbl&gt;, FAC_HOG &lt;dbl&gt;, EST_DIS &lt;chr&gt;,
+#   UPM_DIS &lt;chr&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./data/TENBIARE.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 31166 Columns: 284
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (61): FOLIO, VIV_SEL, N_REN, PA1, PA2, PA3_01, PA3_02, PA3_03, PA3_04, ...
+dbl (223): HOGAR, PB2_1, PB2_2, PC1_1, PC1_2, PC1_3, PC1_4, PC1_5, PC1_6, PC...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 31,166 × 284
+   FOLIO VIV_SEL HOGAR N_REN PA1   PA2   PA3_01 PA3_02 PA3_03 PA3_04 PA3_05
+   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; 
+ 1 00001 01          1 04    10    10    10     10     10     10     10    
+ 2 00002 02          1 02    09    09    07     09     08     09     09    
+ 3 00003 05          1 01    10    10    09     10     10     10     10    
+ 4 00004 01          1 02    05    08    05     05     10     09     00    
+ 5 00005 03          1 03    10    10    09     10     10     10     09    
+ 6 00006 04          1 01    06    07    05     04     08     10     07    
+ 7 00007 05          1 03    08    06    08     10     09     09     09    
+ 8 00008 01          1 02    10    10    08     08     08     10     10    
+ 9 00009 02          1 02    09    07    10     09     10     10     09    
+10 00010 03          1 03    10    10    09     10     10     10     09    
+# ℹ 31,156 more rows
+# ℹ 273 more variables: PA3_06 &lt;chr&gt;, PA3_07 &lt;chr&gt;, PA3_08 &lt;chr&gt;, PA3_09 &lt;chr&gt;,
+#   PA3_10 &lt;chr&gt;, PA3_11 &lt;chr&gt;, PA3_12 &lt;chr&gt;, PA3_13 &lt;chr&gt;, PA3_14 &lt;chr&gt;,
+#   PA3_15 &lt;chr&gt;, PA3_16 &lt;chr&gt;, PA3_17 &lt;chr&gt;, PA4_01 &lt;chr&gt;, PA4_02 &lt;chr&gt;,
+#   PA4_03 &lt;chr&gt;, PA4_04 &lt;chr&gt;, PA4_05 &lt;chr&gt;, PA4_06 &lt;chr&gt;, PA4_07 &lt;chr&gt;,
+#   PA4_08 &lt;chr&gt;, PA4_09 &lt;chr&gt;, PA4_10 &lt;chr&gt;, PA5 &lt;chr&gt;, PA6 &lt;chr&gt;,
+#   PB1_01 &lt;chr&gt;, PB1_02 &lt;chr&gt;, PB1_03 &lt;chr&gt;, PB1_04 &lt;chr&gt;, PB1_05 &lt;chr&gt;, …</code></pre>
+</div>
+</div>
+<p><strong>Pregunta</strong></p>
+<ul>
+<li>¿Cuántas observaciones y variables tiene cada tabla?</li>
+<li>Si hay diferencias en el tamaño de las observaciones ¿a qué crees que se deba?</li>
+</ul>
+</section>
+<section id="planear-un-gráfico" class="level2">
+<h2 class="anchored" data-anchor-id="planear-un-gráfico">Planear un gráfico</h2>
+<p>Antes ponernos a hacer una visualización debemos darnos una idea de a qué es a lo que queremos llegar. Para eso podemos pensar seguir los siguientes pasos:</p>
+<ol type="1">
+<li>Identificar una pregunta que quiero explorar</li>
+<li>Hacer un boceto del gráfico que quiero hacer</li>
+<li>Hacer un boceto de cómo debe ser la tabla de datos para crear mi gráfico</li>
+<li>Identificar los pasos que debo de seguir para crear mi tabla</li>
+<li>Escribir el código necesario</li>
+</ol>
+<p>Exploremos cómo hacer dos gráficas siguiendo este proceso para que luego ustedes lo apliquen a desarrollar su propia gráfica.</p>
+</section>
+<section id="gráfica-1" class="level2">
+<h2 class="anchored" data-anchor-id="gráfica-1">Gráfica 1</h2>
+<section id="planeación" class="level3">
+<h3 class="anchored" data-anchor-id="planeación">Planeación</h3>
+<p>Explorando el <em>Descriptor de archivos</em> de la encuesta podemos notar que hay un conjunto de preguntas sobre el número de mascotas en los hogares. Las preguntas son las siguientes que vienen en la tabla <code>THOGAR</code>:</p>
+<p><img src="./img/descriptor_archivo_grafica_01.png" class="img-fluid"></p>
+<p>Una pregunta que puede surgir de aquí es <strong>¿en qué estados tienen más mascotas en los hogares?</strong></p>
+<p>Luego podemos hacer un boceto de cómo nos imaginamos que se podría hacer una visualizaciones. En este caso podría ser un gráfico de barras que compare el porcentaje de hogares con mascotas para cada entidad:</p>
+<p><img src="./img/boceto_grafica_01.png" class="img-fluid"> Luego podemos hacer un boceto de cómo debería ser una tabla que tuviera la información necesaria para crear este gráfico. En este caso requerimos una tabla con dos columnas: el estado y el porcentaje de hogares con mascota:</p>
+<p><img src="./img/boceto_tabla_01.png" class="img-fluid"> ¿Qué información necesitamos para crear esa tabla?</p>
+<ul>
+<li>Para calcular el porcentaje de hogares con mascota necesitamos saber dos cosas:
+<ol type="1">
+<li>el número de hogares en cada entidad que tienen mascota, y</li>
+<li>el número de hogares totales en cada entidad</li>
+</ol></li>
+<li>Para crear estas tablas vamos a requerir agrupar los datos por entidad federativa</li>
+<li>La información que requerimos corresponde a las preguntas <code>PG5_1_2</code>, <code>PG5_2_2</code>, <code>PG5_3_2</code>. Además requerimos la información de la entidad (<code>ENT</code>) y el factor de expansión (<code>FAC_HOG</code>). Todo esto lo podemos encontrar en la tabla <code>THOGAR</code>.</li>
+</ul>
+<p>Además notemos los valores que tiene cada columna que usaremos:</p>
+<ul>
+<li><code>PG5_1_2</code>, <code>PG5_2_2</code>, <code>PG5_3_2</code>: son valores numéricos que representan el número de perros, gatos u otras mascotas en un hogar</li>
+<li><code>ENT</code> son la entidades representadas con un código. Estas están ordenadas alfabéticamente, es decir, el 01 es Aguascalientes, y el 32 es Zacatecas.</li>
+<li><code>FAC_HOG</code>: un valor numérico con el factor de expansión al que equivale cada hogar.</li>
+</ul>
+</section>
+<section id="crear-la-gráfica" class="level3">
+<h3 class="anchored" data-anchor-id="crear-la-gráfica">Crear la gráfica</h3>
+<p>Primero carguemos los datos que necesitamos. Usaremos la función <code>read_csv()</code>, la cual tiene un argumento <code>col_sel</code> que nos permite pasarle como cadena el nombre de las columnas que necesitamos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>datos_mascotas <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"./data/THOGAR.csv"</span>, </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_select =</span> <span class="fu">c</span>(<span class="st">"ENT"</span>, <span class="st">"PG5_1_2"</span>, <span class="st">"PG5_2_2"</span>, <span class="st">"PG5_3_2"</span>, <span class="st">"FAC_HOG"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 31166 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (4): PG5_1_2, PG5_2_2, PG5_3_2, ENT
+dbl (1): FAC_HOG
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>Hagamos unas exploraciones previas para revisar y darle sentido a los datos. ¿Cuál es la población total que representa la encuesta? Recordemos que el factor de expansión es central ya que nos dice cuantos elementos de la población representa cada elemento muestreado. Entonces su suma nos debe dar el tamaño total de la población:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>datos_mascotas <span class="sc">|&gt;</span> <span class="fu">pull</span>(FAC_HOG) <span class="sc">|&gt;</span> <span class="fu">sum</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 35867675</code></pre>
+</div>
+</div>
+<p><strong>Pregunta</strong></p>
+<ul>
+<li>¿Por qué obtuvimos este valor? ¿Qué significa?</li>
+</ul>
+<p>Ahora hagamos nuestra tabla con el total de hogares que hay en cada entidad:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tabla_hogares_total <span class="ot">&lt;-</span> datos_mascotas <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ENT) <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">hogares_total =</span> <span class="fu">sum</span>(FAC_HOG)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ahora hagamos nuestra tabla con el total de hogares con mascota en cada entidad. Para eso podemos filtrar los datos y quedarnos solo con los datos donde se registro al menos alguna mascota:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tabla_hogares_mascota <span class="ot">&lt;-</span> datos_mascotas <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( <span class="sc">!</span><span class="fu">is.na</span>(PG5_1_2) <span class="sc">|</span> <span class="sc">!</span><span class="fu">is.na</span>(PG5_2_2) <span class="sc">|</span> <span class="sc">!</span><span class="fu">is.na</span>(PG5_3_2)) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ENT) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">hogares_con_mascota =</span> <span class="fu">sum</span>(FAC_HOG)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ahora juntemos nuestras tablas. Para eso usemos la función <code>left_join()</code>, la cual nos junta dos tablas de acuerdo a los valores de columnas que comparten quedándose con la tabla de la izquierda (el primer argumento que le pasemos):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tabla_mascotas <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tabla_hogares_mascota, tabla_hogares_total)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(ENT)`</code></pre>
+</div>
+</div>
+<p>Ahora hagamos el cálculo del porcentaje de hogares con mascota:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tabla_mascotas <span class="ot">&lt;-</span> tabla_mascotas <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">porcentaje_hogares_con_mascota =</span> hogares_con_mascota <span class="sc">/</span> hogares_total <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Un problema que tenemos es que las entidades están escritas con una clave, pero para nuestro gráfico queremos los nombres de la entidad. Para eso debemos:</p>
+<ol type="1">
+<li>Entrar al <a href="https://www.inegi.org.mx/app/ageeml/">Catálogo Unico de Claves de Áreas Geoestadísticas</a>.</li>
+<li>Para solo obtener las claves estatales en <em>Nivel de desagregación</em> seleccionamos <em>Área Geoestadística Estatal (AEGG)</em> y dar click en <em>Consultar</em></li>
+<li>En el ícono de descargar seleccionamos en la sección CSV el archivo con codificación UTF-8.</li>
+<li>Subir este archivo a Posit Cloud (yo ya lo subí previamente a la carpeta <code>data</code> con el nombre <code>claves_entidades.csv</code>)</li>
+</ol>
+<p>Ahora cargamos el archivo con las claves. Solo nos quedamos con la información de las claves y nombres:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>claves_entidades <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./data/claves_entidades.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CVE_ENT, NOM_ENT, NOM_ABR)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 32 Columns: 8
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (4): CVEGEO, CVE_ENT, NOM_ENT, NOM_ABR
+dbl (4): POB_TOTAL, POB_MASCULINA, POB_FEMENINA, TOTAL DE VIVIENDAS HABITADAS
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>Ahora podemos juntar esa información a nuestra tabla usando de nuevo <code>left_join()</code>. Solamente que en este caso como la columna con la clave no tiene el mismo nombre en ambas columnas debemos pasarle el argumento <code>by = c("ENT" = "CVE_ENT")</code> para decirle que los valores de la columna <code>ENT</code> de <code>tabla_mascotas</code> lo junte con base en los valores de <code>CVE_ENT</code> de la tabla <code>claves_entidades</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>tabla_mascotas <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tabla_mascotas, claves_entidades, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"ENT"</span> <span class="ot">=</span> <span class="st">"CVE_ENT"</span>))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>tabla_mascotas</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32 × 6
+   ENT   hogares_con_mascota hogares_total porcentaje_hogares_con_masc…¹ NOM_ENT
+   &lt;chr&gt;               &lt;dbl&gt;         &lt;dbl&gt;                         &lt;dbl&gt; &lt;chr&gt;  
+ 1 01                 261776        391265                          66.9 Aguasc…
+ 2 02                 776222       1168134                          66.4 Baja C…
+ 3 03                 170887        256505                          66.6 Baja C…
+ 4 04                 200185        259597                          77.1 Campec…
+ 5 05                 603373        896980                          67.3 Coahui…
+ 6 06                 156959        241253                          65.1 Colima 
+ 7 07                 872534       1382749                          63.1 Chiapas
+ 8 08                 767723       1158195                          66.3 Chihua…
+ 9 09                1780642       2898282                          61.4 Ciudad…
+10 10                 367657        522695                          70.3 Durango
+# ℹ 22 more rows
+# ℹ abbreviated name: ¹​porcentaje_hogares_con_mascota
+# ℹ 1 more variable: NOM_ABR &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>Y listo, ya tenemos una tabla con la información que nos interesa: el porcentaje de hogares con mascota y las entidades. Ahora hagamos la gráfica:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  tabla_mascotas,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> porcentaje_hogares_con_mascota, <span class="at">y =</span> <span class="fu">fct_reorder</span>(NOM_ENT, porcentaje_hogares_con_mascota))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Porcentaje de hogares con mascota"</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Entidad"</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Práctica-2--Análisis-de-microdatos-de-INEGI_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Para destacar más las diferencias podemos cambiar el gráfico a un gráfico de punto, agregarle una capta con el valor de los porcentajes, y agregarle título, subtitulo y caption:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  tabla_mascotas,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> porcentaje_hogares_con_mascota, <span class="at">y =</span> <span class="fu">fct_reorder</span>(NOM_ENT, porcentaje_hogares_con_mascota))</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"tomato"</span>) <span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(porcentaje_hogares_con_mascota, <span class="dv">1</span>), <span class="st">"%"</span>)),<span class="at">size =</span> <span class="dv">3</span>, <span class="at">nudge_x =</span> <span class="fl">0.75</span>, <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Porcentaje de hogares con mascota"</span>,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Entidad"</span>,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Hogares con mascota en México"</span>,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Datos: INEGI. ENBIARE (2021)"</span>,</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Campeche es el estado con mayor porcentaje de hogares con mascota.</span><span class="sc">\n</span><span class="st">Mientras que la CDMX es el estado con menor porcentaje de hogares</span><span class="sc">\n</span><span class="st">con mascota."</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Práctica-2--Análisis-de-microdatos-de-INEGI_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="gráfica-2" class="level2">
+<h2 class="anchored" data-anchor-id="gráfica-2">Gráfica 2</h2>
+<section id="planeación-1" class="level3">
+<h3 class="anchored" data-anchor-id="planeación-1">Planeación</h3>
+<p>Explorando el <em>Descriptor de archivos</em> de la encuesta podemos notar que hay una pregunta sobre el grado de depresión que se sintió a lo largo del día:</p>
+<p><img src="./img/descriptor_archivo_grafica_02_1.png" class="img-fluid"></p>
+<p>Y también sabemos que tenemos la información sobre el sexo de las personas entrevisadas:</p>
+<p><img src="./img/descripto_archivo_grafica_02_2.png" class="img-fluid"></p>
+<p>Una pregunta que podríamos explorar es <strong>¿el grado de depresesión a lo largo del día difieren entre sexos?</strong></p>
+<p>Para ello podríamos hacer un gráfico de barras agrupado por sexo como el siguinete:</p>
+<p><img src="./img/boceto_grafica_02.png" class="img-fluid"></p>
+<p>Y para construir este gráfico necesitaríamos una tabla que se viera así:</p>
+<p><img src="./img/boceto_tabla_02.png" class="img-fluid"></p>
+<p>Para crear esta tabla necesitamos:</p>
+<ol type="1">
+<li>La pregunta <code>PA4_10</code> de la tabla <code>TENBIARE</code> con la información del grado de depresión en un día. Este tiene valores del 0 al 10 con el grado de depresión que reportaron a lo largo del día.</li>
+<li><code>FAC_ELE</code> con el factor de expansión de la tabla <code>TENBIARE</code>, con el factor de expansión de esa respuesta.</li>
+<li>La información de <code>SEXO</code> de la tabla <code>TSDEM</code> con la información del sexo de la persona encuestada. Este valor puede ser <code>1</code> que significa <code>Hombre</code> o <code>2</code> que es <code>Mujer</code>.</li>
+<li>Como tenemos que juntar la información de dos tablas distintas necesitamos las variables que nos permiten identificar a los elementos de una tabla en otra, en este caso son las columnas <code>FOLIO</code> (número de encuesta), <code>VIV_SEL</code> (número de vivienda seleccionada), <code>HOGAR</code> (número de hogar seleccionado) y <code>N_REN</code> (número de miembro del hogar)</li>
+</ol>
+</section>
+<section id="crear-la-gráfica-1" class="level3">
+<h3 class="anchored" data-anchor-id="crear-la-gráfica-1">Crear la gráfica</h3>
+<p>Primero cargamos los datos que necesitamos de depresión:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>datos_depresion <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"./data/TENBIARE.csv"</span>, </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_select =</span> <span class="fu">c</span>(<span class="st">"FOLIO"</span>, <span class="st">"VIV_SEL"</span>, <span class="st">"HOGAR"</span>, <span class="st">"N_REN"</span>, <span class="st">"PA4_10"</span>, <span class="st">"FAC_ELE"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 31166 Columns: 6
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (4): FOLIO, VIV_SEL, N_REN, PA4_10
+dbl (2): HOGAR, FAC_ELE
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>Veamos rápidamente cual es la población total que representan estos datos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>datos_depresion <span class="sc">|&gt;</span> <span class="fu">pull</span>(FAC_ELE) <span class="sc">|&gt;</span> <span class="fu">sum</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 84449936</code></pre>
+</div>
+</div>
+<p><strong>Pregunta</strong></p>
+<ul>
+<li>¿Qué significa este valor? ¿Por qué no es igual a la población total de México?</li>
+<li>Si sabemos que la entrvisa solo se aplica a mayores de 18 años que hablan español, ¿tiene más sentido este valor?</li>
+</ul>
+<p>Ahora cargamos los datos que necesitamos del sexo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>datos_sexo <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"./data/TSDEM.csv"</span>,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_select =</span> <span class="fu">c</span>(<span class="st">"FOLIO"</span>, <span class="st">"VIV_SEL"</span>, <span class="st">"HOGAR"</span>, <span class="st">"N_REN"</span>, <span class="st">"SEXO"</span>, <span class="st">"FAC_HOG"</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 109922 Columns: 6
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (3): FOLIO, VIV_SEL, N_REN
+dbl (3): HOGAR, SEXO, FAC_HOG
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>Veamos rápidamente cual es la población total que representan estos datos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>datos_sexo <span class="sc">|&gt;</span> <span class="fu">pull</span>(FAC_HOG) <span class="sc">|&gt;</span> <span class="fu">sum</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 127587006</code></pre>
+</div>
+</div>
+<p><strong>Pregunta</strong></p>
+<ul>
+<li>¿Qué significa este valor?</li>
+</ul>
+<p>Ahora juntemos los datos de sexo con las personas entrevistadas. Como tenemos que las tablas que permiten mapear los valores de una tabla a otra comparten el mismo nombre no necesitamos especificar los nombres de las columnas que usamos para hacer la unión:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>datos_depresion <span class="ot">&lt;-</span> <span class="fu">left_join</span>(datos_depresion, datos_sexo)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(FOLIO, VIV_SEL, HOGAR, N_REN)`</code></pre>
+</div>
+</div>
+<p>Ahora hagamos nuestra tabla de resumen. Neceistamos agrupar por nivel de depresión (<code>PA4_10</code>) y por sexo (<code>SEXO</code>) y sumar los factores expansión de los encuestados (<code>FAC_ELE</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>tabla_depresion <span class="ot">&lt;-</span> datos_depresion <span class="sc">|&gt;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PA4_10, SEXO) <span class="sc">|&gt;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">num_personas =</span> <span class="fu">sum</span>(FAC_HOG)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'PA4_10'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+</div>
+<p>Ahora podemos cambiar los números <code>1</code> y <code>2</code> del la columna <code>SEXO</code> por etiquetas que digan <code>Hombre</code> y <code>Mujer</code>. Para eso podemos usar <code>mutate</code> con la función <code>if_else()</code> que recibe como primer argumento una condición a probar, como segundo el valor que se asigna si la condición es verdadea y como tercer argumento el valor que se asigna si es falsa:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>tabla_depresion <span class="ot">&lt;-</span> tabla_depresion <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">SEXO =</span> <span class="fu">if_else</span>( SEXO <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Hombre"</span>, <span class="st">"Mujer"</span> )</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finalmente hacemos la gráfica:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  tabla_depresion,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> PA4_10, <span class="at">y =</span> num_personas, <span class="at">fill =</span> SEXO)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Nivel de depresión a lo largo del día"</span>,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Número de personas"</span>,</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Sexo"</span>,</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Depresión a lo largo del día en México"</span>,</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Datos: INEGI. EMBIARE (2021)"</span>,</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"En la encuesta se les preguntó ¿cuánta parte del día anterior se sintieron deprimidos?</span><span class="sc">\n</span><span class="st">0=Nada y 10=Todo el día"</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Práctica-2--Análisis-de-microdatos-de-INEGI_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpeta</strong></p>
+<ul>
+<li>¿Qué patrones ves en la gráfica?</li>
+<li>¿Cómo explicarías lo que ocurre en la gráfica?</li>
+</ul>
+</section>
+</section>
+<section id="gráfica-3" class="level2">
+<h2 class="anchored" data-anchor-id="gráfica-3">Gráfica 3</h2>
+<section id="planeación-2" class="level3">
+<h3 class="anchored" data-anchor-id="planeación-2">Planeación</h3>
+<p>Ahora ustedes deben desarrollar su propia gráfica. Primero Planea:</p>
+<ol type="1">
+<li>Elige una <strong>Pregunta a explorar</strong></li>
+<li>Haz un <strong>Boceto de la visualización</strong> a la que quieres llegar</li>
+<li>Haz un <strong>Boceto de la tabla</strong> que necesitas para contruir tu visualización</li>
+<li>Enlista los <strong>Pasos que debes seguir</strong></li>
+</ol>
+</section>
+<section id="crear-la-gráfica-2" class="level3">
+<h3 class="anchored" data-anchor-id="crear-la-gráfica-2">Crear la gráfica</h3>
+<p>En las siguientes celdas puedes crear tu gráfica. Para agregar más celdas puedes dar usar el atajo <code>CTL + ALT + I</code> o dar click en el Icono para agregar más celdas (un signo de + y una C) en RStudio que está en la parte superior derecha de la pestaña.</p>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/b3m3bi\.github\.io\/cibernetica_para_la_sustentabilidad\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Ejecutar el código</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb44" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Práctica 2: Análisis de microdatos de INEGI"</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="an">output:</span><span class="co"> html_document</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introducción</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>En esta Práctica vamos a visualizar datos de encuestas de INEGI. En particular vamos a utilizar la Encuestra de Bienestar Autoreportado (ENBIARE), la cual se realizó en 2021 y tiene como objetivo recopilar información sobre como las personas perciben su situación de bienestar.</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>**Objetivo**</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Identificar como trabajar con microdatos de INEGI</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Repasar el proceso de importación y manejo de datos en R</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Crear visualizaciones de datos con R</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a><span class="fu">## Descargar los datos</span></span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>Primero descarguemos los datos.</span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Accede a la siguiente liga: <span class="ot">&lt;https://www.inegi.org.mx/programas/enbiare/2021/&gt;</span></span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Entra en la pestaña de **Microdatos**</span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Descarga el archivo **CSV** en la fila **Base de datos**.</span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Se te descargará un archivo <span class="in">`.zip`</span> el cual debes descomprimir.</span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Sube los archivos que descargaste a RStudio de Posit Cloud (yo ya los subí previamente en la carpeta <span class="in">`data`</span>)</span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>En la carpeta que descargues encontrarás 4 archivos CSV. ¿Por qué tantos archivos? ¿Qué contiene cada uno? Para entender qué descargamos y cómo se organizan los datos debemos explorar archivos complementaria donde se describe toda la información necesaria para darle sentido a los datos.</span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Explora los documentos complementarios</span></span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a><span class="fu">### Presentación de la encuesta</span></span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a>Una primera cosa que nos puede ser muy útil es leer la descripción general de la encuesta. Esta incluye información sobre los antecedentes y objetivos de la misma. Para acceder a ella:</span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Accede a la siguiente liga: <span class="ot">&lt;https://www.inegi.org.mx/programas/enbiare/2021/&gt;</span></span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Da click en **Ver más presentación**</span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Consulta las pestañas de información general de la encuesta.</span>
+<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a><span class="fu">### Presentación de resultados</span></span>
+<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a>Otra cosa que nos puede ayudar a entender qué contiene la encuesta es revisar la *Presentación de resultados*. Este es un documento con láminas con algunos de los principales resultados obtenidos de la encuesta que incluye varias visualizaciones. Para acceder a ella:</span>
+<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Accede a la siguiente liga: <span class="ot">&lt;https://www.inegi.org.mx/programas/enbiare/2021/&gt;</span></span>
+<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Descarga el PDF de la **Presentacion de resultados**</span>
+<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cuestionario</span></span>
+<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a>También podemos consultar el Cuestionario que se usó para la encuesta. Este es la columna vertebral de la encuesta y organización de los datos. Revisarlo nos puede dar una idea de qué preguntas se hicieron, cómo se organizó en secciones y qué tipo de respuestas se podían registrar. Para acceder al cuestionario:</span>
+<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-51"><a href="#cb44-51" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Accede a la siguiente liga: <span class="ot">&lt;https://www.inegi.org.mx/programas/enbiare/2021/&gt;</span></span>
+<span id="cb44-52"><a href="#cb44-52" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Descarga el PDF del **Cuestionario**</span>
+<span id="cb44-53"><a href="#cb44-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-54"><a href="#cb44-54" aria-hidden="true" tabindex="-1"></a><span class="fu">### Descriptor de archivos</span></span>
+<span id="cb44-55"><a href="#cb44-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-56"><a href="#cb44-56" aria-hidden="true" tabindex="-1"></a>Finalmente, el archivo más importante par entender cómo se organizan los datos que descargamos es el **Descriptor de archivos**. Este es un documento que nos indica los códigos que se usaron para registrar en los CSV cada pregunta y cada valor. Para acceder al descriptor de archivos:</span>
+<span id="cb44-57"><a href="#cb44-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-58"><a href="#cb44-58" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Accede a la siguiente liga: <span class="ot">&lt;https://www.inegi.org.mx/programas/enbiare/2021/&gt;</span></span>
+<span id="cb44-59"><a href="#cb44-59" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Entra en la pestaña de **Microdatos**</span>
+<span id="cb44-60"><a href="#cb44-60" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Descarga el archivo PDF en la fila **Descriptor de archivos**.</span>
+<span id="cb44-61"><a href="#cb44-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-62"><a href="#cb44-62" aria-hidden="true" tabindex="-1"></a>Nota como este archivo contiene la información de cada archivo que descargamos. Líneas grises separan el contenido de cada archivo y en la parte derecha por arriba de las líneas grises viene el nombre de los archivos que descargamos. Luego vienen un conjunto de tablas con las preguntas, el código o nemónico con el que se registró en los archivos o bases de datos e información de los valores que puede tomar cada variable/pregunta.</span>
+<span id="cb44-63"><a href="#cb44-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-64"><a href="#cb44-64" aria-hidden="true" tabindex="-1"></a><span class="fu">## Niveles de información de la encuesta</span></span>
+<span id="cb44-65"><a href="#cb44-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-66"><a href="#cb44-66" aria-hidden="true" tabindex="-1"></a>Después de explorar la encuesta podrás darte cuenta de que esta incluye información a varios niveles:</span>
+<span id="cb44-67"><a href="#cb44-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-68"><a href="#cb44-68" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Información de la vivienda (el espacio físico donde habita un hogar). Esta información viene en la tabla <span class="in">`TVIVIENDA`</span>.</span>
+<span id="cb44-69"><a href="#cb44-69" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Información sobre el hogar (conjunto de personas que viven juntas y comparten gastos). Esta información viene en la tabla <span class="in">`THOGAR`</span>.</span>
+<span id="cb44-70"><a href="#cb44-70" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Información sobre los miembros del hogar (cada individuo de un hogar). Esta información viene en la tabla <span class="in">`TSDEM`</span>.</span>
+<span id="cb44-71"><a href="#cb44-71" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Las respuestas de la encuesta de bienestar autoreportado de un miembro del hogar elegido al azar. Esta información viene en la tabla <span class="in">`TENBIARE`</span>.</span>
+<span id="cb44-72"><a href="#cb44-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-73"><a href="#cb44-73" aria-hidden="true" tabindex="-1"></a><span class="fu">## Factor de expansión</span></span>
+<span id="cb44-74"><a href="#cb44-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-75"><a href="#cb44-75" aria-hidden="true" tabindex="-1"></a>Cuando se trabaja con encuestas algo muy importante es considerar el **factor de expansión**. Recordemos que en un **censo** se obtiene información de *toda* la población de interés. En contraste en una **encuesta** solo se obtiene de una *muestra* o *subconjunto* de la población. Sin embargo, a través de métodos estadísticos podemos hacer inferencias para hacer conclusiones sobre toda la población. Por ejemplo, para hacer nuestro muestreo se podría agrupar (estratificar) a la población de acuerdo a su sexo, nivel socioeconómico y edad. Dado que sabemos información demográfica del país, sabemos cuantas personas de la población total habría en cada grupo (estrato). Entonces en lugar de obtener información de toda la población se podrían elegir solo unos cuantos de cada grupo y a partir de sus respuestas estimar qué huberan contestado las otras personas de ese grupo (bajo el supuesto de que otras personas con características similares contestarían de manera similar). En particular el factor de expansión es un valor numérico que nos indica a cuantos otros individuos equivale la respuesta de un individuo muestreado. La definición precisa del factor de expansión tiene que ver con el inverso de la probabilidad de selección de un indiviuso y los detalles estadísticos se pueden consultar en el documento de **Diseño muestral** de la encuesta (ENBIARE <span class="sc">\&gt;</span> Metodología <span class="sc">\&gt;</span> Diseño Muestral)</span>
+<span id="cb44-76"><a href="#cb44-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-77"><a href="#cb44-77" aria-hidden="true" tabindex="-1"></a><span class="fu">## Cargar librerías y datos</span></span>
+<span id="cb44-78"><a href="#cb44-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-79"><a href="#cb44-79" aria-hidden="true" tabindex="-1"></a>Vamos a cargar tidyverse para tener acceso a las funciones que conocemos para manejar y visualizar datos:</span>
+<span id="cb44-80"><a href="#cb44-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-83"><a href="#cb44-83" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-84"><a href="#cb44-84" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb44-85"><a href="#cb44-85" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-86"><a href="#cb44-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-87"><a href="#cb44-87" aria-hidden="true" tabindex="-1"></a>Las tablas de datos son muy grandes y si las cargamos ocuparán mucha memoria en R y harán que este sea más lento. Además, cuando hagamos nuestras gráficas veremos que solo utilizaremos unas cuantas columnas por lo que nos va a convenir solo cargar las columnas que usemos para que estas usen menos memoria. Ahorita solo comprobemos que las tablas se pueden leer correctamente con <span class="in">`read_csv()`</span> sin guardarlas en variables y veamos sus tamaños:</span>
+<span id="cb44-88"><a href="#cb44-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-91"><a href="#cb44-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-92"><a href="#cb44-92" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./data/TVIVIENDA.csv"</span>)</span>
+<span id="cb44-93"><a href="#cb44-93" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./data/THOGAR.csv"</span>)</span>
+<span id="cb44-94"><a href="#cb44-94" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./data/TSDEM.csv"</span>)</span>
+<span id="cb44-95"><a href="#cb44-95" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./data/TENBIARE.csv"</span>)</span>
+<span id="cb44-96"><a href="#cb44-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-97"><a href="#cb44-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-98"><a href="#cb44-98" aria-hidden="true" tabindex="-1"></a>**Pregunta**</span>
+<span id="cb44-99"><a href="#cb44-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-100"><a href="#cb44-100" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>¿Cuántas observaciones y variables tiene cada tabla?</span>
+<span id="cb44-101"><a href="#cb44-101" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Si hay diferencias en el tamaño de las observaciones ¿a qué crees que se deba?</span>
+<span id="cb44-102"><a href="#cb44-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-103"><a href="#cb44-103" aria-hidden="true" tabindex="-1"></a><span class="fu">## Planear un gráfico</span></span>
+<span id="cb44-104"><a href="#cb44-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-105"><a href="#cb44-105" aria-hidden="true" tabindex="-1"></a>Antes ponernos a hacer una visualización debemos darnos una idea de a qué es a lo que queremos llegar. Para eso podemos pensar seguir los siguientes pasos:</span>
+<span id="cb44-106"><a href="#cb44-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-107"><a href="#cb44-107" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Identificar una pregunta que quiero explorar</span>
+<span id="cb44-108"><a href="#cb44-108" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Hacer un boceto del gráfico que quiero hacer</span>
+<span id="cb44-109"><a href="#cb44-109" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Hacer un boceto de cómo debe ser la tabla de datos para crear mi gráfico</span>
+<span id="cb44-110"><a href="#cb44-110" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Identificar los pasos que debo de seguir para crear mi tabla</span>
+<span id="cb44-111"><a href="#cb44-111" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Escribir el código necesario</span>
+<span id="cb44-112"><a href="#cb44-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-113"><a href="#cb44-113" aria-hidden="true" tabindex="-1"></a>Exploremos cómo hacer dos gráficas siguiendo este proceso para que luego ustedes lo apliquen a desarrollar su propia gráfica.</span>
+<span id="cb44-114"><a href="#cb44-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-115"><a href="#cb44-115" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gráfica 1</span></span>
+<span id="cb44-116"><a href="#cb44-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-117"><a href="#cb44-117" aria-hidden="true" tabindex="-1"></a><span class="fu">### Planeación</span></span>
+<span id="cb44-118"><a href="#cb44-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-119"><a href="#cb44-119" aria-hidden="true" tabindex="-1"></a>Explorando el *Descriptor de archivos* de la encuesta podemos notar que hay un conjunto de preguntas sobre el número de mascotas en los hogares. Las preguntas son las siguientes que vienen en la tabla <span class="in">`THOGAR`</span>:</span>
+<span id="cb44-120"><a href="#cb44-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-121"><a href="#cb44-121" aria-hidden="true" tabindex="-1"></a><span class="al">![](./img/descriptor_archivo_grafica_01.png)</span></span>
+<span id="cb44-122"><a href="#cb44-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-123"><a href="#cb44-123" aria-hidden="true" tabindex="-1"></a>Una pregunta que puede surgir de aquí es **¿en qué estados tienen más mascotas en los hogares?**</span>
+<span id="cb44-124"><a href="#cb44-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-125"><a href="#cb44-125" aria-hidden="true" tabindex="-1"></a>Luego podemos hacer un boceto de cómo nos imaginamos que se podría hacer una visualizaciones. En este caso podría ser un gráfico de barras que compare el porcentaje de hogares con mascotas para cada entidad:</span>
+<span id="cb44-126"><a href="#cb44-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-127"><a href="#cb44-127" aria-hidden="true" tabindex="-1"></a><span class="al">![](./img/boceto_grafica_01.png)</span> Luego podemos hacer un boceto de cómo debería ser una tabla que tuviera la información necesaria para crear este gráfico. En este caso requerimos una tabla con dos columnas: el estado y el porcentaje de hogares con mascota:</span>
+<span id="cb44-128"><a href="#cb44-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-129"><a href="#cb44-129" aria-hidden="true" tabindex="-1"></a><span class="al">![](./img/boceto_tabla_01.png)</span> ¿Qué información necesitamos para crear esa tabla?</span>
+<span id="cb44-130"><a href="#cb44-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-131"><a href="#cb44-131" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Para calcular el porcentaje de hogares con mascota necesitamos saber dos cosas:</span>
+<span id="cb44-132"><a href="#cb44-132" aria-hidden="true" tabindex="-1"></a><span class="ss">    1.  </span>el número de hogares en cada entidad que tienen mascota, y</span>
+<span id="cb44-133"><a href="#cb44-133" aria-hidden="true" tabindex="-1"></a><span class="ss">    2.  </span>el número de hogares totales en cada entidad</span>
+<span id="cb44-134"><a href="#cb44-134" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Para crear estas tablas vamos a requerir agrupar los datos por entidad federativa</span>
+<span id="cb44-135"><a href="#cb44-135" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>La información que requerimos corresponde a las preguntas <span class="in">`PG5_1_2`</span>, <span class="in">`PG5_2_2`</span>, <span class="in">`PG5_3_2`</span>. Además requerimos la información de la entidad (<span class="in">`ENT`</span>) y el factor de expansión (<span class="in">`FAC_HOG`</span>). Todo esto lo podemos encontrar en la tabla <span class="in">`THOGAR`</span>.</span>
+<span id="cb44-136"><a href="#cb44-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-137"><a href="#cb44-137" aria-hidden="true" tabindex="-1"></a>Además notemos los valores que tiene cada columna que usaremos:</span>
+<span id="cb44-138"><a href="#cb44-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-139"><a href="#cb44-139" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`PG5_1_2`</span>, <span class="in">`PG5_2_2`</span>, <span class="in">`PG5_3_2`</span>: son valores numéricos que representan el número de perros, gatos u otras mascotas en un hogar</span>
+<span id="cb44-140"><a href="#cb44-140" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`ENT`</span> son la entidades representadas con un código. Estas están ordenadas alfabéticamente, es decir, el 01 es Aguascalientes, y el 32 es Zacatecas.</span>
+<span id="cb44-141"><a href="#cb44-141" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`FAC_HOG`</span>: un valor numérico con el factor de expansión al que equivale cada hogar.</span>
+<span id="cb44-142"><a href="#cb44-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-143"><a href="#cb44-143" aria-hidden="true" tabindex="-1"></a><span class="fu">### Crear la gráfica</span></span>
+<span id="cb44-144"><a href="#cb44-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-145"><a href="#cb44-145" aria-hidden="true" tabindex="-1"></a>Primero carguemos los datos que necesitamos. Usaremos la función <span class="in">`read_csv()`</span>, la cual tiene un argumento <span class="in">`col_sel`</span> que nos permite pasarle como cadena el nombre de las columnas que necesitamos:</span>
+<span id="cb44-146"><a href="#cb44-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-149"><a href="#cb44-149" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-150"><a href="#cb44-150" aria-hidden="true" tabindex="-1"></a>datos_mascotas <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb44-151"><a href="#cb44-151" aria-hidden="true" tabindex="-1"></a>  <span class="st">"./data/THOGAR.csv"</span>, </span>
+<span id="cb44-152"><a href="#cb44-152" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_select =</span> <span class="fu">c</span>(<span class="st">"ENT"</span>, <span class="st">"PG5_1_2"</span>, <span class="st">"PG5_2_2"</span>, <span class="st">"PG5_3_2"</span>, <span class="st">"FAC_HOG"</span>)</span>
+<span id="cb44-153"><a href="#cb44-153" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-154"><a href="#cb44-154" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-155"><a href="#cb44-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-156"><a href="#cb44-156" aria-hidden="true" tabindex="-1"></a>Hagamos unas exploraciones previas para revisar y darle sentido a los datos. ¿Cuál es la población total que representa la encuesta? Recordemos que el factor de expansión es central ya que nos dice cuantos elementos de la población representa cada elemento muestreado. Entonces su suma nos debe dar el tamaño total de la población:</span>
+<span id="cb44-157"><a href="#cb44-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-160"><a href="#cb44-160" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-161"><a href="#cb44-161" aria-hidden="true" tabindex="-1"></a>datos_mascotas <span class="sc">|&gt;</span> <span class="fu">pull</span>(FAC_HOG) <span class="sc">|&gt;</span> <span class="fu">sum</span>()</span>
+<span id="cb44-162"><a href="#cb44-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-163"><a href="#cb44-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-164"><a href="#cb44-164" aria-hidden="true" tabindex="-1"></a>**Pregunta**</span>
+<span id="cb44-165"><a href="#cb44-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-166"><a href="#cb44-166" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>¿Por qué obtuvimos este valor? ¿Qué significa?</span>
+<span id="cb44-167"><a href="#cb44-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-168"><a href="#cb44-168" aria-hidden="true" tabindex="-1"></a>Ahora hagamos nuestra tabla con el total de hogares que hay en cada entidad:</span>
+<span id="cb44-169"><a href="#cb44-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-172"><a href="#cb44-172" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-173"><a href="#cb44-173" aria-hidden="true" tabindex="-1"></a>tabla_hogares_total <span class="ot">&lt;-</span> datos_mascotas <span class="sc">|&gt;</span> </span>
+<span id="cb44-174"><a href="#cb44-174" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ENT) <span class="sc">|&gt;</span></span>
+<span id="cb44-175"><a href="#cb44-175" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb44-176"><a href="#cb44-176" aria-hidden="true" tabindex="-1"></a>    <span class="at">hogares_total =</span> <span class="fu">sum</span>(FAC_HOG)</span>
+<span id="cb44-177"><a href="#cb44-177" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-178"><a href="#cb44-178" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-179"><a href="#cb44-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-180"><a href="#cb44-180" aria-hidden="true" tabindex="-1"></a>Ahora hagamos nuestra tabla con el total de hogares con mascota en cada entidad. Para eso podemos filtrar los datos y quedarnos solo con los datos donde se registro al menos alguna mascota:</span>
+<span id="cb44-181"><a href="#cb44-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-184"><a href="#cb44-184" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-185"><a href="#cb44-185" aria-hidden="true" tabindex="-1"></a>tabla_hogares_mascota <span class="ot">&lt;-</span> datos_mascotas <span class="sc">|&gt;</span></span>
+<span id="cb44-186"><a href="#cb44-186" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( <span class="sc">!</span><span class="fu">is.na</span>(PG5_1_2) <span class="sc">|</span> <span class="sc">!</span><span class="fu">is.na</span>(PG5_2_2) <span class="sc">|</span> <span class="sc">!</span><span class="fu">is.na</span>(PG5_3_2)) <span class="sc">|&gt;</span></span>
+<span id="cb44-187"><a href="#cb44-187" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ENT) <span class="sc">|&gt;</span></span>
+<span id="cb44-188"><a href="#cb44-188" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb44-189"><a href="#cb44-189" aria-hidden="true" tabindex="-1"></a>    <span class="at">hogares_con_mascota =</span> <span class="fu">sum</span>(FAC_HOG)</span>
+<span id="cb44-190"><a href="#cb44-190" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-191"><a href="#cb44-191" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-192"><a href="#cb44-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-193"><a href="#cb44-193" aria-hidden="true" tabindex="-1"></a>Ahora juntemos nuestras tablas. Para eso usemos la función <span class="in">`left_join()`</span>, la cual nos junta dos tablas de acuerdo a los valores de columnas que comparten quedándose con la tabla de la izquierda (el primer argumento que le pasemos):</span>
+<span id="cb44-194"><a href="#cb44-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-197"><a href="#cb44-197" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-198"><a href="#cb44-198" aria-hidden="true" tabindex="-1"></a>tabla_mascotas <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tabla_hogares_mascota, tabla_hogares_total)</span>
+<span id="cb44-199"><a href="#cb44-199" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-200"><a href="#cb44-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-201"><a href="#cb44-201" aria-hidden="true" tabindex="-1"></a>Ahora hagamos el cálculo del porcentaje de hogares con mascota:</span>
+<span id="cb44-202"><a href="#cb44-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-205"><a href="#cb44-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-206"><a href="#cb44-206" aria-hidden="true" tabindex="-1"></a>tabla_mascotas <span class="ot">&lt;-</span> tabla_mascotas <span class="sc">|&gt;</span></span>
+<span id="cb44-207"><a href="#cb44-207" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb44-208"><a href="#cb44-208" aria-hidden="true" tabindex="-1"></a>    <span class="at">porcentaje_hogares_con_mascota =</span> hogares_con_mascota <span class="sc">/</span> hogares_total <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb44-209"><a href="#cb44-209" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-210"><a href="#cb44-210" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-211"><a href="#cb44-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-212"><a href="#cb44-212" aria-hidden="true" tabindex="-1"></a>Un problema que tenemos es que las entidades están escritas con una clave, pero para nuestro gráfico queremos los nombres de la entidad. Para eso debemos:</span>
+<span id="cb44-213"><a href="#cb44-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-214"><a href="#cb44-214" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Entrar al <span class="co">[</span><span class="ot">Catálogo Unico de Claves de Áreas Geoestadísticas</span><span class="co">](https://www.inegi.org.mx/app/ageeml/)</span>.</span>
+<span id="cb44-215"><a href="#cb44-215" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Para solo obtener las claves estatales en *Nivel de desagregación* seleccionamos *Área Geoestadística Estatal (AEGG)* y dar click en *Consultar*</span>
+<span id="cb44-216"><a href="#cb44-216" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>En el ícono de descargar seleccionamos en la sección CSV el archivo con codificación UTF-8.</span>
+<span id="cb44-217"><a href="#cb44-217" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Subir este archivo a Posit Cloud (yo ya lo subí previamente a la carpeta <span class="in">`data`</span> con el nombre <span class="in">`claves_entidades.csv`</span>)</span>
+<span id="cb44-218"><a href="#cb44-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-219"><a href="#cb44-219" aria-hidden="true" tabindex="-1"></a>Ahora cargamos el archivo con las claves. Solo nos quedamos con la información de las claves y nombres:</span>
+<span id="cb44-220"><a href="#cb44-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-223"><a href="#cb44-223" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-224"><a href="#cb44-224" aria-hidden="true" tabindex="-1"></a>claves_entidades <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./data/claves_entidades.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb44-225"><a href="#cb44-225" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(CVE_ENT, NOM_ENT, NOM_ABR)</span>
+<span id="cb44-226"><a href="#cb44-226" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-227"><a href="#cb44-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-228"><a href="#cb44-228" aria-hidden="true" tabindex="-1"></a>Ahora podemos juntar esa información a nuestra tabla usando de nuevo <span class="in">`left_join()`</span>. Solamente que en este caso como la columna con la clave no tiene el mismo nombre en ambas columnas debemos pasarle el argumento <span class="in">`by = c("ENT" = "CVE_ENT")`</span> para decirle que los valores de la columna <span class="in">`ENT`</span> de <span class="in">`tabla_mascotas`</span> lo junte con base en los valores de <span class="in">`CVE_ENT`</span> de la tabla <span class="in">`claves_entidades`</span>:</span>
+<span id="cb44-229"><a href="#cb44-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-232"><a href="#cb44-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-233"><a href="#cb44-233" aria-hidden="true" tabindex="-1"></a>tabla_mascotas <span class="ot">&lt;-</span> <span class="fu">left_join</span>(tabla_mascotas, claves_entidades, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"ENT"</span> <span class="ot">=</span> <span class="st">"CVE_ENT"</span>))</span>
+<span id="cb44-234"><a href="#cb44-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-235"><a href="#cb44-235" aria-hidden="true" tabindex="-1"></a>tabla_mascotas</span>
+<span id="cb44-236"><a href="#cb44-236" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-237"><a href="#cb44-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-238"><a href="#cb44-238" aria-hidden="true" tabindex="-1"></a>Y listo, ya tenemos una tabla con la información que nos interesa: el porcentaje de hogares con mascota y las entidades. Ahora hagamos la gráfica:</span>
+<span id="cb44-239"><a href="#cb44-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-242"><a href="#cb44-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-243"><a href="#cb44-243" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb44-244"><a href="#cb44-244" aria-hidden="true" tabindex="-1"></a>  tabla_mascotas,</span>
+<span id="cb44-245"><a href="#cb44-245" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> porcentaje_hogares_con_mascota, <span class="at">y =</span> <span class="fu">fct_reorder</span>(NOM_ENT, porcentaje_hogares_con_mascota))</span>
+<span id="cb44-246"><a href="#cb44-246" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
+<span id="cb44-247"><a href="#cb44-247" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb44-248"><a href="#cb44-248" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb44-249"><a href="#cb44-249" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Porcentaje de hogares con mascota"</span>,</span>
+<span id="cb44-250"><a href="#cb44-250" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Entidad"</span></span>
+<span id="cb44-251"><a href="#cb44-251" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-252"><a href="#cb44-252" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-253"><a href="#cb44-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-254"><a href="#cb44-254" aria-hidden="true" tabindex="-1"></a>Para destacar más las diferencias podemos cambiar el gráfico a un gráfico de punto, agregarle una capta con el valor de los porcentajes, y agregarle título, subtitulo y caption:</span>
+<span id="cb44-255"><a href="#cb44-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-258"><a href="#cb44-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-259"><a href="#cb44-259" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb44-260"><a href="#cb44-260" aria-hidden="true" tabindex="-1"></a>  tabla_mascotas,</span>
+<span id="cb44-261"><a href="#cb44-261" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> porcentaje_hogares_con_mascota, <span class="at">y =</span> <span class="fu">fct_reorder</span>(NOM_ENT, porcentaje_hogares_con_mascota))</span>
+<span id="cb44-262"><a href="#cb44-262" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span> </span>
+<span id="cb44-263"><a href="#cb44-263" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"tomato"</span>) <span class="sc">+</span></span>
+<span id="cb44-264"><a href="#cb44-264" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(porcentaje_hogares_con_mascota, <span class="dv">1</span>), <span class="st">"%"</span>)),<span class="at">size =</span> <span class="dv">3</span>, <span class="at">nudge_x =</span> <span class="fl">0.75</span>, <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
+<span id="cb44-265"><a href="#cb44-265" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb44-266"><a href="#cb44-266" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Porcentaje de hogares con mascota"</span>,</span>
+<span id="cb44-267"><a href="#cb44-267" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Entidad"</span>,</span>
+<span id="cb44-268"><a href="#cb44-268" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Hogares con mascota en México"</span>,</span>
+<span id="cb44-269"><a href="#cb44-269" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Datos: INEGI. ENBIARE (2021)"</span>,</span>
+<span id="cb44-270"><a href="#cb44-270" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Campeche es el estado con mayor porcentaje de hogares con mascota.</span><span class="sc">\n</span><span class="st">Mientras que la CDMX es el estado con menor porcentaje de hogares</span><span class="sc">\n</span><span class="st">con mascota."</span></span>
+<span id="cb44-271"><a href="#cb44-271" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb44-272"><a href="#cb44-272" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb44-273"><a href="#cb44-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-274"><a href="#cb44-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-275"><a href="#cb44-275" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gráfica 2</span></span>
+<span id="cb44-276"><a href="#cb44-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-277"><a href="#cb44-277" aria-hidden="true" tabindex="-1"></a><span class="fu">### Planeación</span></span>
+<span id="cb44-278"><a href="#cb44-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-279"><a href="#cb44-279" aria-hidden="true" tabindex="-1"></a>Explorando el *Descriptor de archivos* de la encuesta podemos notar que hay una pregunta sobre el grado de depresión que se sintió a lo largo del día:</span>
+<span id="cb44-280"><a href="#cb44-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-281"><a href="#cb44-281" aria-hidden="true" tabindex="-1"></a><span class="al">![](./img/descriptor_archivo_grafica_02_1.png)</span></span>
+<span id="cb44-282"><a href="#cb44-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-283"><a href="#cb44-283" aria-hidden="true" tabindex="-1"></a>Y también sabemos que tenemos la información sobre el sexo de las personas entrevisadas:</span>
+<span id="cb44-284"><a href="#cb44-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-285"><a href="#cb44-285" aria-hidden="true" tabindex="-1"></a><span class="al">![](./img/descripto_archivo_grafica_02_2.png)</span></span>
+<span id="cb44-286"><a href="#cb44-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-287"><a href="#cb44-287" aria-hidden="true" tabindex="-1"></a>Una pregunta que podríamos explorar es **¿el grado de depresesión a lo largo del día difieren entre sexos?**</span>
+<span id="cb44-288"><a href="#cb44-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-289"><a href="#cb44-289" aria-hidden="true" tabindex="-1"></a>Para ello podríamos hacer un gráfico de barras agrupado por sexo como el siguinete:</span>
+<span id="cb44-290"><a href="#cb44-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-291"><a href="#cb44-291" aria-hidden="true" tabindex="-1"></a><span class="al">![](./img/boceto_grafica_02.png)</span></span>
+<span id="cb44-292"><a href="#cb44-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-293"><a href="#cb44-293" aria-hidden="true" tabindex="-1"></a>Y para construir este gráfico necesitaríamos una tabla que se viera así:</span>
+<span id="cb44-294"><a href="#cb44-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-295"><a href="#cb44-295" aria-hidden="true" tabindex="-1"></a><span class="al">![](./img/boceto_tabla_02.png)</span></span>
+<span id="cb44-296"><a href="#cb44-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-297"><a href="#cb44-297" aria-hidden="true" tabindex="-1"></a>Para crear esta tabla necesitamos:</span>
+<span id="cb44-298"><a href="#cb44-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-299"><a href="#cb44-299" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>La pregunta <span class="in">`PA4_10`</span> de la tabla <span class="in">`TENBIARE`</span> con la información del grado de depresión en un día. Este tiene valores del 0 al 10 con el grado de depresión que reportaron a lo largo del día.</span>
+<span id="cb44-300"><a href="#cb44-300" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span><span class="in">`FAC_ELE`</span> con el factor de expansión de la tabla <span class="in">`TENBIARE`</span>, con el factor de expansión de esa respuesta.</span>
+<span id="cb44-301"><a href="#cb44-301" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>La información de <span class="in">`SEXO`</span> de la tabla <span class="in">`TSDEM`</span> con la información del sexo de la persona encuestada. Este valor puede ser <span class="in">`1`</span> que significa <span class="in">`Hombre`</span> o <span class="in">`2`</span> que es <span class="in">`Mujer`</span>.</span>
+<span id="cb44-302"><a href="#cb44-302" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Como tenemos que juntar la información de dos tablas distintas necesitamos las variables que nos permiten identificar a los elementos de una tabla en otra, en este caso son las columnas <span class="in">`FOLIO`</span> (número de encuesta), <span class="in">`VIV_SEL`</span> (número de vivienda seleccionada), <span class="in">`HOGAR`</span> (número de hogar seleccionado) y <span class="in">`N_REN`</span> (número de miembro del hogar)</span>
+<span id="cb44-303"><a href="#cb44-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-304"><a href="#cb44-304" aria-hidden="true" tabindex="-1"></a><span class="fu">### Crear la gráfica</span></span>
+<span id="cb44-305"><a href="#cb44-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-306"><a href="#cb44-306" aria-hidden="true" tabindex="-1"></a>Primero cargamos los datos que necesitamos de depresión:</span>
+<span id="cb44-307"><a href="#cb44-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-310"><a href="#cb44-310" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-311"><a href="#cb44-311" aria-hidden="true" tabindex="-1"></a>datos_depresion <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb44-312"><a href="#cb44-312" aria-hidden="true" tabindex="-1"></a>  <span class="st">"./data/TENBIARE.csv"</span>, </span>
+<span id="cb44-313"><a href="#cb44-313" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_select =</span> <span class="fu">c</span>(<span class="st">"FOLIO"</span>, <span class="st">"VIV_SEL"</span>, <span class="st">"HOGAR"</span>, <span class="st">"N_REN"</span>, <span class="st">"PA4_10"</span>, <span class="st">"FAC_ELE"</span>)</span>
+<span id="cb44-314"><a href="#cb44-314" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-315"><a href="#cb44-315" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-316"><a href="#cb44-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-317"><a href="#cb44-317" aria-hidden="true" tabindex="-1"></a>Veamos rápidamente cual es la población total que representan estos datos:</span>
+<span id="cb44-318"><a href="#cb44-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-321"><a href="#cb44-321" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-322"><a href="#cb44-322" aria-hidden="true" tabindex="-1"></a>datos_depresion <span class="sc">|&gt;</span> <span class="fu">pull</span>(FAC_ELE) <span class="sc">|&gt;</span> <span class="fu">sum</span>()</span>
+<span id="cb44-323"><a href="#cb44-323" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-324"><a href="#cb44-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-325"><a href="#cb44-325" aria-hidden="true" tabindex="-1"></a>**Pregunta**</span>
+<span id="cb44-326"><a href="#cb44-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-327"><a href="#cb44-327" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>¿Qué significa este valor? ¿Por qué no es igual a la población total de México?</span>
+<span id="cb44-328"><a href="#cb44-328" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Si sabemos que la entrvisa solo se aplica a mayores de 18 años que hablan español, ¿tiene más sentido este valor?</span>
+<span id="cb44-329"><a href="#cb44-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-330"><a href="#cb44-330" aria-hidden="true" tabindex="-1"></a>Ahora cargamos los datos que necesitamos del sexo:</span>
+<span id="cb44-331"><a href="#cb44-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-334"><a href="#cb44-334" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-335"><a href="#cb44-335" aria-hidden="true" tabindex="-1"></a>datos_sexo <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb44-336"><a href="#cb44-336" aria-hidden="true" tabindex="-1"></a>  <span class="st">"./data/TSDEM.csv"</span>,</span>
+<span id="cb44-337"><a href="#cb44-337" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_select =</span> <span class="fu">c</span>(<span class="st">"FOLIO"</span>, <span class="st">"VIV_SEL"</span>, <span class="st">"HOGAR"</span>, <span class="st">"N_REN"</span>, <span class="st">"SEXO"</span>, <span class="st">"FAC_HOG"</span>)</span>
+<span id="cb44-338"><a href="#cb44-338" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-339"><a href="#cb44-339" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-340"><a href="#cb44-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-341"><a href="#cb44-341" aria-hidden="true" tabindex="-1"></a>Veamos rápidamente cual es la población total que representan estos datos:</span>
+<span id="cb44-342"><a href="#cb44-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-345"><a href="#cb44-345" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-346"><a href="#cb44-346" aria-hidden="true" tabindex="-1"></a>datos_sexo <span class="sc">|&gt;</span> <span class="fu">pull</span>(FAC_HOG) <span class="sc">|&gt;</span> <span class="fu">sum</span>()</span>
+<span id="cb44-347"><a href="#cb44-347" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-348"><a href="#cb44-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-349"><a href="#cb44-349" aria-hidden="true" tabindex="-1"></a>**Pregunta**</span>
+<span id="cb44-350"><a href="#cb44-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-351"><a href="#cb44-351" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>¿Qué significa este valor?</span>
+<span id="cb44-352"><a href="#cb44-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-353"><a href="#cb44-353" aria-hidden="true" tabindex="-1"></a>Ahora juntemos los datos de sexo con las personas entrevistadas. Como tenemos que las tablas que permiten mapear los valores de una tabla a otra comparten el mismo nombre no necesitamos especificar los nombres de las columnas que usamos para hacer la unión:</span>
+<span id="cb44-354"><a href="#cb44-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-357"><a href="#cb44-357" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-358"><a href="#cb44-358" aria-hidden="true" tabindex="-1"></a>datos_depresion <span class="ot">&lt;-</span> <span class="fu">left_join</span>(datos_depresion, datos_sexo)</span>
+<span id="cb44-359"><a href="#cb44-359" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-360"><a href="#cb44-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-361"><a href="#cb44-361" aria-hidden="true" tabindex="-1"></a>Ahora hagamos nuestra tabla de resumen. Neceistamos agrupar por nivel de depresión (<span class="in">`PA4_10`</span>) y por sexo (<span class="in">`SEXO`</span>) y sumar los factores expansión de los encuestados (<span class="in">`FAC_ELE`</span>):</span>
+<span id="cb44-362"><a href="#cb44-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-365"><a href="#cb44-365" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-366"><a href="#cb44-366" aria-hidden="true" tabindex="-1"></a>tabla_depresion <span class="ot">&lt;-</span> datos_depresion <span class="sc">|&gt;</span></span>
+<span id="cb44-367"><a href="#cb44-367" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PA4_10, SEXO) <span class="sc">|&gt;</span></span>
+<span id="cb44-368"><a href="#cb44-368" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb44-369"><a href="#cb44-369" aria-hidden="true" tabindex="-1"></a>    <span class="at">num_personas =</span> <span class="fu">sum</span>(FAC_HOG)</span>
+<span id="cb44-370"><a href="#cb44-370" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-371"><a href="#cb44-371" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-372"><a href="#cb44-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-373"><a href="#cb44-373" aria-hidden="true" tabindex="-1"></a>Ahora podemos cambiar los números <span class="in">`1`</span> y <span class="in">`2`</span> del la columna <span class="in">`SEXO`</span> por etiquetas que digan <span class="in">`Hombre`</span> y <span class="in">`Mujer`</span>. Para eso podemos usar <span class="in">`mutate`</span> con la función <span class="in">`if_else()`</span> que recibe como primer argumento una condición a probar, como segundo el valor que se asigna si la condición es verdadea y como tercer argumento el valor que se asigna si es falsa:</span>
+<span id="cb44-374"><a href="#cb44-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-377"><a href="#cb44-377" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-378"><a href="#cb44-378" aria-hidden="true" tabindex="-1"></a>tabla_depresion <span class="ot">&lt;-</span> tabla_depresion <span class="sc">|&gt;</span></span>
+<span id="cb44-379"><a href="#cb44-379" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb44-380"><a href="#cb44-380" aria-hidden="true" tabindex="-1"></a>    <span class="at">SEXO =</span> <span class="fu">if_else</span>( SEXO <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"Hombre"</span>, <span class="st">"Mujer"</span> )</span>
+<span id="cb44-381"><a href="#cb44-381" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb44-382"><a href="#cb44-382" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-383"><a href="#cb44-383" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-384"><a href="#cb44-384" aria-hidden="true" tabindex="-1"></a>Finalmente hacemos la gráfica:</span>
+<span id="cb44-385"><a href="#cb44-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-388"><a href="#cb44-388" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-389"><a href="#cb44-389" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb44-390"><a href="#cb44-390" aria-hidden="true" tabindex="-1"></a>  tabla_depresion,</span>
+<span id="cb44-391"><a href="#cb44-391" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> PA4_10, <span class="at">y =</span> num_personas, <span class="at">fill =</span> SEXO)</span>
+<span id="cb44-392"><a href="#cb44-392" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb44-393"><a href="#cb44-393" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb44-394"><a href="#cb44-394" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb44-395"><a href="#cb44-395" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Nivel de depresión a lo largo del día"</span>,</span>
+<span id="cb44-396"><a href="#cb44-396" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Número de personas"</span>,</span>
+<span id="cb44-397"><a href="#cb44-397" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Sexo"</span>,</span>
+<span id="cb44-398"><a href="#cb44-398" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Depresión a lo largo del día en México"</span>,</span>
+<span id="cb44-399"><a href="#cb44-399" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Datos: INEGI. EMBIARE (2021)"</span>,</span>
+<span id="cb44-400"><a href="#cb44-400" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"En la encuesta se les preguntó ¿cuánta parte del día anterior se sintieron deprimidos?</span><span class="sc">\n</span><span class="st">0=Nada y 10=Todo el día"</span></span>
+<span id="cb44-401"><a href="#cb44-401" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb44-402"><a href="#cb44-402" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb44-403"><a href="#cb44-403" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-404"><a href="#cb44-404" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-405"><a href="#cb44-405" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-406"><a href="#cb44-406" aria-hidden="true" tabindex="-1"></a>**Interpeta**</span>
+<span id="cb44-407"><a href="#cb44-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-408"><a href="#cb44-408" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>¿Qué patrones ves en la gráfica?</span>
+<span id="cb44-409"><a href="#cb44-409" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>¿Cómo explicarías lo que ocurre en la gráfica?</span>
+<span id="cb44-410"><a href="#cb44-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-411"><a href="#cb44-411" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gráfica 3</span></span>
+<span id="cb44-412"><a href="#cb44-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-413"><a href="#cb44-413" aria-hidden="true" tabindex="-1"></a><span class="fu">### Planeación</span></span>
+<span id="cb44-414"><a href="#cb44-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-415"><a href="#cb44-415" aria-hidden="true" tabindex="-1"></a>Ahora ustedes deben desarrollar su propia gráfica. Primero Planea:</span>
+<span id="cb44-416"><a href="#cb44-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-417"><a href="#cb44-417" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Elige una **Pregunta a explorar**</span>
+<span id="cb44-418"><a href="#cb44-418" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Haz un **Boceto de la visualización** a la que quieres llegar</span>
+<span id="cb44-419"><a href="#cb44-419" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Haz un **Boceto de la tabla** que necesitas para contruir tu visualización</span>
+<span id="cb44-420"><a href="#cb44-420" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Enlista los **Pasos que debes seguir**</span>
+<span id="cb44-421"><a href="#cb44-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-422"><a href="#cb44-422" aria-hidden="true" tabindex="-1"></a><span class="fu">### Crear la gráfica</span></span>
+<span id="cb44-423"><a href="#cb44-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-424"><a href="#cb44-424" aria-hidden="true" tabindex="-1"></a>En las siguientes celdas puedes crear tu gráfica. Para agregar más celdas puedes dar usar el atajo <span class="in">`CTL + ALT + I`</span> o dar click en el Icono para agregar más celdas (un signo de + y una C) en RStudio que está en la parte superior derecha de la pestaña.</span>
+<span id="cb44-425"><a href="#cb44-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-428"><a href="#cb44-428" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-429"><a href="#cb44-429" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-430"><a href="#cb44-430" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-433"><a href="#cb44-433" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-434"><a href="#cb44-434" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-435"><a href="#cb44-435" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-438"><a href="#cb44-438" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-439"><a href="#cb44-439" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-440"><a href="#cb44-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-443"><a href="#cb44-443" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-444"><a href="#cb44-444" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-445"><a href="#cb44-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-448"><a href="#cb44-448" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-449"><a href="#cb44-449" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copiar al portapapeles" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

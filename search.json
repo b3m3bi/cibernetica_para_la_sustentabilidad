@@ -192,6 +192,797 @@
     "text": "About this site"
   },
   {
+    "objectID": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html",
+    "href": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html",
+    "title": "19 - Series de tiempo y cambios en el tiempo",
+    "section": "",
+    "text": "Para visualizar como cambia una variable en el tiempo se pueden usar las series de tiempo y los gráficos de dispersión conectados. Además se pueden crear animaciones que muestren cambios en el tiempo en las gráficas.\nObjetivos\n\nCrear gráficos de series de tiempo en ggplot\nCrear gráficos de dispersión conectados\nIdentificar cómo crear animaciones en ggplot",
+    "crumbs": [
+      "Visualización de datos",
+      "19 - Series de tiempo y cambios en el tiempo"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#introducción",
+    "href": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#introducción",
+    "title": "19 - Series de tiempo y cambios en el tiempo",
+    "section": "",
+    "text": "Para visualizar como cambia una variable en el tiempo se pueden usar las series de tiempo y los gráficos de dispersión conectados. Además se pueden crear animaciones que muestren cambios en el tiempo en las gráficas.\nObjetivos\n\nCrear gráficos de series de tiempo en ggplot\nCrear gráficos de dispersión conectados\nIdentificar cómo crear animaciones en ggplot",
+    "crumbs": [
+      "Visualización de datos",
+      "19 - Series de tiempo y cambios en el tiempo"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#cargar-librerías-y-datos",
+    "href": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#cargar-librerías-y-datos",
+    "title": "19 - Series de tiempo y cambios en el tiempo",
+    "section": "Cargar librerías y datos",
+    "text": "Cargar librerías y datos\nEn este notebook vamos a usar ggplot2 para graficar (que viene con tidyverse) y usaremos los datos con información general de los países que hemos usado en notebooks anteriores, pero ahora tenemos datos históricos desde el 1990 al 2023 y agregarmos información sobre el uso de fertilizantes per cápita.\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ndatos &lt;- read_csv(\"misc_world_data_1900_2023.csv\")\n\nRows: 19427 Columns: 12\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): country, code, continent, income\ndbl (8): year, population, annual_co2_emissions_per_capita, average_fertiliz...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nview(datos)",
+    "crumbs": [
+      "Visualización de datos",
+      "19 - Series de tiempo y cambios en el tiempo"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#series-de-tiempo",
+    "href": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#series-de-tiempo",
+    "title": "19 - Series de tiempo y cambios en el tiempo",
+    "section": "Series de tiempo",
+    "text": "Series de tiempo\nPara hacer series de tiempo podemos usar geom_line(). Por ejemplo, hagamos un gráfico que muestre cómo ha cambiado la población de México en el tiempo:\n\ndatos_mex &lt;- datos |&gt; \n  filter(country == \"Mexico\")\n\nggplot(\n  data = datos_mex,\n  mapping = aes(x = year, y = population)\n) + \n  geom_line() +\n  labs(\n    x = \"Año\",\n    y = \"Población\"\n  )",
+    "crumbs": [
+      "Visualización de datos",
+      "19 - Series de tiempo y cambios en el tiempo"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#grafico-de-dispersión-conectado",
+    "href": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#grafico-de-dispersión-conectado",
+    "title": "19 - Series de tiempo y cambios en el tiempo",
+    "section": "Grafico de dispersión conectado",
+    "text": "Grafico de dispersión conectado\nUna forma de mostrar cambios en el tiempo para dos variables simultáneamente podemos usar gráficos de dispersión pero donde conectamos puntos en el tiempo. Por ejemplo, veamos cómo ha cambiado el producto interno bruto de México y las emisiones de CO2 en el tiempo. Para conectar los puntos que seguidos usamos geom_path() y además usamos geom_text_repel() (del paquete ggrepel) para poner las leyendas de los años evitando que estas se sobrelapen con los puntos:\n\n#install.packages(\"ggrepel\")\nlibrary(ggrepel)\n\n# Quitamos todas las filas que tienen NA\ndatos_mex &lt;-datos_mex |&gt; drop_na()\n\nggplot(\n  data = datos_mex,\n  mapping = aes(\n    x = average_fertilizer_per_ha,\n    y = annual_co2_emissions_per_capita,\n    label = year\n  )\n) + \n  geom_point() +\n  geom_path() +\n  geom_text_repel(size = 3) + \n  labs(\n    x = \"Uso promedio de fertilizante por ha\",\n    y = \"Emsiones anuales de CO2 per capita\"\n  )\n\n\n\n\n\n\n\n\nInterpreta\n\n¿Cómo se lee esta gráfica?\n¿Qué ha pasado con el uso de fertilizando y con las emisiones de CO2 per cápita a lo largo del tiempo?",
+    "crumbs": [
+      "Visualización de datos",
+      "19 - Series de tiempo y cambios en el tiempo"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#animaciones",
+    "href": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#animaciones",
+    "title": "19 - Series de tiempo y cambios en el tiempo",
+    "section": "Animaciones",
+    "text": "Animaciones\nOtra forma de mostrar cambios en el tiempo es usando animaciones. Para eso podemos usar los paquetes gganimate y gifski. Por ejemplo, veamos cómo ha cambiado la esperanza de vida y el producto interno bruto per cápita en el tiempo:\n\n# install.packages(\"gganimate\")\n# install.packages(\"gifski\")\nlibrary(gganimate)\nlibrary(gifski)\n\np &lt;- ggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = life_expectancy, color = continent, size = population)\n) + \n  geom_point() +\n  labs(\n    x = \"Producto interno burto per cápita\",\n    y = \"Esperanza de vida\",\n    color = \"Continente\",\n    title = \"Año: {frame_time}\"\n  ) + \n  scale_x_continuous(transform = \"log10\", labels = scales::label_dollar()) + \n  scale_y_continuous(transform = \"log10\", labels = scales::label_number()) + \n  transition_time(year) +\n  ease_aes(\"linear\")\n\n#anim &lt;- animate(p, duration = 10, fps = 12, width = 600, height = 400, renderer = gifski_renderer())\n#anim_save(\"./anim.gif\", anim)",
+    "crumbs": [
+      "Visualización de datos",
+      "19 - Series de tiempo y cambios en el tiempo"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#ejercicios",
+    "href": "visualizacion_de_datos/sesion_08/19 - Series y cambios en el tiempo.html#ejercicios",
+    "title": "19 - Series de tiempo y cambios en el tiempo",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nCrea un gráfico de serie de tiempo que muestre cómo han cambiado las emisiones de CO2 per cápita en los paises de América del Sur. Mapea el color de las líneas a cada país.\n\n\ndatos_america_sur &lt;- datos |&gt; filter(continent == \"South America\")\n\nggplot(\n  data = datos_america_sur,\n  mapping = aes(x = year, y = annual_co2_emissions_per_capita, color = country)\n) +\n  geom_line()\n\n\n\n\n\n\n\n\n\nCrea un mapa de dispersión conectado que muestre como ha cambiado\n\n\nggplot(\n  data = datos_mex,\n  mapping = aes(x = life_expectancy, y = health_spending_per_capita, label = year)\n) + \n  geom_point() +\n  geom_path() +\n  geom_text_repel(size = 3)",
+    "crumbs": [
+      "Visualización de datos",
+      "19 - Series de tiempo y cambios en el tiempo"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html",
+    "href": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html",
+    "title": "18 - Graficos de dispersión y de burbujas",
+    "section": "",
+    "text": "Ahora veamos algunas visualizaciones adecuadas para cuando queremos ver como varían dos variables (o más) variables cualitativas.\nObjetivo\n\nConstruir gráficos de dispersión con ggplot\nConstruir gráficos de burbujas con ggplot",
+    "crumbs": [
+      "Visualización de datos",
+      "18 - Graficos de dispersión y de burbujas"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#introducción",
+    "href": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#introducción",
+    "title": "18 - Graficos de dispersión y de burbujas",
+    "section": "",
+    "text": "Ahora veamos algunas visualizaciones adecuadas para cuando queremos ver como varían dos variables (o más) variables cualitativas.\nObjetivo\n\nConstruir gráficos de dispersión con ggplot\nConstruir gráficos de burbujas con ggplot",
+    "crumbs": [
+      "Visualización de datos",
+      "18 - Graficos de dispersión y de burbujas"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#cargar-librerías-y-datos",
+    "href": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#cargar-librerías-y-datos",
+    "title": "18 - Graficos de dispersión y de burbujas",
+    "section": "Cargar librerías y datos",
+    "text": "Cargar librerías y datos\nEn este notebook vamos a usar ggplot2 para graficar (que viene con tidyverse) y usaremos los datos con información general de los países que hemos usado en notebooks anteriores, pero ahora tenemos datos históricos desde el 1990 al 2023 y agregarmos información sobre el uso de fertilizantes per cápita.\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ndatos &lt;- read_csv(\"misc_world_data_1900_2023.csv\")\n\nRows: 19427 Columns: 12\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): country, code, continent, income\ndbl (8): year, population, annual_co2_emissions_per_capita, average_fertiliz...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nview(datos)\n\nEn este notebook trabajaremos solo con los datos del 2022:\n\ndatos &lt;- datos |&gt; filter(year == 2022)",
+    "crumbs": [
+      "Visualización de datos",
+      "18 - Graficos de dispersión y de burbujas"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#gráfico-de-disperión",
+    "href": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#gráfico-de-disperión",
+    "title": "18 - Graficos de dispersión y de burbujas",
+    "section": "Gráfico de disperión",
+    "text": "Gráfico de disperión\nLos gráficos de dispersión nos muestran los valores de dos variables numéricas usando un plano cartesiano. Para crearlo simplemente mapeamos el atributo x y y, y usamos geom_point(). Hagamos un gráfico de dispersión que nos muestre la relación entre el producto interno burto y el uso promedio de fertilizantes y mapemos al color del punto el continente al que pertenece el país:\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = average_fertilizer_per_ha, color = continent)\n) + \n  geom_point() +\n  labs(\n    x = \"Producto interno burto\",\n    y = \"Uso promedio de fertilizante (kg/ha)\",\n    color = \"Continente\"\n  )\n\nWarning: Removed 31 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\nInterpreta\n\n¿Qué tendencia notas en los datos?\n¿Qué problema le ves a esta gráfica?",
+    "crumbs": [
+      "Visualización de datos",
+      "18 - Graficos de dispersión y de burbujas"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#cambiar-las-escalas",
+    "href": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#cambiar-las-escalas",
+    "title": "18 - Graficos de dispersión y de burbujas",
+    "section": "Cambiar las escalas",
+    "text": "Cambiar las escalas\nNuestra gráfica previa tiene el problema de que la mayoría de datos se aglomera en valores pequeños por lo que no es fácil ver alguna tendencia en los datos. En este casi nos funcionaría mejor una escala logarítmica, es decir, una escala que en lugar de que en los ejes demos saltos del mismo tamaño demos saltos cada vez más grandes. Para modificar las escalas en ggplot usamos las funciones scale_x_continuous() (para el eje de las x) y scale_y_continuous() (para el eje de las y). En particular debemos modificar el argumento transform = \"log10\" para que nos transforme la escala en logarítmica base 10 (el valor que toma por defecto es transform = \"identity\", lo cual representa una escala lineal):\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = average_fertilizer_per_ha, color = continent)\n) + \n  geom_point() +\n  labs(\n    x = \"Producto interno burto per cápita\",\n    y = \"Uso promedio de fertilizante (kg/ha)\",\n    color = \"Continente\"\n  ) + \n  scale_x_continuous(transform = \"log10\") + \n  scale_y_continuous(transform = \"log10\")\n\nWarning in scale_y_continuous(transform = \"log10\"): log-10 transformation\nintroduced infinite values.\n\n\nWarning: Removed 31 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\nLa escala logarítmica ayudan a que los datos se vean más separados y que notemos algunas tendencias. Sin embargo, nota como los números en los ejes nos los pone con notación científica difícil de interpretar.",
+    "crumbs": [
+      "Visualización de datos",
+      "18 - Graficos de dispersión y de burbujas"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#cambiar-el-formato-de-los-números",
+    "href": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#cambiar-el-formato-de-los-números",
+    "title": "18 - Graficos de dispersión y de burbujas",
+    "section": "Cambiar el formato de los números",
+    "text": "Cambiar el formato de los números\nPara cambiar el formato de los números de los ejes de manera fácil podemos usar algunas funciones que vienen en el paquete scales:\n\n#install.packages(\"scales\")\n\nPara modificar los números de los ejes debemos usar el argumento labels de scale_x_continuous() y scale_y_continuous(). En particular para que en el eje de las x nos agregue un signo de pesos podemos usar la función label_dollar(), que agrega un signo de pesos y comas, y label_number(), que fuerza a no usar notación científica:\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = average_fertilizer_per_ha, color = continent)\n) + \n  geom_point() +\n  labs(\n    x = \"Producto interno burto per cápita\",\n    y = \"Uso promedio de fertilizante (kg/ha)\",\n    color = \"Continente\"\n  ) + \n  scale_x_continuous(transform = \"log10\", labels = scales::label_dollar()) + \n  scale_y_continuous(transform = \"log10\", labels = scales::label_number())\n\nWarning in scale_y_continuous(transform = \"log10\", labels =\nscales::label_number()): log-10 transformation introduced infinite values.\n\n\nWarning: Removed 31 rows containing missing values or values outside the scale range\n(`geom_point()`).",
+    "crumbs": [
+      "Visualización de datos",
+      "18 - Graficos de dispersión y de burbujas"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#grafico-de-burbujas",
+    "href": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#grafico-de-burbujas",
+    "title": "18 - Graficos de dispersión y de burbujas",
+    "section": "Grafico de burbujas",
+    "text": "Grafico de burbujas\nUn gráfico de burbujas es simplemente un gráfico de dispersión al que se le agrega una variable más en el tamaño de los marcadores. Agreguemos el tamaño de la población a nuestro gráfico:\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = average_fertilizer_per_ha, color = continent, size = population)\n) + \n  geom_point() +\n  labs(\n    x = \"Producto interno burto per cápita\",\n    y = \"Uso promedio de fertilizante (kg/ha)\",\n    color = \"Continente\"\n  ) + \n  scale_x_continuous(transform = \"log10\", labels = scales::label_dollar()) + \n  scale_y_continuous(transform = \"log10\", labels = scales::label_number())\n\nWarning in scale_y_continuous(transform = \"log10\", labels =\nscales::label_number()): log-10 transformation introduced infinite values.\n\n\nWarning: Removed 31 rows containing missing values or values outside the scale range\n(`geom_point()`).",
+    "crumbs": [
+      "Visualización de datos",
+      "18 - Graficos de dispersión y de burbujas"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#agregar-etiquetas-de-texto",
+    "href": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#agregar-etiquetas-de-texto",
+    "title": "18 - Graficos de dispersión y de burbujas",
+    "section": "Agregar etiquetas de texto",
+    "text": "Agregar etiquetas de texto\nAlgo que haría más interesante nuestro gráfico es mostrar el nombre de los países a los que corresponde cada punto. Para eso en lugar de usar geom_point() podríamos usar geom_text(). geom_text() necesita que le indiquemos que valor vamos a mapear a la etiqueta, para eso en el aes() mapeamos el país al atributo label:\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = average_fertilizer_per_ha, color = continent, size = population, label = country)\n) + \n  geom_text() +\n  labs(\n    x = \"Producto interno burto per cápita\",\n    y = \"Uso promedio de fertilizante (kg/ha)\",\n    color = \"Continente\"\n  ) + \n  scale_x_continuous(transform = \"log10\", labels = scales::label_dollar()) + \n  scale_y_continuous(transform = \"log10\", labels = scales::label_number())\n\nWarning in scale_y_continuous(transform = \"log10\", labels =\nscales::label_number()): log-10 transformation introduced infinite values.\n\n\nWarning: Removed 31 rows containing missing values or values outside the scale range\n(`geom_text()`).\n\n\n\n\n\n\n\n\n\nTambién podemos usar geom_label() que nos agrega un fondo a cada etiqueta:\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = average_fertilizer_per_ha, color = continent, size = population, label = country)\n) + \n  geom_text() +\n  labs(\n    x = \"Producto interno burto per cápita\",\n    y = \"Uso promedio de fertilizante (kg/ha)\",\n    color = \"Continente\"\n  ) + \n  scale_x_continuous(transform = \"log10\", labels = scales::label_dollar()) + \n  scale_y_continuous(transform = \"log10\", labels = scales::label_number())\n\nWarning in scale_y_continuous(transform = \"log10\", labels =\nscales::label_number()): log-10 transformation introduced infinite values.\n\n\nWarning: Removed 31 rows containing missing values or values outside the scale range\n(`geom_text()`).\n\n\n\n\n\n\n\n\n\nEstos gráfico nos permite ver los países pero no son muy convenientes ya que son demasiados nombres y se enciman unos sobre otros. Algo más conveniente sería solo agregar las etiquetas de unos cuantos países que queramos. Para eso podemos hacer una tabla distinta con la información solo de los paises que queremos mostrar, por ejemplo:\n\npaises_etiquetas &lt;- c(\"Mexico\", \"China\", \"Japan\", \"France\", \"Russia\", \"Nigeria\", \"Pakistan\")\n\ndatos_etiquetas &lt;- datos |&gt;\n  filter(country %in% paises_etiquetas )\n\nLuego podemos pasarle esta nueva tabla solamente a geom_text() para que solo agregue esas etiquetas:\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = average_fertilizer_per_ha, color = continent)\n) + \n  geom_point(mapping = aes(size = population)) +\n  geom_text(data = datos_etiquetas, mapping = aes(label = country), color = \"black\", size = 2.5) +\n  labs(\n    x = \"Producto interno burto per cápita\",\n    y = \"Uso promedio de fertilizante (kg/ha)\",\n    color = \"Continente\"\n  ) + \n  scale_x_continuous(transform = \"log10\", labels = scales::label_dollar()) + \n  scale_y_continuous(transform = \"log10\", labels = scales::label_number())\n\nWarning in scale_y_continuous(transform = \"log10\", labels =\nscales::label_number()): log-10 transformation introduced infinite values.\n\n\nWarning: Removed 31 rows containing missing values or values outside the scale range\n(`geom_point()`).",
+    "crumbs": [
+      "Visualización de datos",
+      "18 - Graficos de dispersión y de burbujas"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#ejercicios",
+    "href": "visualizacion_de_datos/sesion_08/18 - Graficos de dispersión y de burbujas.html#ejercicios",
+    "title": "18 - Graficos de dispersión y de burbujas",
+    "section": "Ejercicios",
+    "text": "Ejercicios\nEn los siguientes ejercicios vas a ir construyendo paso a paso un gráfico que muestre la relación entre gasto en salud per cápita y mortalidad infantil.\n\nCrea un gráfico de dispersión que muestre la relación entre gasto per cápita en salud y mortalidad infantil\n\n\nggplot(\n  data = datos,\n  mapping = aes(x = health_spending_per_capita, y = child_mortality)\n) + \n  geom_point() +\n  labs(\n    x = \"Gasto en salud per cápita\",\n    y = \"Mortalidad infantil\"\n  )\n\nWarning: Removed 26 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n\nAgrega escala logarítmica a tu eje de las x y eje de las y:\n\n\nggplot(\n  data = datos,\n  mapping = aes(x = health_spending_per_capita, y = child_mortality)\n) + \n  geom_point() +\n  labs(\n    x = \"Gasto en salud per cápita\",\n    y = \"Mortalidad infantil\"\n  ) +\n  scale_x_continuous(transform = \"log10\") +\n  scale_y_continuous(transform = \"log10\")\n\nWarning: Removed 26 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n\nMapea el color del marcador a la clasificación de ingreso segun el banco munidal y el tamaño a la población\n\n\nggplot(\n  data = datos,\n  mapping = aes(x = health_spending_per_capita, y = child_mortality, color = income, size = population)\n) + \n  geom_point() +\n  labs(\n    x = \"Gasto en salud per cápita\",\n    y = \"Mortalidad infantil\"\n  ) +\n  scale_x_continuous(transform = \"log10\") +\n  scale_y_continuous(transform = \"log10\")\n\nWarning: Removed 26 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n\nModifica las etiquetas de los números del eje x para que tengan el signo de pesos (scales::label_dollar()) y las etiquetas del eje y para que tengan el signo de porcentaje (scales::label_percent(scale = 1))\n\n\nggplot(\n  data = datos,\n  mapping = aes(x = health_spending_per_capita, y = child_mortality, color = income, size = population)\n) + \n  geom_point() +\n  labs(\n    x = \"Gasto en salud per cápita\",\n    y = \"Mortalidad infantil\"\n  ) +\n  scale_x_continuous(transform = \"log10\", labels = scales::label_dollar()) +\n  scale_y_continuous(transform = \"log10\", labels = scales::label_percent(scale = 1))\n\nWarning: Removed 26 rows containing missing values or values outside the scale range\n(`geom_point()`).",
+    "crumbs": [
+      "Visualización de datos",
+      "18 - Graficos de dispersión y de burbujas"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/introduccion.html",
+    "href": "visualizacion_de_datos/introduccion.html",
+    "title": "Visualización de datos",
+    "section": "",
+    "text": "En este módulo revisamos los fundamentos de R para la visualización de datos.",
+    "crumbs": [
+      "Visualización de datos"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html",
+    "href": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html",
+    "title": "15 - Histogramas y graficos de densidad",
+    "section": "",
+    "text": "Algo muy fundamental al trabajar con una variable numérica es entender como se distribuye. Esto nos permite identificar varios aspectos importantes, como cuales son los valores máximos y mínimos que puede tomar, cuáles son los valores más comunes o qué tan homogéneos son los datos. Dos de las visualizaciones que nos permiten hacer esto son los histogramas y los gráficos de densidad.\nObjetivos\n\nCrear histogramas con ggplot\nCrear gráficos de densidad con ggplot\nUsar facet_wrap para generar páneles",
+    "crumbs": [
+      "Visualización de datos",
+      "15 - Histogramas y graficos de densidad"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html#introducción",
+    "href": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html#introducción",
+    "title": "15 - Histogramas y graficos de densidad",
+    "section": "",
+    "text": "Algo muy fundamental al trabajar con una variable numérica es entender como se distribuye. Esto nos permite identificar varios aspectos importantes, como cuales son los valores máximos y mínimos que puede tomar, cuáles son los valores más comunes o qué tan homogéneos son los datos. Dos de las visualizaciones que nos permiten hacer esto son los histogramas y los gráficos de densidad.\nObjetivos\n\nCrear histogramas con ggplot\nCrear gráficos de densidad con ggplot\nUsar facet_wrap para generar páneles",
+    "crumbs": [
+      "Visualización de datos",
+      "15 - Histogramas y graficos de densidad"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html#cargar-librerías-y-datos",
+    "href": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html#cargar-librerías-y-datos",
+    "title": "15 - Histogramas y graficos de densidad",
+    "section": "Cargar librerías y datos",
+    "text": "Cargar librerías y datos\nEn este notebook vamos a usar ggplot2 para graficar (que viene con tidyverse) y usaremos los datos con información general de los países que hemos usado en notebooks anteriores.\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ndatos &lt;- read_csv(\"misc_world_data_2020.csv\")\n\nRows: 204 Columns: 11\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): country, code, continent, income\ndbl (7): population, annual_co2_emissions_per_capita, waste_per_capita_tons_...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nglimpse(datos)\n\nRows: 204\nColumns: 11\n$ country                         &lt;chr&gt; \"Afghanistan\", \"Albania\", \"Algeria\", \"…\n$ code                            &lt;chr&gt; \"AFG\", \"ALB\", \"DZA\", \"AND\", \"AGO\", \"AT…\n$ continent                       &lt;chr&gt; \"Asia\", \"Europe\", \"Africa\", \"Europe\", …\n$ population                      &lt;dbl&gt; 39068933, 2871900, 44042041, 77343, 33…\n$ annual_co2_emissions_per_capita &lt;dbl&gt; 0.2970629, 1.6404280, 3.8185754, 4.926…\n$ waste_per_capita_tons_year      &lt;dbl&gt; 0.1624111, 0.3810000, 0.3048496, 0.521…\n$ gdp_per_capita                  &lt;dbl&gt; 2769.689, 14488.944, 14194.172, 55515.…\n$ income                          &lt;chr&gt; \"LIC\", \"UMC\", \"UMC\", \"HIC\", \"LMC\", \"HI…\n$ life_expectancy                 &lt;dbl&gt; 61.4537, 77.8241, 73.2568, 79.4177, 63…\n$ child_mortality                 &lt;dbl&gt; 6.1305537, 0.9433166, 2.2933464, 0.285…\n$ health_spending_per_capita      &lt;dbl&gt; 324.66710, 1070.48540, 720.67460, 4643…",
+    "crumbs": [
+      "Visualización de datos",
+      "15 - Histogramas y graficos de densidad"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html#histogramas",
+    "href": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html#histogramas",
+    "title": "15 - Histogramas y graficos de densidad",
+    "section": "Histogramas",
+    "text": "Histogramas\nLos histogramas son gráficos que dividen a los valores de una variable numérica en grupos del mismo tamaño (bins) y luego cuenta cuantos valores caen en cada grupo que generamos y este conteo es el que graficamos.\nHagamos un histograma para ver cómo se distribuyen las emisiones de CO2 per cápita (annual_co2_emissions_per_capita). Para crear un histograma en ggplot solo debemos mapear la variable de interés a una posición x o y, y usamos geom_histogram(), la cual automáticamente hará los cálculos necesarios para construir el histograma:\n\nggplot(\n  data = datos,\n  mapping = aes(x = annual_co2_emissions_per_capita)) +\n  geom_histogram()\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\n\n\n\n\nAntes de interpretar nuestra gráfica podemos enchularla un poco. Para que veamos claramente las barras podemos cambiar su color blanco y cambiar los nombres de los ejes.\n\nggplot(\n  data = datos,\n  mapping = aes(x = annual_co2_emissions_per_capita)) +\n  geom_histogram(fill = \"white\", color = \"black\") +\n  labs(\n    x = \"Emisión de CO2 anual per cápita\",\n    y = \"Frecuencia\"\n  )\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\n\n\n\n\nInterpreta\n\n¿Qué observas en la gráfica?\n¿Cómo describes la distribución de esta variable?\n\nA grandes rasgos podemos ver que la mayoría de los países tienen bajas emisiones anuales de CO2 per cápita y tenemos solo unos cuantos por arriba de 20. Esta es una distribución sesgada a la derecha.\ngeom_histogram() por defecto genera 30 grupos, muchas veces esto puede ser un valor acertado. Sin embargo, cuando generamos histogramas es importante explorar que pasa al cambiar el numero de grupos ya que eso puede revelar patrones distintos. Para controlar el número de grupos que se generan podemos usar el argumento bins de geom_histogram(), por ejemplo, podemos crear solo 10 grupos:\n\nggplot(\n  data = datos,\n  mapping = aes(x = annual_co2_emissions_per_capita)) +\n  geom_histogram(fill = \"white\", color = \"black\", bins = 10) +\n  labs(\n    x = \"Emisión de CO2 anual per cápita\",\n    y = \"Frecuencia\"\n  )\n\n\n\n\n\n\n\n\nO podemos crear 60 grupos:\n\nggplot(\n  data = datos,\n  mapping = aes(x = annual_co2_emissions_per_capita)) +\n  geom_histogram(fill = \"white\", color = \"black\", bins = 60) +\n  labs(\n    x = \"Emisión de CO2 anual per cápita\",\n    y = \"Frecuencia\"\n  )\n\n\n\n\n\n\n\n\nEn este caso el patrón no cambia mucho, sin embargo, en otros casos puede ser determinante el elegir el número correcto de grupos. Ni muchos como para que ya no se agrupe nada, ni muy pocos como para que se oculten patrones en la distribución.\n\nGenerar páneles de gráficos usando una variable categórica\nAlgo que nos podría interesar es generar múltiples gráficas similares pero separando los datos por una variable categórica. Por ejemplo, algo que nos podría interesar es generar un histograma de la distribución de la emisión de CO2 para cada continente por separado. ggplot permite de manera muy fácil crear paneles de una mismo gráfico pero separándolo por una variable categórica usando la función facet_wrap(). La función facet_wrap() recibe como primer argumento el nombre de la variable que queremos usar como criterio para separar los datos. El nombre de la función debe de venir dentro de una función vars():\n\nggplot(\n  data = datos,\n  mapping = aes(x = annual_co2_emissions_per_capita), color = continents) +\n  geom_histogram(fill = \"white\", color = \"black\", bins = 30) +\n  labs(\n    x = \"Emisión de CO2 anual per cápita\",\n    y = \"Frecuencia\"\n  ) + \n  facet_wrap(vars(continent))\n\n\n\n\n\n\n\n\nInterpreta\n\n¿Qué puedes observar?\n¿En que continente están los países con mayores emisiones de CO2 per cápita?\n¿En que continente están los países que generan menores emisiones de CO2 per cápita?",
+    "crumbs": [
+      "Visualización de datos",
+      "15 - Histogramas y graficos de densidad"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html#gráfico-de-densidad",
+    "href": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html#gráfico-de-densidad",
+    "title": "15 - Histogramas y graficos de densidad",
+    "section": "Gráfico de densidad",
+    "text": "Gráfico de densidad\nOtra forma de observar la distribución de una variable numérica es con un gráfico de densidad. Este es similar a un histograma, solamente que para este hacemos una línea suave que describe la distribución de probabilidad de nuestros datos. Para calcular la curva se realizan varios cálculos, sin embargo, obtenerla es muy fácil solo usando la función geom_density(). Por ejemplo, podemos crear una gráfico de densidad para ver cómo se distribuye la esperanza de vida (life_expectancy):\n\nggplot(\n  data = datos,\n  mapping = aes(x = life_expectancy)\n) +\n  geom_density() +\n  labs(\n    x = \"Esperanza de vida\",\n    y = \"Densidad\"\n  )\n\n\n\n\n\n\n\n\nInterpreta\n\n¿Qué quiere decir este gráfico?\n¿Cuál es la esperanza de vida máxima? ¿Cuál es la mínima?\n¿Cuál es la esperanza de vida más común?\n\nAlgo que nos podría interesar es ver cómo se distribuye la esperanza de vida en cada continente. Para ello podemos crear un panel para para cada continente con facet_wrap():\n\nggplot(\n  data = datos,\n  mapping = aes(x = life_expectancy)\n) +\n  geom_density() +\n  labs(\n    x = \"Esperanza de vida\",\n    y = \"Densidad\"\n  ) +\n  facet_wrap(vars(continent))\n\n\n\n\n\n\n\n\nIntepreta\n\n¿Qué patrones observas en la gráfica?\n¿Cómo difieren las distribuciones de la esperanza de vida en cada continente?\n\nOtra forma como podríamos visualizar el gráfico de densidad de varios continentes es sobrelapandolos en un mismo gráfico. Para ello podemos maper el color de linea (color) y el color de relleno (fill) al continente, y darle un poco de opacidad usando el argumento alpha dentro de geom_density() para que se vean mejor los sobrelapes:\n\nggplot(\n  data = datos,\n  mapping = aes(x = life_expectancy, fill = continent, color = continent)\n) +\n  geom_density(alpha = 0.2) +\n  labs(\n    x = \"Esperanza de vida\",\n    y = \"Densidad\"\n  )\n\n\n\n\n\n\n\n\nComo podrás notar este gráfico es dificil de leer cuando tenemos varias categorías, pero puede ser muy conveniente si queremos comparar solo 2 densidades. Por ejemplo, si quisiéramos comparar la distribución la esperanza de vida de África y Asia podemos filtar la tabla y hacer el mismo gráfico:\n\ndatos_africa_asia &lt;- filter(datos, continent == \"Africa\" | continent == \"Asia\")\n\nggplot(\n  data = datos_africa_asia,\n  mapping = aes(x = life_expectancy, fill = continent, color = continent)\n) +\n  geom_density(alpha = 0.2) +\n  labs(\n    x = \"Esperanza de vida\",\n    y = \"Densidad\"\n  )",
+    "crumbs": [
+      "Visualización de datos",
+      "15 - Histogramas y graficos de densidad"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html#ejercicios",
+    "href": "visualizacion_de_datos/sesion_07/15 - Histogramas y graficos de densidad.html#ejercicios",
+    "title": "15 - Histogramas y graficos de densidad",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\n¿Cómo es la distribución de la producción per cápita de basura? Crea un histograma para ver su distribución\n\n\n¿Cómo se distribuye la mortalidad infantil en cada continente? Crea un panel de histogramas o gráficos de densidad que muestre la mortalidad infantil en cada continente\n\n\nOtra visualización similar al histograma es el polígono de frecuencias, el cual se puede crear en ggplot con la función geom_freqpoly(). Este funciona igual que el histograma, sólo que en lugar de usar barras utiliza una línea. Esta visualización puede ser útil para comparar distribuciones de distintas categorías en una sola gráfica. Crea una visualización que muestre la distribución de la producción de CO2 per cápita en cada continente, usa geom_freqpoly() para crear una sola gráfica donde el color de la línea esté mapeado a distintos continentes. Utiliza solo 10 grupos (bins).\n\n\nggplot(\n  data = datos,\n  mapping = aes(x = annual_co2_emissions_per_capita, color = continent)\n) +\n  geom_freqpoly(bins = 10)",
+    "crumbs": [
+      "Visualización de datos",
+      "15 - Histogramas y graficos de densidad"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html",
+    "href": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html",
+    "title": "16 - Gráficos de cajas, violín, puntos y ridges",
+    "section": "",
+    "text": "Otras visualizaciones que son muy útiles para comparar la distrubución de una variable separada por otra variable categórica son los gráficos de caja y bigotes, el gráfico de violín, el gráfico de puntos dispersos y el «ridges plot». En este notebook revisamos cómo crear estas visualizaciones con ggplot.\nObjetivos\n\nCrear gráficos de cajas y bigotes con ggplot\nCrear gráficos de violín con ggplot\nCrear gráficos de puntos dispersos con ggplot\nCrear «ridges plot» con ggplot y ggridges",
+    "crumbs": [
+      "Visualización de datos",
+      "16 - Gráficos de cajas, violín, puntos y ridges"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#introducción",
+    "href": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#introducción",
+    "title": "16 - Gráficos de cajas, violín, puntos y ridges",
+    "section": "",
+    "text": "Otras visualizaciones que son muy útiles para comparar la distrubución de una variable separada por otra variable categórica son los gráficos de caja y bigotes, el gráfico de violín, el gráfico de puntos dispersos y el «ridges plot». En este notebook revisamos cómo crear estas visualizaciones con ggplot.\nObjetivos\n\nCrear gráficos de cajas y bigotes con ggplot\nCrear gráficos de violín con ggplot\nCrear gráficos de puntos dispersos con ggplot\nCrear «ridges plot» con ggplot y ggridges",
+    "crumbs": [
+      "Visualización de datos",
+      "16 - Gráficos de cajas, violín, puntos y ridges"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#cargar-librerías-y-datos",
+    "href": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#cargar-librerías-y-datos",
+    "title": "16 - Gráficos de cajas, violín, puntos y ridges",
+    "section": "Cargar librerías y datos",
+    "text": "Cargar librerías y datos\nEn este notebook vamos a usar ggplot2 para graficar (que viene con tidyverse) y usaremos los datos con información general de los países que hemos usado en notebooks anteriores.\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ndatos &lt;- read_csv(\"misc_world_data_2020.csv\")\n\nRows: 204 Columns: 11\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): country, code, continent, income\ndbl (7): population, annual_co2_emissions_per_capita, waste_per_capita_tons_...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nglimpse(datos)\n\nRows: 204\nColumns: 11\n$ country                         &lt;chr&gt; \"Afghanistan\", \"Albania\", \"Algeria\", \"…\n$ code                            &lt;chr&gt; \"AFG\", \"ALB\", \"DZA\", \"AND\", \"AGO\", \"AT…\n$ continent                       &lt;chr&gt; \"Asia\", \"Europe\", \"Africa\", \"Europe\", …\n$ population                      &lt;dbl&gt; 39068933, 2871900, 44042041, 77343, 33…\n$ annual_co2_emissions_per_capita &lt;dbl&gt; 0.2970629, 1.6404280, 3.8185754, 4.926…\n$ waste_per_capita_tons_year      &lt;dbl&gt; 0.1624111, 0.3810000, 0.3048496, 0.521…\n$ gdp_per_capita                  &lt;dbl&gt; 2769.689, 14488.944, 14194.172, 55515.…\n$ income                          &lt;chr&gt; \"LIC\", \"UMC\", \"UMC\", \"HIC\", \"LMC\", \"HI…\n$ life_expectancy                 &lt;dbl&gt; 61.4537, 77.8241, 73.2568, 79.4177, 63…\n$ child_mortality                 &lt;dbl&gt; 6.1305537, 0.9433166, 2.2933464, 0.285…\n$ health_spending_per_capita      &lt;dbl&gt; 324.66710, 1070.48540, 720.67460, 4643…",
+    "crumbs": [
+      "Visualización de datos",
+      "16 - Gráficos de cajas, violín, puntos y ridges"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#gráfico-de-cajas-y-bigotes",
+    "href": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#gráfico-de-cajas-y-bigotes",
+    "title": "16 - Gráficos de cajas, violín, puntos y ridges",
+    "section": "Gráfico de cajas y bigotes",
+    "text": "Gráfico de cajas y bigotes\nLos gráficos de cajas y bigotes dividen los datos en cuartiles y nos permiten ver la distribución del valor mínimo, el primer cuartil, la mediana (segundo cuartil), el tercer cuartil, el valor máximo y los datos atípicos. Este tipo de gráficos son muy útiles para comparar la distribución de variables agrupadas por una variable categórica. Para crear gráficos de cajas y bigotes en ggplot usamos la función geom_boxplot(). Por ejemplo, visualicemos la esperanza de vida en distintos continentes:\n\nggplot(\n  data = datos,\n  mapping = aes(x = continent, y = life_expectancy) \n) +\n  geom_boxplot() +\n  labs(\n    x = \"Continente\",\n    y = \"Esperanza de vida\"\n  )\n\n\n\n\n\n\n\n\nReflexiona\n\n¿Qué patrón observas?\nCompara esta visualización con los histogramas y gráficos de densidad que hicimos previamente. ¿Qué diferencias encuentras entre ambos tipos de visualización? ¿Cuál te parece más sencillo de leer e interpretar?",
+    "crumbs": [
+      "Visualización de datos",
+      "16 - Gráficos de cajas, violín, puntos y ridges"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#gráficos-de-violín",
+    "href": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#gráficos-de-violín",
+    "title": "16 - Gráficos de cajas, violín, puntos y ridges",
+    "section": "Gráficos de violín",
+    "text": "Gráficos de violín\nOtro tipo de gráficos que nos permiten ver facilmente la distribución de una variable nuérica separada por categorías es el gráfico de violín. Este es como un gráfico de densidad, pero rotado 90 grados y con la proyección en espejo. Para hacerlos con ggplot podemos usar geom_violin():\n\nggplot(\n  data = datos,\n  mapping = aes(x = continent, y = life_expectancy)) +\n  geom_violin() +\n  labs(\n    x = \"Continente\",\n    y = \"Esperanza de vida\"\n  )\n\n\n\n\n\n\n\n\nReflexiona\n\nCompara esta visualización con el gráfico de caja y bigotes que hicimos previamente. ¿Qué diferencias encuentras entre ambos tipos de visualización? ¿Qué distinta información puedes obtener de uno y de otro?\n\nNota como los gráficos de violín a diferencia de los de caja y bigotes no nos muestran la media ni los datos atípicos, pero nos permiten ver mejor si los datos son bimodales.",
+    "crumbs": [
+      "Visualización de datos",
+      "16 - Gráficos de cajas, violín, puntos y ridges"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#gráfico-de-puntos",
+    "href": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#gráfico-de-puntos",
+    "title": "16 - Gráficos de cajas, violín, puntos y ridges",
+    "section": "Gráfico de puntos",
+    "text": "Gráfico de puntos\nUna desventaja que tienen los gráficos de cajas y bigotes y los de violín es que como algomeran los datos en un solo objeto pueden generar la apariencia de que hay datos donde puede no haberlos. Para evitar este problema podemos graficar cada punto de manera individual:\n\nggplot(\n  data = datos,\n  mapping = aes(x = continent, y = life_expectancy)) +\n  geom_point() +\n  labs(\n    x = \"Continente\",\n    y = \"Esperanza de vida\"\n  )\n\n\n\n\n\n\n\n\nUn problema que presentan estos gráficos es que puede haber mucho sobrelape de puntos, lo cual evita que podamos ver las regiones más densas. Una solución es darle un poco de ruido aleatorio en el eje de las x para que los puntos no se sobrelapen tanto. A esto se le conoce como jittering (tembloroso) y se puede agregar de manera muy fácil a ggplot usando geom_jitter(). Con el argumento width de geom_jitter() podemos controlar que tanto se dispersan los puntos en el eje x.\n\nggplot(\n  data = datos,\n  mapping = aes(x = continent, y = life_expectancy)) +\n  geom_jitter(width = .2) +\n  labs(\n    x = \"Continente\",\n    y = \"Esperanza de vida\"\n  )",
+    "crumbs": [
+      "Visualización de datos",
+      "16 - Gráficos de cajas, violín, puntos y ridges"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#combinar-gráficos",
+    "href": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#combinar-gráficos",
+    "title": "16 - Gráficos de cajas, violín, puntos y ridges",
+    "section": "Combinar gráficos",
+    "text": "Combinar gráficos\nLos gráficos de puntos nos permiten ver cómo se distribuyen nuestros puntos realmente, sin embargo, a diferencia del gráfico de violín es más difícil identificar patrones generales. Para tener mayor información sobre los datos muchas veces se combinan los gráficos. Podemos agregar los dos gráficos como distintas capas. Nota como el orden en que agregamos las capas importa, las capas que pongamos primero en nuestro código irán más abajo. Por ejemplo, si queremos que los gráficos de violín estén abajo debemos ponerlas primero. En este gráfico además para que los puntos no sobresalgan mucho podemos darles opacidad con el argumento alpha.\n\nggplot(\n  data = datos,\n  mapping = aes(x = continent, y = life_expectancy)) +\n  geom_violin() +\n  geom_jitter(width = .2, alpha = 0.3) +\n  labs(\n    x = \"Continente\",\n    y = \"Esperanza de vida\"\n  )",
+    "crumbs": [
+      "Visualización de datos",
+      "16 - Gráficos de cajas, violín, puntos y ridges"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#ridges-plot",
+    "href": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#ridges-plot",
+    "title": "16 - Gráficos de cajas, violín, puntos y ridges",
+    "section": "Ridges plot",
+    "text": "Ridges plot\nFinalmente, otro gráfico que nos permite ver la distribución de variables numéricas agrupadas por una variable categórica, es el un «ridges plot». Este es un gráfico que apila ligeramente gráficos de densidad de grupos distintos (este gráfico se parece a la portada de un famoso disco de Joy Division.\nggplot no tiene por defecto una geometría para crear este tipo de gráfico, pero podemos instalar y cargar el paquete ggridges, el cual introduce la función geom_density_ridges() que nos permite construir este gráfico de manera muy simple.\n\n# install.packages(\"ggridges\")\nlibrary(ggridges)\n\nggplot(datos, aes(y = continent, x = life_expectancy)) +\n  geom_density_ridges()\n\nPicking joint bandwidth of 1.98",
+    "crumbs": [
+      "Visualización de datos",
+      "16 - Gráficos de cajas, violín, puntos y ridges"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#ejercicios",
+    "href": "visualizacion_de_datos/sesion_07/16 - Gráficos de cajas, violín y puntos.html#ejercicios",
+    "title": "16 - Gráficos de cajas, violín, puntos y ridges",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nCrea un gráfico de cajas y bigotes para comparar como se distribuye la producción de basura per cápita en cada continente.\n\n\ndatos |&gt;\n  ggplot(aes(x = continent, y = waste_per_capita_tons_year)) +\n  geom_boxplot()\n\nWarning: Removed 2 rows containing non-finite outside the scale range\n(`stat_boxplot()`).\n\n\n\n\n\n\n\n\n\n\nCrea un gráfico de violín con los puntos sobrelapados, que muestre como la producción de basura per cápita se distribuye en cada nivel de ingresos del banco mundial:\n\n\ndatos |&gt;\n  ggplot(aes(x = income, y = waste_per_capita_tons_year)) +\n  geom_violin() +\n  geom_jitter(alpha = 0.4, width = 0.2)\n\nWarning: Removed 2 rows containing non-finite outside the scale range\n(`stat_ydensity()`).\n\n\nWarning: Removed 2 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n\nCrea un gráfico de crestas (ridges plot) que muestre cómo la mortalidad infantil se distribuye por continente.\n\n\ndatos |&gt;\n  ggplot(aes(x = child_mortality, y = continent)) +\n  geom_density_ridges()\n\nPicking joint bandwidth of 0.485\n\n\nWarning: Removed 12 rows containing non-finite outside the scale range\n(`stat_density_ridges()`).",
+    "crumbs": [
+      "Visualización de datos",
+      "16 - Gráficos de cajas, violín, puntos y ridges"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html",
+    "href": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html",
+    "title": "17 - Gráfico de barras, de punto y de pastel",
+    "section": "",
+    "text": "Muchas veces queremos visualizar una sola magnitud (variable numérica) asociada a una categoría (variable categórica), para esas situaciones podemos usar gráficos de barras, de punto o de pastel. En este notebook exploramos como realizar estos gráficos con ggplot.\nObjetivos\n\nCrear gráficos de barras con ggplot\nCrear gráficos de punto con ggplot\nCrear gráficos de pastel con ggplot\nReordenar las categorías de una gráfica",
+    "crumbs": [
+      "Visualización de datos",
+      "17 - Gráfico de barras, de punto y de pastel"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#introducción",
+    "href": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#introducción",
+    "title": "17 - Gráfico de barras, de punto y de pastel",
+    "section": "",
+    "text": "Muchas veces queremos visualizar una sola magnitud (variable numérica) asociada a una categoría (variable categórica), para esas situaciones podemos usar gráficos de barras, de punto o de pastel. En este notebook exploramos como realizar estos gráficos con ggplot.\nObjetivos\n\nCrear gráficos de barras con ggplot\nCrear gráficos de punto con ggplot\nCrear gráficos de pastel con ggplot\nReordenar las categorías de una gráfica",
+    "crumbs": [
+      "Visualización de datos",
+      "17 - Gráfico de barras, de punto y de pastel"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#cargar-librerías-y-datos",
+    "href": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#cargar-librerías-y-datos",
+    "title": "17 - Gráfico de barras, de punto y de pastel",
+    "section": "Cargar librerías y datos",
+    "text": "Cargar librerías y datos\nEn este notebook vamos a usar ggplot2 para graficar (que viene con tidyverse) y usaremos los datos con información general de los países que hemos usado en notebooks anteriores.\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ndatos &lt;- read_csv(\"misc_world_data_2020.csv\")\n\nRows: 204 Columns: 11\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): country, code, continent, income\ndbl (7): population, annual_co2_emissions_per_capita, waste_per_capita_tons_...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nglimpse(datos)\n\nRows: 204\nColumns: 11\n$ country                         &lt;chr&gt; \"Afghanistan\", \"Albania\", \"Algeria\", \"…\n$ code                            &lt;chr&gt; \"AFG\", \"ALB\", \"DZA\", \"AND\", \"AGO\", \"AT…\n$ continent                       &lt;chr&gt; \"Asia\", \"Europe\", \"Africa\", \"Europe\", …\n$ population                      &lt;dbl&gt; 39068933, 2871900, 44042041, 77343, 33…\n$ annual_co2_emissions_per_capita &lt;dbl&gt; 0.2970629, 1.6404280, 3.8185754, 4.926…\n$ waste_per_capita_tons_year      &lt;dbl&gt; 0.1624111, 0.3810000, 0.3048496, 0.521…\n$ gdp_per_capita                  &lt;dbl&gt; 2769.689, 14488.944, 14194.172, 55515.…\n$ income                          &lt;chr&gt; \"LIC\", \"UMC\", \"UMC\", \"HIC\", \"LMC\", \"HI…\n$ life_expectancy                 &lt;dbl&gt; 61.4537, 77.8241, 73.2568, 79.4177, 63…\n$ child_mortality                 &lt;dbl&gt; 6.1305537, 0.9433166, 2.2933464, 0.285…\n$ health_spending_per_capita      &lt;dbl&gt; 324.66710, 1070.48540, 720.67460, 4643…",
+    "crumbs": [
+      "Visualización de datos",
+      "17 - Gráfico de barras, de punto y de pastel"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#gráfico-de-barras",
+    "href": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#gráfico-de-barras",
+    "title": "17 - Gráfico de barras, de punto y de pastel",
+    "section": "Gráfico de barras",
+    "text": "Gráfico de barras\nEn los gráficos de barras dibujamos una barra vertical u horizontal para cada valor. Existen 2 geometrías en ggplot para crear este tipo de gráficos:\n\ngeom_bar(), el cual calcula el estadístico automáticamente tomando una columna de valores categóricos y haciendo un conteo de cuantas veces se repite cada valor, por lo que solo recibe un solo atributo (aes) de posición (x o y); o\ngeom_col(), el cual trabaja utilizando valores ya tabulados, por lo que recibe dos atributos (aes) de posición (x y y), uno de las categorías y otro de los numéricos que se quieren graficar.\n\n\ngeom_bar()\nPor ejemplo, para saber cuántos países hay en cada continente podemos usar geom_bar() pasándole la columna de continente para que cuente cuanto se repite cada valor:\n\nggplot(\n  data = datos,\n  mapping = aes(x = continent)\n) +\n  geom_bar() +\n  labs(\n    x = \"Continente\",\n    y = \"Número de países\"\n  )\n\n\n\n\n\n\n\n\nPodemos crear gráficos agrupando los datos por otra variable categórica adicional. Por ejemplo, con el color de relleno podemos indicar el ingreso de los países:\n\nggplot(\n  data = datos,\n  mapping = aes(x = continent, fill = income)\n) +\n  geom_bar() +\n  labs(\n    x = \"Continente\",\n    y = \"Número de países\"\n  )\n\n\n\n\n\n\n\n\nPor defecto geom_bar() apila las barras una sobre la otra. Pero podemos controlar si los queremos agrupados uno a lado del otro cambiando el argumento position = \"dodge\":\n\nggplot(\n  data = datos,\n  mapping = aes(x = continent, fill = income)\n) +\n  geom_bar(position = \"dodge\") +\n  labs(\n    x = \"Continente\",\n    y = \"Número de países\"\n  )\n\n\n\n\n\n\n\n\n\n\ngeom_col()\nSi queremos gráficar valores numéricos ya previamente calculados podemos usar geom_col(). Por ejemplo, para reproducir la misma figura que hicimos previamente del número de países en cada continente podemos primero hacer una tabla de resumen:\n\nconteo_continentes &lt;- datos |&gt;\n  group_by(continent) |&gt;\n  summarise(\n    num_paises = n()\n  )\n\nconteo_continentes\n\n# A tibble: 6 × 2\n  continent     num_paises\n  &lt;chr&gt;              &lt;int&gt;\n1 Africa                54\n2 Asia                  49\n3 Europe                43\n4 North America         30\n5 Oceania               16\n6 South America         12\n\n\nY luego podemos usar geom_col() con estos valores:\n\nggplot(\n  data = conteo_continentes,\n  mapping = aes(x = continent, y = num_paises)\n) +\n  geom_col() +\n  labs(\n    x = \"Continente\",\n    y = \"Número de paises\"\n  )\n\n\n\n\n\n\n\n\nPodríamos hacer también un gráfico que nos muestre la producción de basura de los países de América del Norte. Para eso primero filtramos solo los datos de América del Norte y le quitamos los que no tienen el registro de producción de basura:\n\ndatos_america_notre &lt;- datos |&gt;\n  filter(continent == \"North America\" & !is.na(waste_per_capita_tons_year))\n\nY luego creamos nuestro gráfico:\n\nggplot(\n  data = datos_america_notre,\n  mapping = aes(x = country, y = waste_per_capita_tons_year)\n) +\n  geom_col()\n\n\n\n\n\n\n\n\nEste es un gráfico muy feo en el cual no se pueden leer las etiquetas de los países, algo que lo mejoraría mucho es hacerlo horizontal, simplemente cambiando a qué eje mapeamos cada variable:\n\nggplot(\n  data = datos_america_notre,\n  mapping = aes(y = country, x = waste_per_capita_tons_year)\n) +\n  geom_col() +\n  labs(\n    x = \"Producción de basura per cápita\",\n    y = \"País\"\n  )\n\n\n\n\n\n\n\n\n\n\nReordenar los datos\nOtra cosa que haría más fácil leer esta gráfica es que los países estuvieran ordenados por su producción de basura. Para eso podemos usar la función fct_reorder(). Esta función recibe dos argumentos: 1) el nombre de la variable que queremos reordenar y 2) el nombre de la variable que queremos usar como criterio para ordenar los datos. En este caso queremos ordenar la columna country con base a su valor de waste_per_capita_tons_year, por lo que la función nos quedaría: fct_reorder(country, waste_per_capita_tons_year). Esto se lo pasamos directo a nuestro mapeo aes():\n\nggplot(\n  data = datos_america_notre,\n  mapping = aes(y = fct_reorder(country, waste_per_capita_tons_year) , x = waste_per_capita_tons_year)\n) +\n  geom_col() +\n  labs(\n    x = \"Producción de basura per cápita\",\n    y = \"País\"\n  )",
+    "crumbs": [
+      "Visualización de datos",
+      "17 - Gráfico de barras, de punto y de pastel"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#gráfico-de-punto",
+    "href": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#gráfico-de-punto",
+    "title": "17 - Gráfico de barras, de punto y de pastel",
+    "section": "Gráfico de punto",
+    "text": "Gráfico de punto\nUna desventaja de los gráficos de barras es que empiezan en cero, por lo que no son muy útiles graficándo cantidades con escalas grandes. Por ejemplo, si queremos graficar la esperanza de vida de los paises de América del Norte usando graficos de barras, las diferencias no son marcadas por la escala que inicia en el 0:\n\nggplot(\n  data = datos_america_notre,\n  mapping = aes(y = fct_reorder(country, life_expectancy) , x = life_expectancy)\n) +\n  geom_col() +\n  labs(\n    x = \"Esperanza de vida\",\n    y = \"País\"\n  )\n\n\n\n\n\n\n\n\nPara estos casos una alternativa mejor es usar gráficos de punto. Para crearlos simplemente usamos geom_point():\n\nggplot(\n  data = datos_america_notre,\n  mapping = aes(y = fct_reorder(country, life_expectancy ) , x = life_expectancy)\n) +\n  geom_point() +\n  labs(\n    x = \"Producción de basura per cápita\",\n    y = \"País\"\n  )",
+    "crumbs": [
+      "Visualización de datos",
+      "17 - Gráfico de barras, de punto y de pastel"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#gráficos-de-pastel",
+    "href": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#gráficos-de-pastel",
+    "title": "17 - Gráfico de barras, de punto y de pastel",
+    "section": "Gráficos de pastel",
+    "text": "Gráficos de pastel\nOtro tipo de gráfico muy común son los gráficos de pastel. Estos se utilizan para visualización proporciones. Algo muy importante es que estos deben de sumar a 100%. Por ejemplo, creemos un gráfico que muestre el porcentaje de países en cada continente. Para eso primero creemos una tabla con el porcentaje:\n\ndatos_paises &lt;- datos |&gt;\n  group_by(continent) |&gt;\n  summarise(\n    num_paises = n()\n  ) |&gt;\n  mutate(\n    porcentaje_paises = num_paises / sum(num_paises) * 100\n  )\n\ndatos_paises\n\n# A tibble: 6 × 3\n  continent     num_paises porcentaje_paises\n  &lt;chr&gt;              &lt;int&gt;             &lt;dbl&gt;\n1 Africa                54             26.5 \n2 Asia                  49             24.0 \n3 Europe                43             21.1 \n4 North America         30             14.7 \n5 Oceania               16              7.84\n6 South America         12              5.88\n\n\nAhora podemos crear nuestro gráfico de pastel, este se crea también utilizando geom_bar() o geom_col() solo que lo que debemos hacer es «enrroscarlo» para que forme un cículo. Para eso debemos cambiar el sistema de coordenadas del gráfico a coordenadas polares, para eso usamos la función coord_polar(\"y\", start = 0). Además dejamos el mapeo en x en blanco con x = \"\", mapeamos el continente también al color de relleno para que distingamos cada categoría y quitamos el tema para que nos quite los ejes:\n\nggplot(\n  data = datos_paises,\n  mapping = aes(x =\"\", y = porcentaje_paises, fill = continent)\n) +\n  geom_col() +\n  coord_polar(\"y\", start = 0) +\n  theme_void()",
+    "crumbs": [
+      "Visualización de datos",
+      "17 - Gráfico de barras, de punto y de pastel"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#ejercicios",
+    "href": "visualizacion_de_datos/sesion_07/17 - Gráfico de barras, punto y pastel.html#ejercicios",
+    "title": "17 - Gráfico de barras, de punto y de pastel",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nCrea un gráfico de barras que muestre cuantos paises hay en cada categoría de ingreso del banco mundial\n\n\nCrea un gráfico de punto del producto interno bruto per cápita de los países de América.",
+    "crumbs": [
+      "Visualización de datos",
+      "17 - Gráfico de barras, de punto y de pastel"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html",
+    "title": "14 - Introducción a ggplot",
+    "section": "",
+    "text": "En este notebook vamos a empezar a explorar el mundo de la visualización de datos con R. En particular vamos a usar el paquete más famosos para crear visualizaciones el cual se llama ggplot2.\nObjetivos\n\nConocer el uso y síntaxis básica de ggplot para crear gráficos en R.",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#introducción",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#introducción",
+    "title": "14 - Introducción a ggplot",
+    "section": "",
+    "text": "En este notebook vamos a empezar a explorar el mundo de la visualización de datos con R. En particular vamos a usar el paquete más famosos para crear visualizaciones el cual se llama ggplot2.\nObjetivos\n\nConocer el uso y síntaxis básica de ggplot para crear gráficos en R.",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#cargar-los-paquetes",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#cargar-los-paquetes",
+    "title": "14 - Introducción a ggplot",
+    "section": "Cargar los paquetes",
+    "text": "Cargar los paquetes\nggplot2 es parte de tidyverse por lo que al cargar tidyverse también estamos cargando ggplot2.\n\n## Si no están instalados los paquetes los instalamos\n# install.packages(c('tidyverse', 'janitor'))\n\n# Cargamos tidyverse\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nPuedes ver como en la consola al cargar tidyverse nos indica que también se cargó ggplot2:",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#leer-los-datos",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#leer-los-datos",
+    "title": "14 - Introducción a ggplot",
+    "section": "Leer los datos",
+    "text": "Leer los datos\nEn este notebook vamos a utilizar un conjunto de datos que incluye diversa información ambiental, económica y de salud de los países para el año 2020. Los datos fueron obtenidos principalmente de Our World in Data y del World Bank Open Data. Para ver cómo se descargó y creo el conjunto de datos puedes consultar el script que se llama preparacion_datos.R. El archivo con los datos se llama misc_world_data_2020.csv.\nEn la siguiente celda cargamos los datos, y los abrimos con View para ver qué tienen:\n\ndatos &lt;- read_csv(\"misc_world_data_2020.csv\")\n\nRows: 214 Columns: 11\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): country, code, continent, income\ndbl (7): population, annual_co2_emissions_per_capita, waste_per_capita_tons_...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nView(datos)\n\nPreguntas:\n\n¿Cuántas variables y cuantas observaciones incluye nuestra tabla de datos?\n¿Qué tipo de variable es cada una? (cualitativa, cuantitativa, ordinal, no ordinal, discreta, continua)\n¿Qué tipo de preguntas podrías explorar con las variables que incluye el conjunto de datos?\nEsboza 3 gráficas que te imaginas que puedes crear con este conjunto de datos. Indica claramente a qué atributo mapearías cada variable de tu gráfico.",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#el-primer-gráfico",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#el-primer-gráfico",
+    "title": "14 - Introducción a ggplot",
+    "section": "El primer gráfico",
+    "text": "El primer gráfico\n¿Cuáles son los países que generan más basura? ¿Existe alguna relación entre la riqueza de un pais y su producción de basura? Hagamos un primer gráfico que nos ayude a viualizar si existe una relación entre el producto interno burto per cáptia y la producción de basura per cápita.\nEste primer gráfico podría ser un gráfico de dispersión que se vea de la siguiente manera:\n\nDonde en el eje de las x mapeamos el producto interno burto per cápita y en el eje de las y ponemos la producción de basura per cápita.",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#crear-un-lienzo-en-blanco",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#crear-un-lienzo-en-blanco",
+    "title": "14 - Introducción a ggplot",
+    "section": "Crear un lienzo en blanco",
+    "text": "Crear un lienzo en blanco\nPara crear gráficas con ggplot usamos la función ggplot(), la cual recibe como primer argumento la tabla que contiene los datos que queremos graficar. Esto nos crea una gráfica vacía ya que aún no le hemos dicho como queremos visualizar la información.\n\nggplot(data = datos)\n\n\n\n\n\n\n\n\nEn el panel de inferior derecho de RStudio, en la pestaña Plots se mostrarán las gráficas que vayamos creando. En este caso verás una gráfica en blanco.",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#mapear-las-variables-a-atributos",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#mapear-las-variables-a-atributos",
+    "title": "14 - Introducción a ggplot",
+    "section": "Mapear las variables a atributos",
+    "text": "Mapear las variables a atributos\nLo siguiente que debemos hacer es decirle a ggplot() cuál es la información que queremos representar visualmente, es decir, cómo mapear las variables a atributos visuales o aesthetics. Para definir los atributos visuales usamos el argumento mapping de ggplot(), el cual siempre se define con la función aes().\nLa función aes() tiene diversos argumentos que representan los atributos posibles de un gráfico:\n\nx: posición en x\ny: posición en y\nsize: tamaño\ncolor: color de línea o contorno\nfill: color de relleno\nlinestyle: patrón de línea\nshape: forma de marcador\netc…\n\nA estos argumentos, le pasamos el nombre de la variable (columna) la cual queremos que represente (en este caso gdp_per_capita y waste_per_capita_tons_year):\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = waste_per_capita_tons_year)\n)\n\n\n\n\n\n\n\n\nNuestro lienzo sigue sin mostrar los datos, pero ahora tiene más estructura ya que nos muestra la información de los ejes.",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#agregar-objetos-geométricos",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#agregar-objetos-geométricos",
+    "title": "14 - Introducción a ggplot",
+    "section": "Agregar objetos geométricos",
+    "text": "Agregar objetos geométricos\nPara podes visualizar la información debemos de agregar objetos de geometría o geoms. Existen diversas geometrías en ggplot las cuales son fáciles de reconocer ya que son funciones que inician todas con geom_. Por ejemplo, para crear una capa con puntos usamos geom_point().\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = waste_per_capita_tons_year)\n) +\n  geom_point()\n\nWarning: Removed 23 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n¡Y listo ya creamos nuestro primer gráfico de dispersión en R!\nNota como para agregar “capas” a nuestro gráfico utilizamos el signo de suma +. Generalmente ponemos cada “capa” nueva en un renglón aparte para que sea más fácil de leer nuestro código. Es muy importante que pongas el signo de más hasta el final de la línea anterior, si no haces esto ggplot se confunde y te arrojará errores.\nOtra cosa adicional a notar es que en la consola R nos pone una advertencia que dice:\nWarning: Removed 23 rows containing missing values or values outside the scale range (`geom_point()`).\nAquí lo que nos está advirtiendo ggplot es que quitó 23 filas de datos para las que faltaban los datos ya sean de PBI per cápita o de producción de basura per cápita. Este tipo de advertencias te las econtrarás de muy seguido y son muy útiles ya que R siempre decide avisarte que hay valores que faltan. Muchas veces podemos seguir adelante ignorando esas advertencias, pero en otros casos, es muy importante conocer nuestros datos faltantes para interpretar correctamente nuestros datos.\nInterpeta\n\n¿Qué nos dice nuestro gráfico?\n¿Cómo sugiere el gráfico que es la relación entre el PBI y la producción de basura per cápitas?",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#agregar-atributos",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#agregar-atributos",
+    "title": "14 - Introducción a ggplot",
+    "section": "Agregar atributos",
+    "text": "Agregar atributos\nLos gráficos de dispersión son muy útiles para mostrarnos información sobre la relación entre dos variables numéricas (cualtitativas). Pero también podríamos agregar más información, por ejemplo, podríamos agregar la información del continente de los países al color de los marcadores. Para eso necesitamos agregar este mapeo en la función aes():\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = waste_per_capita_tons_year, color = continent)\n) +\n  geom_point()\n\nWarning: Removed 23 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\nCuando mapeamos una variable categórica (cualitativa) a un atributo ggplot automaticamente le asigna un valor único a cada posible valor (aquí cada uno de los 6 continentes)\nInterpreta\n\n¿Qué observas en la gráfica?\n¿Notas algún patrón en donde se ubican los países en el gráfico?\n¿Cómo se relaciona esto con lo que sabes?",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#agregar-capas",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#agregar-capas",
+    "title": "14 - Introducción a ggplot",
+    "section": "Agregar capas",
+    "text": "Agregar capas\nPodemos notar que parece haber una relación positiva entre PBI y producción de basura per cápita. Para resaltar más claramente esta tendencia podemos agregar otra capa con una línea suave que muestre esta relación. Para eso podemos usar geom_smooth().\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = waste_per_capita_tons_year, color = continent)\n) +\n  geom_point() +\n  geom_smooth()\n\n`geom_smooth()` using method = 'loess' and formula = 'y ~ x'\n\n\nWarning: Removed 23 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 23 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\nPor defecto geom_smoot() nos agrega lineas curvas. Estas son algo confusas y difíciles de interpretar. Si queremos que nos agregue líneas rectas podemos decirle que queremos un modelo lineal (lm) en su argumento method:\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = waste_per_capita_tons_year, color = continent)\n) +\n  geom_point() +\n  geom_smooth(method = \"lm\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 23 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 23 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\nListo. Con lineas rectas podemos resaltar mejor la tendencia que nos interesa. Sin embargo, podemos ver que nos creo una línea por cada continente, algo que sería mejor es tener una sola línea de todo el mundo. Para ello debemos evitar que el color sea un mapeo global.\nNota como el mapeo de las variables a los atributos lo hicimos en la función aes dentro de la función ggplot. En este sitio hacemos mapeos globales que van a usar todas las capas que agreguemos. Sin embargo, cada función geom_ tiene su propio argumento mapping con el cual podemos hacer mapeos locales. En este caso queremos que sólo los puntos tengan color, por lo tanto, definimos el mapeo al color solo dentro de geom_point en lugar de definirlo dentro de ggplot:\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = waste_per_capita_tons_year,)\n) +\n  geom_point(mapping = aes(color = continent)) +\n  geom_smooth(method = \"lm\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 23 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 23 rows containing missing values or values outside the scale range\n(`geom_point()`).",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#enchular-la-gráfica",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#enchular-la-gráfica",
+    "title": "14 - Introducción a ggplot",
+    "section": "Enchular la gráfica",
+    "text": "Enchular la gráfica\n\nForma del marcador\nPodemos mejorar más nuestra gráfica. Una primera cosa que podemos hacer es hacer que la forma de los marcadores también cambie de acuerdo al continente. Esto hace que la gráfica sea amigable y accesible. Para eso agregamos a goem_point un mapeo a la forma shape:\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = waste_per_capita_tons_year,)\n) +\n  geom_point(mapping = aes(color = continent, shape = continent)) +\n  geom_smooth(method = \"lm\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 23 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 23 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n\n\nCambiar color de línea\nPodemos cambiar el color de línea por ejemplo a negro y agregarle opacidad. Para ello dentro de geom_smooth podemos cambiar el argumento color y el argumento alpha:\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = waste_per_capita_tons_year,)\n) +\n  geom_point(mapping = aes(color = continent, shape = continent)) +\n  geom_smooth(method = \"lm\", color = \"black\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 23 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 23 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n\n\nAgregar titulos de gráfico y eje\nOtra cosa que podemos mejorar es agregarle mejores etiquetas a los ejes. Para eso podemos usar la función labs() la cual podemos agregar en una nueva capa. En la función labs() tenemos diversos argumentos donde podemos poner como cadenas el texto que queremos:\n\nx: nombre del eje x\ny: nombre del eje y\ntitle: título del gráfico\nsubtítulo: subtítulo del gráfico\ncaption: texto en chiquito debajo del gráfico (generalmente para incluir el origen de los datos)\nademás podemos agregar cualquier otro atributo de mapeo para cambiarle el nombre que muestra (e.g., color, shape)\n\n\nggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = waste_per_capita_tons_year,)\n) +\n  geom_point(mapping = aes(color = continent, shape = continent)) +\n  geom_smooth(method = \"lm\", color = \"black\") +\n  labs(\n    x = \"PIB per cápita\",\n    y = \"Producción de basura per cápita\",\n    title = \"PIB y producción de basura\",\n    subtitle = \"Conforme incrementa el PIB la producción de basua aumenta\",\n    caption = \"Datos: Our World in Data, 2020\",\n    color = \"Continente\",\n    shape = \"Continente\"\n  )\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 23 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 23 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n\n\nGuardar nuestros gráficos en variables\nNuestros gráficos los podemos guardar en vairables para seguirlos modificando a nuestro gusto poderiormente. Por ejemplo:\n\nmi_grafica &lt;- ggplot(\n  data = datos,\n  mapping = aes(x = gdp_per_capita, y = waste_per_capita_tons_year,)\n) +\n  geom_point(mapping = aes(color = continent, shape = continent)) +\n  geom_smooth(method = \"lm\", color = \"black\") +\n  labs(\n    x = \"PIB per cápita\",\n    y = \"Producción de basura per cápita\",\n    title = \"PIB y producción de basura\",\n    subtitle = \"Conforme incrementa el PIB la producción de basua aumenta\",\n    caption = \"Datos: Our World in Data, 2020\",\n    color = \"Continente\",\n    shape = \"Continente\"\n  )\n\nSi yo llamo a mi gráfico lo puedo ver y seguir usando:\n\nmi_grafica\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 23 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 23 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n\n\nCambiar escala de colores\nPodemos seguir modificando nuestra gráfica, por ejemplo, agregarle cambiarle la escala de color que usa. Por ejemplo, podemos usar la función scale_color_brewer() y pasarle en su argumento palette algunoa de las siguientes escalas de color:\n\n\nmi_grafica +\n  scale_color_brewer(palette = \"Set1\")\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 23 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 23 rows containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\n\n\n\nCambiar el tema\nFinalmente también podemos cambiar el tema general de nuestra gráfica. Existen por defecto varios temas que puedes consultar aquí. Los temas son funciones que inician con theme y que se agregan como capas:\n\nmi_grafica +\n  scale_color_brewer(palette = \"Set1\") +\n  theme_minimal()\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\nWarning: Removed 23 rows containing non-finite outside the scale range\n(`stat_smooth()`).\n\n\nWarning: Removed 23 rows containing missing values or values outside the scale range\n(`geom_point()`).",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#se-pueden-hacer-cosas-muy-bonitas",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#se-pueden-hacer-cosas-muy-bonitas",
+    "title": "14 - Introducción a ggplot",
+    "section": "Se pueden hacer cosas muy bonitas",
+    "text": "Se pueden hacer cosas muy bonitas\nCon ggplot se pueden hacer gráficos tan bonitos como uno quiera. Se requiere mucha práctica y conocimiento pero aquí puedes ver una galería de algunas figuras creadas con ggplot",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#ejercicios",
+    "href": "visualizacion_de_datos/sesion_06/14 - Introducción a ggplot.html#ejercicios",
+    "title": "14 - Introducción a ggplot",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\n¿Cómo es la relación entre emisiones de CO2 y producto interno bruto? Crea una gráfica que muestre esta relación\n\n\n¿Cómo se relaciona el gasto en salud a la mortalidad infantil? Crea una gráfica que muestre esta relación\n\n\nModifica tu gráfico del punto 1 para que el tamaño de los marcadores muestre el tamaño de la población.",
+    "crumbs": [
+      "Visualización de datos",
+      "14 - Introducción a ggplot"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html",
+    "href": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html",
+    "title": "20 - Otros gráficos",
+    "section": "",
+    "text": "Ya revisamos varios de los tipos de gráficos más comunes, no obstante, existen muchos más. Practicamente cualquiera de ellos se puede crear con ggplot. Algunos se crean usando las mismas geometrías que ya revisamos y para otros necesitamos instalar paquetes complementarios. En este notebook vermos como crear algunos otros tipos de gráficos.\nObjetivo\n\nReconocer otros tipos de gráficos que se pueden crear con ggplot y paquetes complementarios",
+    "crumbs": [
+      "Visualización de datos",
+      "20 - Otros gráficos"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#introducción",
+    "href": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#introducción",
+    "title": "20 - Otros gráficos",
+    "section": "",
+    "text": "Ya revisamos varios de los tipos de gráficos más comunes, no obstante, existen muchos más. Practicamente cualquiera de ellos se puede crear con ggplot. Algunos se crean usando las mismas geometrías que ya revisamos y para otros necesitamos instalar paquetes complementarios. En este notebook vermos como crear algunos otros tipos de gráficos.\nObjetivo\n\nReconocer otros tipos de gráficos que se pueden crear con ggplot y paquetes complementarios",
+    "crumbs": [
+      "Visualización de datos",
+      "20 - Otros gráficos"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#cargar-librerías-y-datos",
+    "href": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#cargar-librerías-y-datos",
+    "title": "20 - Otros gráficos",
+    "section": "Cargar librerías y datos",
+    "text": "Cargar librerías y datos\nEn este notebook vamos a usar ggplot2 para graficar (que viene con tidyverse) y usaremos los datos con información general de los países que hemos usado en notebooks anteriores.\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\ndatos &lt;- read_csv(\"misc_world_data_1900_2023.csv\")\n\nRows: 19427 Columns: 12\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): country, code, continent, income\ndbl (8): year, population, annual_co2_emissions_per_capita, average_fertiliz...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nview(datos)",
+    "crumbs": [
+      "Visualización de datos",
+      "20 - Otros gráficos"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#mapa-de-calor",
+    "href": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#mapa-de-calor",
+    "title": "20 - Otros gráficos",
+    "section": "Mapa de calor",
+    "text": "Mapa de calor\nLos mapas de calor son gráficos que permite visualizar 3 variables: dos en la posición x y y y una en el color. Creemos un mapa de calor que muestre el el cambio en las emisiones anuales de CO2 per cápita a lo largo de los años para los países de América del Sur. Los mapas de calor se pueden crean con geom_title() que viene por defecto en ggplot. Nota como reordenamos los países por sus emisiones de CO2 y usamos la escala de color scale_fill_viridis_c():\n\ndatos_america_sur &lt;- datos |&gt; \n  filter(continent == \"South America\" & year &gt;= 2000)\n\nggplot(\n  data = datos_america_sur, \n  mapping = aes(x = year, y = fct_reorder(country, annual_co2_emissions_per_capita), fill = annual_co2_emissions_per_capita)\n) + \n  geom_tile(color = \"white\") + # agregarle un controno blanco a los cuadros\n  scale_fill_viridis_c() +\n  theme_minimal() + \n  coord_equal() + # hacer que sean cuadrados\n  labs(\n    x = \"Año\",\n    y = \"\",\n    fill = \"Emisiones anuales\\nde CO2 per cápita\"\n  )",
+    "crumbs": [
+      "Visualización de datos",
+      "20 - Otros gráficos"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#gráfico-de-pendiente",
+    "href": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#gráfico-de-pendiente",
+    "title": "20 - Otros gráficos",
+    "section": "Gráfico de pendiente",
+    "text": "Gráfico de pendiente\nLos gráficos de pendientes son muy útiles para comparar como cambia una variable en dos condiciones (generalmente en dos puntos distintos del tiempo). Creemos un gráfico de pendiente que muestre como ha cambiado el uso de fertilizantes de 2000 a 2022 en algunos países de América del Norte. Primero necesitamos filtrar nuestros datos para quedarnos solo con los países y años que nos interesan. Luego podemos usar las geometrías geom_point() y geom_line() para crear el gráfico:\n\n# Filtrar los datos\ndatos_mex_usa_can_2000_2022 &lt;- datos |&gt; \n  filter(country %in% c(\"Mexico\", \"United States\", \"Canada\")) |&gt;\n  filter(year == 2000 | year == 2022) |&gt; \n  drop_na()\n\nggplot(\n  data = datos_mex_usa_can_2000_2022,\n  mapping = aes(x = year, y = average_fertilizer_per_ha, color = country)\n) + \n  geom_point() +\n  geom_line() +\n  theme_minimal() +\n  labs(\n    x = \"Año\",\n    y = \"Uso promedio de fertilizante\",\n    color = \"País\"\n  ) +\n  scale_x_continuous(breaks = c(2000, 2022))",
+    "crumbs": [
+      "Visualización de datos",
+      "20 - Otros gráficos"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#dumpbell-chart",
+    "href": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#dumpbell-chart",
+    "title": "20 - Otros gráficos",
+    "section": "Dumpbell chart",
+    "text": "Dumpbell chart\nOtro gráfico común para mostrar cambios entre dos condiciones es el “Dumpbell chart”. Este también se puede crear con geometrías de ggplot básicas. Nota como a diferencia del gráfico de pendiente este tipo de gráfico puede funcionar mejor si tenemos una mayor cantidad de datos.\n\n# Filtrar los datos\ndatos_america_norte_2000_2022 &lt;- datos |&gt; \n  filter(continent == \"North America\") |&gt;\n  filter(year == 2000 | year == 2022) |&gt; \n  drop_na()\n\nggplot(\n  data = datos_america_norte_2000_2022,\n  mapping = aes(x = average_fertilizer_per_ha, y = fct_reorder(country, average_fertilizer_per_ha))\n) + \n  geom_line() +\n  geom_point(aes(color = as.factor(year))) +\n  labs(\n    x = \"Uso promedio de fertilizante\",\n    y = \"\",\n    color = \"Año\"\n  )",
+    "crumbs": [
+      "Visualización de datos",
+      "20 - Otros gráficos"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#stream-graph",
+    "href": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#stream-graph",
+    "title": "20 - Otros gráficos",
+    "section": "Stream graph",
+    "text": "Stream graph\nOtra visualización común es el gráfico de correintes (stream graph). Este muestra como una variable cambia en el tiempo usando áreas.\n\n# install.packages(\"ggstream\")\nlibrary(ggstream)\n\ndatos_america_mex_usa_can &lt;- datos |&gt;\n  filter(country %in% c(\"Mexico\", \"United States\", \"Canada\"))\n\nggplot(\n  data = datos_america_mex_usa_can,\n  mapping = aes(x = year, y = annual_co2_emissions_per_capita, fill = country)\n) +\n  geom_stream(color = \"black\", size = 0.3) +\n  labs(\n    x = \"Año\",\n    y = \"Emisiones anuales de CO2 per cápita\",\n    fill = \"País\"\n  ) +\n  theme_minimal()\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.",
+    "crumbs": [
+      "Visualización de datos",
+      "20 - Otros gráficos"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#nube-de-palabras",
+    "href": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#nube-de-palabras",
+    "title": "20 - Otros gráficos",
+    "section": "Nube de palabras",
+    "text": "Nube de palabras\nOtro tipo de visualización común son las nubes de palabras. Estos se pueden usar por ejempo para visualizar textos o presentaciones orales. En las nubes de palabras generalmente el tamaño o el color representan una mayor frecuencia de esos términos. Para crear una nube de palabras podemos auxiliarnos de dos paquetes tidytext y ggwordcloud. Primero debemos crear una tabla donde en una columna tengamos las palabras y en otra el conteo de su frecuencia en el texto, y luego podemos usar geom_text_wordcloud() para crear la visualización:\n\n## Cargar los paquetes\n# install.packages(c(\"tidytext\", \"ggwordcloud\"))\nlibrary(tidytext)\nlibrary(ggwordcloud)\n\n# El texto para hacer el conteo\ntexto &lt;- \"Esto es un texto para hacer un world cloud. El tamaño de las palabras va a mostrar su frecuencia. Creo que no se repiten muchas palabras, pero a ver que sale. Pongo más palabras, palabras, palabras y palabras. Más y más y más y más palabras para rellenar. Ser o no ser.\"\n\n# Crear la tabla con el conteo de las palabras\nconteo_palabras &lt;- tibble(linea = 1, texto = texto) |&gt;\n  unnest_tokens(palabra, texto) |&gt;\n  count(palabra, sort = TRUE) |&gt;\n  rename(frecuencia = n)\nhead(conteo_palabras)\n\n# A tibble: 6 × 2\n  palabra  frecuencia\n  &lt;chr&gt;         &lt;int&gt;\n1 palabras          7\n2 más               5\n3 y                 4\n4 a                 2\n5 no                2\n6 para              2\n\n# Crear el wordcloud\nggplot(\n  data = conteo_palabras,\n  mapping = aes(label = palabra, size = frecuencia, color = frecuencia)) +\n  geom_text_wordcloud() + \n  scale_size_area(max_size = 20) + # controlar el tamaño de las palabras\n  theme_minimal()",
+    "crumbs": [
+      "Visualización de datos",
+      "20 - Otros gráficos"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#muchos-más-gráficos",
+    "href": "visualizacion_de_datos/sesion_08/20 - Otros gráficos.html#muchos-más-gráficos",
+    "title": "20 - Otros gráficos",
+    "section": "Muchos más gráficos",
+    "text": "Muchos más gráficos\nLo que vimos aquí solo fue una pequeña muestra de lo que puedes hacer con R. En R graph gallery, R Charts varias otras páginas puedes consultar muchos otros tipos de visualización y ver cómo se hacen.",
+    "crumbs": [
+      "Visualización de datos",
+      "20 - Otros gráficos"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html",
+    "href": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html",
+    "title": "Práctica 2: Análisis de microdatos de INEGI",
+    "section": "",
+    "text": "En esta Práctica vamos a visualizar datos de encuestas de INEGI. En particular vamos a utilizar la Encuestra de Bienestar Autoreportado (ENBIARE), la cual se realizó en 2021 y tiene como objetivo recopilar información sobre como las personas perciben su situación de bienestar.\nObjetivo\n\nIdentificar como trabajar con microdatos de INEGI\nRepasar el proceso de importación y manejo de datos en R\nCrear visualizaciones de datos con R",
+    "crumbs": [
+      "Visualización de datos",
+      "Práctica 2: Análisis de microdatos de INEGI"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#introducción",
+    "href": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#introducción",
+    "title": "Práctica 2: Análisis de microdatos de INEGI",
+    "section": "",
+    "text": "En esta Práctica vamos a visualizar datos de encuestas de INEGI. En particular vamos a utilizar la Encuestra de Bienestar Autoreportado (ENBIARE), la cual se realizó en 2021 y tiene como objetivo recopilar información sobre como las personas perciben su situación de bienestar.\nObjetivo\n\nIdentificar como trabajar con microdatos de INEGI\nRepasar el proceso de importación y manejo de datos en R\nCrear visualizaciones de datos con R",
+    "crumbs": [
+      "Visualización de datos",
+      "Práctica 2: Análisis de microdatos de INEGI"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#descargar-los-datos",
+    "href": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#descargar-los-datos",
+    "title": "Práctica 2: Análisis de microdatos de INEGI",
+    "section": "Descargar los datos",
+    "text": "Descargar los datos\nPrimero descarguemos los datos.\n\nAccede a la siguiente liga: https://www.inegi.org.mx/programas/enbiare/2021/\nEntra en la pestaña de Microdatos\nDescarga el archivo CSV en la fila Base de datos.\nSe te descargará un archivo .zip el cual debes descomprimir.\nSube los archivos que descargaste a RStudio de Posit Cloud (yo ya los subí previamente en la carpeta data)\n\nEn la carpeta que descargues encontrarás 4 archivos CSV. ¿Por qué tantos archivos? ¿Qué contiene cada uno? Para entender qué descargamos y cómo se organizan los datos debemos explorar archivos complementaria donde se describe toda la información necesaria para darle sentido a los datos.",
+    "crumbs": [
+      "Visualización de datos",
+      "Práctica 2: Análisis de microdatos de INEGI"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#explora-los-documentos-complementarios",
+    "href": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#explora-los-documentos-complementarios",
+    "title": "Práctica 2: Análisis de microdatos de INEGI",
+    "section": "Explora los documentos complementarios",
+    "text": "Explora los documentos complementarios\n\nPresentación de la encuesta\nUna primera cosa que nos puede ser muy útil es leer la descripción general de la encuesta. Esta incluye información sobre los antecedentes y objetivos de la misma. Para acceder a ella:\n\nAccede a la siguiente liga: https://www.inegi.org.mx/programas/enbiare/2021/\nDa click en Ver más presentación\nConsulta las pestañas de información general de la encuesta.\n\n\n\nPresentación de resultados\nOtra cosa que nos puede ayudar a entender qué contiene la encuesta es revisar la Presentación de resultados. Este es un documento con láminas con algunos de los principales resultados obtenidos de la encuesta que incluye varias visualizaciones. Para acceder a ella:\n\nAccede a la siguiente liga: https://www.inegi.org.mx/programas/enbiare/2021/\nDescarga el PDF de la Presentacion de resultados\n\n\n\nCuestionario\nTambién podemos consultar el Cuestionario que se usó para la encuesta. Este es la columna vertebral de la encuesta y organización de los datos. Revisarlo nos puede dar una idea de qué preguntas se hicieron, cómo se organizó en secciones y qué tipo de respuestas se podían registrar. Para acceder al cuestionario:\n\nAccede a la siguiente liga: https://www.inegi.org.mx/programas/enbiare/2021/\nDescarga el PDF del Cuestionario\n\n\n\nDescriptor de archivos\nFinalmente, el archivo más importante par entender cómo se organizan los datos que descargamos es el Descriptor de archivos. Este es un documento que nos indica los códigos que se usaron para registrar en los CSV cada pregunta y cada valor. Para acceder al descriptor de archivos:\n\nAccede a la siguiente liga: https://www.inegi.org.mx/programas/enbiare/2021/\nEntra en la pestaña de Microdatos\nDescarga el archivo PDF en la fila Descriptor de archivos.\n\nNota como este archivo contiene la información de cada archivo que descargamos. Líneas grises separan el contenido de cada archivo y en la parte derecha por arriba de las líneas grises viene el nombre de los archivos que descargamos. Luego vienen un conjunto de tablas con las preguntas, el código o nemónico con el que se registró en los archivos o bases de datos e información de los valores que puede tomar cada variable/pregunta.",
+    "crumbs": [
+      "Visualización de datos",
+      "Práctica 2: Análisis de microdatos de INEGI"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#niveles-de-información-de-la-encuesta",
+    "href": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#niveles-de-información-de-la-encuesta",
+    "title": "Práctica 2: Análisis de microdatos de INEGI",
+    "section": "Niveles de información de la encuesta",
+    "text": "Niveles de información de la encuesta\nDespués de explorar la encuesta podrás darte cuenta de que esta incluye información a varios niveles:\n\nInformación de la vivienda (el espacio físico donde habita un hogar). Esta información viene en la tabla TVIVIENDA.\nInformación sobre el hogar (conjunto de personas que viven juntas y comparten gastos). Esta información viene en la tabla THOGAR.\nInformación sobre los miembros del hogar (cada individuo de un hogar). Esta información viene en la tabla TSDEM.\nLas respuestas de la encuesta de bienestar autoreportado de un miembro del hogar elegido al azar. Esta información viene en la tabla TENBIARE.",
+    "crumbs": [
+      "Visualización de datos",
+      "Práctica 2: Análisis de microdatos de INEGI"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#factor-de-expansión",
+    "href": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#factor-de-expansión",
+    "title": "Práctica 2: Análisis de microdatos de INEGI",
+    "section": "Factor de expansión",
+    "text": "Factor de expansión\nCuando se trabaja con encuestas algo muy importante es considerar el factor de expansión. Recordemos que en un censo se obtiene información de toda la población de interés. En contraste en una encuesta solo se obtiene de una muestra o subconjunto de la población. Sin embargo, a través de métodos estadísticos podemos hacer inferencias para hacer conclusiones sobre toda la población. Por ejemplo, para hacer nuestro muestreo se podría agrupar (estratificar) a la población de acuerdo a su sexo, nivel socioeconómico y edad. Dado que sabemos información demográfica del país, sabemos cuantas personas de la población total habría en cada grupo (estrato). Entonces en lugar de obtener información de toda la población se podrían elegir solo unos cuantos de cada grupo y a partir de sus respuestas estimar qué huberan contestado las otras personas de ese grupo (bajo el supuesto de que otras personas con características similares contestarían de manera similar). En particular el factor de expansión es un valor numérico que nos indica a cuantos otros individuos equivale la respuesta de un individuo muestreado. La definición precisa del factor de expansión tiene que ver con el inverso de la probabilidad de selección de un indiviuso y los detalles estadísticos se pueden consultar en el documento de Diseño muestral de la encuesta (ENBIARE &gt; Metodología &gt; Diseño Muestral)",
+    "crumbs": [
+      "Visualización de datos",
+      "Práctica 2: Análisis de microdatos de INEGI"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#cargar-librerías-y-datos",
+    "href": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#cargar-librerías-y-datos",
+    "title": "Práctica 2: Análisis de microdatos de INEGI",
+    "section": "Cargar librerías y datos",
+    "text": "Cargar librerías y datos\nVamos a cargar tidyverse para tener acceso a las funciones que conocemos para manejar y visualizar datos:\n\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.2     ✔ tibble    3.3.0\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.1.0     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\n\nLas tablas de datos son muy grandes y si las cargamos ocuparán mucha memoria en R y harán que este sea más lento. Además, cuando hagamos nuestras gráficas veremos que solo utilizaremos unas cuantas columnas por lo que nos va a convenir solo cargar las columnas que usemos para que estas usen menos memoria. Ahorita solo comprobemos que las tablas se pueden leer correctamente con read_csv() sin guardarlas en variables y veamos sus tamaños:\n\nread_csv(\"./data/TVIVIENDA.csv\")\n\nRows: 30822 Columns: 24\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (8): FOLIO, VIV_SEL, P1_2, P2_1, P2_3, ENT, EST_DIS, UPM_DIS\ndbl (16): P1_1, P1_3, P1_4, P1_5, P1_6, P1_7_1, P1_7_2, P1_7_3, P1_7_4, P1_7...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n# A tibble: 30,822 × 24\n   FOLIO VIV_SEL  P1_1 P1_2   P1_3  P1_4  P1_5  P1_6 P1_7_1 P1_7_2 P1_7_3 P1_7_4\n   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n 1 00001 01          3 02        1     1     1     1      2      1      1      1\n 2 00002 02          2 02        1     1     1     1      2      2      2      2\n 3 00003 05          3 01        1     1     1     1      1      1      1      1\n 4 00004 01          3 02        1     1     1     1      1      1      1      1\n 5 00005 03          3 02        1     1     1     1      1      1      1      1\n 6 00006 04          3 02        1     1     1     1      1      1      2      1\n 7 00007 05          3 03        1     1     1     1      1      1      1      1\n 8 00008 01          3 03        1     1     1     1      1      1      1      1\n 9 00009 02          3 03        1     1     1     1      1      1      1      1\n10 00010 03          3 02        1     1     1     1      1      1      1      1\n# ℹ 30,812 more rows\n# ℹ 12 more variables: P1_7_5 &lt;dbl&gt;, P1_7_6 &lt;dbl&gt;, P1_7_7 &lt;dbl&gt;, P1_7_8 &lt;dbl&gt;,\n#   P2_1 &lt;chr&gt;, P2_2 &lt;dbl&gt;, P2_3 &lt;chr&gt;, ENT &lt;chr&gt;, TLOC &lt;dbl&gt;, FAC_VIV &lt;dbl&gt;,\n#   EST_DIS &lt;chr&gt;, UPM_DIS &lt;chr&gt;\n\nread_csv(\"./data/THOGAR.csv\")\n\nRows: 31166 Columns: 19\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (9): FOLIO, VIV_SEL, PG5_1_2, PG5_2_2, PG5_3_2, REN_INF, ENT, EST_DIS, ...\ndbl (10): HOGAR, P3_1, P3_2_1, P3_2_2, P3_2_3, P3_2_4, P3_2_5, P3_2_6, TLOC,...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n# A tibble: 31,166 × 19\n   FOLIO VIV_SEL HOGAR  P3_1 P3_2_1 P3_2_2 P3_2_3 P3_2_4 P3_2_5 P3_2_6 PG5_1_2\n   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;  \n 1 00001 01          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   \n 2 00002 02          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   \n 3 00003 05          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   \n 4 00004 01          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   \n 5 00005 03          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   \n 6 00006 04          1     2     NA     NA     NA     NA     NA     NA 06     \n 7 00007 05          1     2     NA     NA     NA     NA     NA     NA 02     \n 8 00008 01          1     1      1      2      2      2      2      2 &lt;NA&gt;   \n 9 00009 02          1     2     NA     NA     NA     NA     NA     NA 02     \n10 00010 03          1     2     NA     NA     NA     NA     NA     NA &lt;NA&gt;   \n# ℹ 31,156 more rows\n# ℹ 8 more variables: PG5_2_2 &lt;chr&gt;, PG5_3_2 &lt;chr&gt;, REN_INF &lt;chr&gt;, ENT &lt;chr&gt;,\n#   TLOC &lt;dbl&gt;, FAC_HOG &lt;dbl&gt;, EST_DIS &lt;chr&gt;, UPM_DIS &lt;chr&gt;\n\nread_csv(\"./data/TSDEM.csv\")\n\nRows: 109922 Columns: 22\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (10): FOLIO, VIV_SEL, N_REN, EDAD, NIVEL, P4_10_1, P4_10_2, ENT, EST_DIS...\ndbl (12): HOGAR, PAREN, SEXO, P4_5, P4_6, GRADO, P4_8, P4_9, P4_10_3, ALFABE...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n# A tibble: 109,922 × 22\n   FOLIO VIV_SEL HOGAR N_REN PAREN  SEXO EDAD   P4_5  P4_6 NIVEL GRADO  P4_8\n   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;\n 1 00001 01          1 01        1     1 65        2    NA 02        2     1\n 2 00001 01          1 02        2     2 63        2    NA 02        6     1\n 3 00001 01          1 03        3     1 32        2    NA 06        3    NA\n 4 00001 01          1 04        3     1 27        2    NA 08        5    NA\n 5 00002 02          1 01        1     2 81        2    NA 00        0     2\n 6 00002 02          1 02        3     2 54        2    NA 02        6     1\n 7 00003 05          1 01        1     2 34        2    NA 08        4    NA\n 8 00003 05          1 02        3     1 05        2    NA 01        1     9\n 9 00004 01          1 01        1     2 47        2    NA 08        5    NA\n10 00004 01          1 02        6     2 78        2    NA 02        6     1\n# ℹ 109,912 more rows\n# ℹ 10 more variables: P4_9 &lt;dbl&gt;, P4_10_1 &lt;chr&gt;, P4_10_2 &lt;chr&gt;, P4_10_3 &lt;dbl&gt;,\n#   ALFABETISMO &lt;dbl&gt;, ENT &lt;chr&gt;, TLOC &lt;dbl&gt;, FAC_HOG &lt;dbl&gt;, EST_DIS &lt;chr&gt;,\n#   UPM_DIS &lt;chr&gt;\n\nread_csv(\"./data/TENBIARE.csv\")\n\nRows: 31166 Columns: 284\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (61): FOLIO, VIV_SEL, N_REN, PA1, PA2, PA3_01, PA3_02, PA3_03, PA3_04, ...\ndbl (223): HOGAR, PB2_1, PB2_2, PC1_1, PC1_2, PC1_3, PC1_4, PC1_5, PC1_6, PC...\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n# A tibble: 31,166 × 284\n   FOLIO VIV_SEL HOGAR N_REN PA1   PA2   PA3_01 PA3_02 PA3_03 PA3_04 PA3_05\n   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; \n 1 00001 01          1 04    10    10    10     10     10     10     10    \n 2 00002 02          1 02    09    09    07     09     08     09     09    \n 3 00003 05          1 01    10    10    09     10     10     10     10    \n 4 00004 01          1 02    05    08    05     05     10     09     00    \n 5 00005 03          1 03    10    10    09     10     10     10     09    \n 6 00006 04          1 01    06    07    05     04     08     10     07    \n 7 00007 05          1 03    08    06    08     10     09     09     09    \n 8 00008 01          1 02    10    10    08     08     08     10     10    \n 9 00009 02          1 02    09    07    10     09     10     10     09    \n10 00010 03          1 03    10    10    09     10     10     10     09    \n# ℹ 31,156 more rows\n# ℹ 273 more variables: PA3_06 &lt;chr&gt;, PA3_07 &lt;chr&gt;, PA3_08 &lt;chr&gt;, PA3_09 &lt;chr&gt;,\n#   PA3_10 &lt;chr&gt;, PA3_11 &lt;chr&gt;, PA3_12 &lt;chr&gt;, PA3_13 &lt;chr&gt;, PA3_14 &lt;chr&gt;,\n#   PA3_15 &lt;chr&gt;, PA3_16 &lt;chr&gt;, PA3_17 &lt;chr&gt;, PA4_01 &lt;chr&gt;, PA4_02 &lt;chr&gt;,\n#   PA4_03 &lt;chr&gt;, PA4_04 &lt;chr&gt;, PA4_05 &lt;chr&gt;, PA4_06 &lt;chr&gt;, PA4_07 &lt;chr&gt;,\n#   PA4_08 &lt;chr&gt;, PA4_09 &lt;chr&gt;, PA4_10 &lt;chr&gt;, PA5 &lt;chr&gt;, PA6 &lt;chr&gt;,\n#   PB1_01 &lt;chr&gt;, PB1_02 &lt;chr&gt;, PB1_03 &lt;chr&gt;, PB1_04 &lt;chr&gt;, PB1_05 &lt;chr&gt;, …\n\n\nPregunta\n\n¿Cuántas observaciones y variables tiene cada tabla?\nSi hay diferencias en el tamaño de las observaciones ¿a qué crees que se deba?",
+    "crumbs": [
+      "Visualización de datos",
+      "Práctica 2: Análisis de microdatos de INEGI"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#planear-un-gráfico",
+    "href": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#planear-un-gráfico",
+    "title": "Práctica 2: Análisis de microdatos de INEGI",
+    "section": "Planear un gráfico",
+    "text": "Planear un gráfico\nAntes ponernos a hacer una visualización debemos darnos una idea de a qué es a lo que queremos llegar. Para eso podemos pensar seguir los siguientes pasos:\n\nIdentificar una pregunta que quiero explorar\nHacer un boceto del gráfico que quiero hacer\nHacer un boceto de cómo debe ser la tabla de datos para crear mi gráfico\nIdentificar los pasos que debo de seguir para crear mi tabla\nEscribir el código necesario\n\nExploremos cómo hacer dos gráficas siguiendo este proceso para que luego ustedes lo apliquen a desarrollar su propia gráfica.",
+    "crumbs": [
+      "Visualización de datos",
+      "Práctica 2: Análisis de microdatos de INEGI"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#gráfica-1",
+    "href": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#gráfica-1",
+    "title": "Práctica 2: Análisis de microdatos de INEGI",
+    "section": "Gráfica 1",
+    "text": "Gráfica 1\n\nPlaneación\nExplorando el Descriptor de archivos de la encuesta podemos notar que hay un conjunto de preguntas sobre el número de mascotas en los hogares. Las preguntas son las siguientes que vienen en la tabla THOGAR:\n\nUna pregunta que puede surgir de aquí es ¿en qué estados tienen más mascotas en los hogares?\nLuego podemos hacer un boceto de cómo nos imaginamos que se podría hacer una visualizaciones. En este caso podría ser un gráfico de barras que compare el porcentaje de hogares con mascotas para cada entidad:\n Luego podemos hacer un boceto de cómo debería ser una tabla que tuviera la información necesaria para crear este gráfico. En este caso requerimos una tabla con dos columnas: el estado y el porcentaje de hogares con mascota:\n ¿Qué información necesitamos para crear esa tabla?\n\nPara calcular el porcentaje de hogares con mascota necesitamos saber dos cosas:\n\nel número de hogares en cada entidad que tienen mascota, y\nel número de hogares totales en cada entidad\n\nPara crear estas tablas vamos a requerir agrupar los datos por entidad federativa\nLa información que requerimos corresponde a las preguntas PG5_1_2, PG5_2_2, PG5_3_2. Además requerimos la información de la entidad (ENT) y el factor de expansión (FAC_HOG). Todo esto lo podemos encontrar en la tabla THOGAR.\n\nAdemás notemos los valores que tiene cada columna que usaremos:\n\nPG5_1_2, PG5_2_2, PG5_3_2: son valores numéricos que representan el número de perros, gatos u otras mascotas en un hogar\nENT son la entidades representadas con un código. Estas están ordenadas alfabéticamente, es decir, el 01 es Aguascalientes, y el 32 es Zacatecas.\nFAC_HOG: un valor numérico con el factor de expansión al que equivale cada hogar.\n\n\n\nCrear la gráfica\nPrimero carguemos los datos que necesitamos. Usaremos la función read_csv(), la cual tiene un argumento col_sel que nos permite pasarle como cadena el nombre de las columnas que necesitamos:\n\ndatos_mascotas &lt;- read_csv(\n  \"./data/THOGAR.csv\", \n  col_select = c(\"ENT\", \"PG5_1_2\", \"PG5_2_2\", \"PG5_3_2\", \"FAC_HOG\")\n  )\n\nRows: 31166 Columns: 5\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): PG5_1_2, PG5_2_2, PG5_3_2, ENT\ndbl (1): FAC_HOG\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nHagamos unas exploraciones previas para revisar y darle sentido a los datos. ¿Cuál es la población total que representa la encuesta? Recordemos que el factor de expansión es central ya que nos dice cuantos elementos de la población representa cada elemento muestreado. Entonces su suma nos debe dar el tamaño total de la población:\n\ndatos_mascotas |&gt; pull(FAC_HOG) |&gt; sum()\n\n[1] 35867675\n\n\nPregunta\n\n¿Por qué obtuvimos este valor? ¿Qué significa?\n\nAhora hagamos nuestra tabla con el total de hogares que hay en cada entidad:\n\ntabla_hogares_total &lt;- datos_mascotas |&gt; \n  group_by(ENT) |&gt;\n  summarise(\n    hogares_total = sum(FAC_HOG)\n  )\n\nAhora hagamos nuestra tabla con el total de hogares con mascota en cada entidad. Para eso podemos filtrar los datos y quedarnos solo con los datos donde se registro al menos alguna mascota:\n\ntabla_hogares_mascota &lt;- datos_mascotas |&gt;\n  filter( !is.na(PG5_1_2) | !is.na(PG5_2_2) | !is.na(PG5_3_2)) |&gt;\n  group_by(ENT) |&gt;\n  summarise(\n    hogares_con_mascota = sum(FAC_HOG)\n  )\n\nAhora juntemos nuestras tablas. Para eso usemos la función left_join(), la cual nos junta dos tablas de acuerdo a los valores de columnas que comparten quedándose con la tabla de la izquierda (el primer argumento que le pasemos):\n\ntabla_mascotas &lt;- left_join(tabla_hogares_mascota, tabla_hogares_total)\n\nJoining with `by = join_by(ENT)`\n\n\nAhora hagamos el cálculo del porcentaje de hogares con mascota:\n\ntabla_mascotas &lt;- tabla_mascotas |&gt;\n  mutate(\n    porcentaje_hogares_con_mascota = hogares_con_mascota / hogares_total * 100\n  )\n\nUn problema que tenemos es que las entidades están escritas con una clave, pero para nuestro gráfico queremos los nombres de la entidad. Para eso debemos:\n\nEntrar al Catálogo Unico de Claves de Áreas Geoestadísticas.\nPara solo obtener las claves estatales en Nivel de desagregación seleccionamos Área Geoestadística Estatal (AEGG) y dar click en Consultar\nEn el ícono de descargar seleccionamos en la sección CSV el archivo con codificación UTF-8.\nSubir este archivo a Posit Cloud (yo ya lo subí previamente a la carpeta data con el nombre claves_entidades.csv)\n\nAhora cargamos el archivo con las claves. Solo nos quedamos con la información de las claves y nombres:\n\nclaves_entidades &lt;- read_csv(\"./data/claves_entidades.csv\") |&gt;\n  select(CVE_ENT, NOM_ENT, NOM_ABR)\n\nRows: 32 Columns: 8\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): CVEGEO, CVE_ENT, NOM_ENT, NOM_ABR\ndbl (4): POB_TOTAL, POB_MASCULINA, POB_FEMENINA, TOTAL DE VIVIENDAS HABITADAS\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nAhora podemos juntar esa información a nuestra tabla usando de nuevo left_join(). Solamente que en este caso como la columna con la clave no tiene el mismo nombre en ambas columnas debemos pasarle el argumento by = c(\"ENT\" = \"CVE_ENT\") para decirle que los valores de la columna ENT de tabla_mascotas lo junte con base en los valores de CVE_ENT de la tabla claves_entidades:\n\ntabla_mascotas &lt;- left_join(tabla_mascotas, claves_entidades, by = c(\"ENT\" = \"CVE_ENT\"))\n\ntabla_mascotas\n\n# A tibble: 32 × 6\n   ENT   hogares_con_mascota hogares_total porcentaje_hogares_con_masc…¹ NOM_ENT\n   &lt;chr&gt;               &lt;dbl&gt;         &lt;dbl&gt;                         &lt;dbl&gt; &lt;chr&gt;  \n 1 01                 261776        391265                          66.9 Aguasc…\n 2 02                 776222       1168134                          66.4 Baja C…\n 3 03                 170887        256505                          66.6 Baja C…\n 4 04                 200185        259597                          77.1 Campec…\n 5 05                 603373        896980                          67.3 Coahui…\n 6 06                 156959        241253                          65.1 Colima \n 7 07                 872534       1382749                          63.1 Chiapas\n 8 08                 767723       1158195                          66.3 Chihua…\n 9 09                1780642       2898282                          61.4 Ciudad…\n10 10                 367657        522695                          70.3 Durango\n# ℹ 22 more rows\n# ℹ abbreviated name: ¹​porcentaje_hogares_con_mascota\n# ℹ 1 more variable: NOM_ABR &lt;chr&gt;\n\n\nY listo, ya tenemos una tabla con la información que nos interesa: el porcentaje de hogares con mascota y las entidades. Ahora hagamos la gráfica:\n\nggplot(\n  tabla_mascotas,\n  aes(x = porcentaje_hogares_con_mascota, y = fct_reorder(NOM_ENT, porcentaje_hogares_con_mascota))\n) + \n  geom_col() +\n  labs(\n    x = \"Porcentaje de hogares con mascota\",\n    y = \"Entidad\"\n  )\n\n\n\n\n\n\n\n\nPara destacar más las diferencias podemos cambiar el gráfico a un gráfico de punto, agregarle una capta con el valor de los porcentajes, y agregarle título, subtitulo y caption:\n\nggplot(\n  tabla_mascotas,\n  aes(x = porcentaje_hogares_con_mascota, y = fct_reorder(NOM_ENT, porcentaje_hogares_con_mascota))\n) + \n  geom_point(color = \"tomato\") +\n  geom_text(aes(label = paste0(round(porcentaje_hogares_con_mascota, 1), \"%\")),size = 3, nudge_x = 0.75, color = \"gray50\") +\n  labs(\n    x = \"Porcentaje de hogares con mascota\",\n    y = \"Entidad\",\n    title = \"Hogares con mascota en México\",\n    caption = \"Datos: INEGI. ENBIARE (2021)\",\n    subtitle = \"Campeche es el estado con mayor porcentaje de hogares con mascota.\\nMientras que la CDMX es el estado con menor porcentaje de hogares\\ncon mascota.\"\n  ) +\n  theme_minimal()",
+    "crumbs": [
+      "Visualización de datos",
+      "Práctica 2: Análisis de microdatos de INEGI"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#gráfica-2",
+    "href": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#gráfica-2",
+    "title": "Práctica 2: Análisis de microdatos de INEGI",
+    "section": "Gráfica 2",
+    "text": "Gráfica 2\n\nPlaneación\nExplorando el Descriptor de archivos de la encuesta podemos notar que hay una pregunta sobre el grado de depresión que se sintió a lo largo del día:\n\nY también sabemos que tenemos la información sobre el sexo de las personas entrevisadas:\n\nUna pregunta que podríamos explorar es ¿el grado de depresesión a lo largo del día difieren entre sexos?\nPara ello podríamos hacer un gráfico de barras agrupado por sexo como el siguinete:\n\nY para construir este gráfico necesitaríamos una tabla que se viera así:\n\nPara crear esta tabla necesitamos:\n\nLa pregunta PA4_10 de la tabla TENBIARE con la información del grado de depresión en un día. Este tiene valores del 0 al 10 con el grado de depresión que reportaron a lo largo del día.\nFAC_ELE con el factor de expansión de la tabla TENBIARE, con el factor de expansión de esa respuesta.\nLa información de SEXO de la tabla TSDEM con la información del sexo de la persona encuestada. Este valor puede ser 1 que significa Hombre o 2 que es Mujer.\nComo tenemos que juntar la información de dos tablas distintas necesitamos las variables que nos permiten identificar a los elementos de una tabla en otra, en este caso son las columnas FOLIO (número de encuesta), VIV_SEL (número de vivienda seleccionada), HOGAR (número de hogar seleccionado) y N_REN (número de miembro del hogar)\n\n\n\nCrear la gráfica\nPrimero cargamos los datos que necesitamos de depresión:\n\ndatos_depresion &lt;- read_csv(\n  \"./data/TENBIARE.csv\", \n  col_select = c(\"FOLIO\", \"VIV_SEL\", \"HOGAR\", \"N_REN\", \"PA4_10\", \"FAC_ELE\")\n  )\n\nRows: 31166 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): FOLIO, VIV_SEL, N_REN, PA4_10\ndbl (2): HOGAR, FAC_ELE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nVeamos rápidamente cual es la población total que representan estos datos:\n\ndatos_depresion |&gt; pull(FAC_ELE) |&gt; sum()\n\n[1] 84449936\n\n\nPregunta\n\n¿Qué significa este valor? ¿Por qué no es igual a la población total de México?\nSi sabemos que la entrvisa solo se aplica a mayores de 18 años que hablan español, ¿tiene más sentido este valor?\n\nAhora cargamos los datos que necesitamos del sexo:\n\ndatos_sexo &lt;- read_csv(\n  \"./data/TSDEM.csv\",\n  col_select = c(\"FOLIO\", \"VIV_SEL\", \"HOGAR\", \"N_REN\", \"SEXO\", \"FAC_HOG\")\n)\n\nRows: 109922 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (3): FOLIO, VIV_SEL, N_REN\ndbl (3): HOGAR, SEXO, FAC_HOG\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nVeamos rápidamente cual es la población total que representan estos datos:\n\ndatos_sexo |&gt; pull(FAC_HOG) |&gt; sum()\n\n[1] 127587006\n\n\nPregunta\n\n¿Qué significa este valor?\n\nAhora juntemos los datos de sexo con las personas entrevistadas. Como tenemos que las tablas que permiten mapear los valores de una tabla a otra comparten el mismo nombre no necesitamos especificar los nombres de las columnas que usamos para hacer la unión:\n\ndatos_depresion &lt;- left_join(datos_depresion, datos_sexo)\n\nJoining with `by = join_by(FOLIO, VIV_SEL, HOGAR, N_REN)`\n\n\nAhora hagamos nuestra tabla de resumen. Neceistamos agrupar por nivel de depresión (PA4_10) y por sexo (SEXO) y sumar los factores expansión de los encuestados (FAC_ELE):\n\ntabla_depresion &lt;- datos_depresion |&gt;\n  group_by(PA4_10, SEXO) |&gt;\n  summarise(\n    num_personas = sum(FAC_HOG)\n  )\n\n`summarise()` has grouped output by 'PA4_10'. You can override using the\n`.groups` argument.\n\n\nAhora podemos cambiar los números 1 y 2 del la columna SEXO por etiquetas que digan Hombre y Mujer. Para eso podemos usar mutate con la función if_else() que recibe como primer argumento una condición a probar, como segundo el valor que se asigna si la condición es verdadea y como tercer argumento el valor que se asigna si es falsa:\n\ntabla_depresion &lt;- tabla_depresion |&gt;\n  mutate(\n    SEXO = if_else( SEXO == 1, \"Hombre\", \"Mujer\" )\n  )\n\nFinalmente hacemos la gráfica:\n\nggplot(\n  tabla_depresion,\n  aes(x = PA4_10, y = num_personas, fill = SEXO)\n) +\n  geom_col(position = \"dodge\") +\n  labs(\n    x = \"Nivel de depresión a lo largo del día\",\n    y = \"Número de personas\",\n    fill = \"Sexo\",\n    title = \"Depresión a lo largo del día en México\",\n    caption = \"Datos: INEGI. EMBIARE (2021)\",\n    subtitle = \"En la encuesta se les preguntó ¿cuánta parte del día anterior se sintieron deprimidos?\\n0=Nada y 10=Todo el día\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\nInterpeta\n\n¿Qué patrones ves en la gráfica?\n¿Cómo explicarías lo que ocurre en la gráfica?",
+    "crumbs": [
+      "Visualización de datos",
+      "Práctica 2: Análisis de microdatos de INEGI"
+    ]
+  },
+  {
+    "objectID": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#gráfica-3",
+    "href": "visualizacion_de_datos/practica_02/Práctica 2: Análisis de microdatos de INEGI.html#gráfica-3",
+    "title": "Práctica 2: Análisis de microdatos de INEGI",
+    "section": "Gráfica 3",
+    "text": "Gráfica 3\n\nPlaneación\nAhora ustedes deben desarrollar su propia gráfica. Primero Planea:\n\nElige una Pregunta a explorar\nHaz un Boceto de la visualización a la que quieres llegar\nHaz un Boceto de la tabla que necesitas para contruir tu visualización\nEnlista los Pasos que debes seguir\n\n\n\nCrear la gráfica\nEn las siguientes celdas puedes crear tu gráfica. Para agregar más celdas puedes dar usar el atajo CTL + ALT + I o dar click en el Icono para agregar más celdas (un signo de + y una C) en RStudio que está en la parte superior derecha de la pestaña.",
+    "crumbs": [
+      "Visualización de datos",
+      "Práctica 2: Análisis de microdatos de INEGI"
+    ]
+  },
+  {
     "objectID": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html",
     "href": "procesamiento_de_datos/sesion_05/11 - Agregar columnas.html",
     "title": "11 - Agregar columnas",
